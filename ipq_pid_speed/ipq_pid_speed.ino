@@ -20,7 +20,7 @@
  *    r60     直接设目标转速(rpm)
  *    kp2.0 / ki0.1 / kd0.05 / ff1.3   改 PID 参数（如 ki0 = 关积分）
  *    o       开环 / 闭环 切换（研究对照用）
- *    p 立即打印一帧   t 遥测开关   v8.06 电池电压替代值   h 帮助
+ *    p 立即打印一帧   t 遥测开关   e 串口CSV输出   v8.06 电池电压替代值   h 帮助
  * =====================================================================
  */
 
@@ -45,6 +45,8 @@ static const uint8_t PIN_SD_MISO = 2;
 static const uint8_t PIN_SD_CS   = 27;
 
 static const uint8_t ADDR_INA = 0x40;
+
+static const char CSV_HEADER[] = "ms,tgt,rpmL,rpmR,pwmL,pwmR,gyrZ,busV,curA,powW";
 
 /* ---------------- 可调参数 ---------------- */
 #define PWM_FREQ_HZ   20000
@@ -274,7 +276,7 @@ static void sdInit()
   }
   logFile = SD.open(name, FILE_WRITE);
   if (!logFile) { Serial.println(F("SD 卡无法创建日志文件")); return; }
-  logFile.println(F("ms,tgt,rpmL,rpmR,pwmL,pwmR,gyrZ,busV,curA,powW"));
+  logFile.println(CSV_HEADER);
   logFile.flush();
   sdOK = true;
   Serial.printf("SD: 日志写入 %s\n", name);
@@ -292,6 +294,7 @@ static float   gyrZ = 0;                    // 陀螺 Z 轴（转向角速度）
 static float   vBus = NAN, iMot = NAN, pMot = NAN;
 static bool    vAssumed = false;
 static bool    telemetryOn = true;
+static bool    csvOut = false;        // e 命令：把 CSV 数据行同步输出到串口（无 SD 卡时用电脑记录）
 
 static void resetPid()
 {
@@ -388,16 +391,19 @@ static void appF(char *line, float v)
   else { snprintf(c, sizeof(c), ",%.4f", v); strcat(line, c); }
 }
 
-static void logSample()
+static void buildCsvLine(char *line, size_t n)
 {
-  char line[200] = "";
-  char head[24];
-  snprintf(head, sizeof(head), "%lu", (unsigned long)millis());
-  strcat(line, head);
+  snprintf(line, n, "%lu", (unsigned long)millis());
   appF(line, targetRpm); appF(line, rpmL); appF(line, rpmR);
   appF(line, uL);        appF(line, uR);   appF(line, gyrZ);
   appF(line, vBus);      appF(line, iMot); appF(line, pMot);
   strcat(line, "\n");
+}
+
+static void logSample()
+{
+  char line[200];
+  buildCsvLine(line, sizeof(line));
   logFile.print(line);
   if (++flushCnt >= 10) { flushCnt = 0; logFile.flush(); }
 }
@@ -412,7 +418,7 @@ static void printHelp()
   Serial.printf (F("  0~9 目标=数字×15rpm(3→45)  + / - 目标±5rpm（当前 %.0f）\n"), targetRpm);
   Serial.println(F("  r60 设目标 | o 开环/闭环切换 | z 编码器清零"));
   Serial.printf (F("  kp%.2f ki%.2f kd%.2f ff%.2f  → 串口如 kp3.0 直接改\n"), kp, ki, kd, ff);
-  Serial.println(F("  p 打印一帧   t 遥测开关   v8.06 电池电压   h 帮助"));
+  Serial.println(F("  p 打印一帧   t 遥测开关   e 串口CSV输出   v8.06 电池电压   h 帮助"));
   Serial.println(F("研究建议：起步→'o'来回切换看 d(rpm)/gyrZ 变化；z→w→5s→x 得阶跃响应"));
 }
 
@@ -439,6 +445,10 @@ static void handleChar(char c)
     case 'z': encCountL = 0; encCountR = 0; lastCntL = 0; lastCntR = 0;
               Serial.println(F("-> 编码器已清零")); break;
     case 'p': printTelemetry(); break;
+    case 'e': csvOut = !csvOut;       // e = export（原用 l，与数字 1 形近易误触，已改）
+              if (csvOut) Serial.println(CSV_HEADER);
+              Serial.printf("-> 串口 CSV 输出 %s（用电脑记录这些数据行）\n", csvOut ? "开" : "关");
+              break;
     case 't': telemetryOn = !telemetryOn; Serial.printf("-> 遥测 %s\n", telemetryOn ? "开" : "关"); break;
     case 'h': printHelp(); break;
     default:
@@ -582,5 +592,6 @@ void loop()
     controlStep();
     if (telemetryOn) printTelemetry();
     if (sdOK)        logSample();
+    if (csvOut)    { char line[200]; buildCsvLine(line, sizeof(line)); Serial.print(line); }
   }
 }

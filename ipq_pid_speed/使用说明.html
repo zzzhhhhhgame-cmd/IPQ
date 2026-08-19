@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPQ · 双电机差速 PID 抑制 · 使用说明</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#2a3441;
+    --txt:#e6edf3; --dim:#8b98a9; --accent:#58a6ff; --accent2:#3fb950;
+    --warn:#d29922; --danger:#f85149; --mono:'SF Mono','Consolas','Courier New',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    line-height:1.7;padding:24px;font-size:14px;max-width:980px;margin:0 auto;
+  }
+  header{
+    background:linear-gradient(135deg,#161b22 0%,#1c2330 100%);
+    border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:18px;
+  }
+  header h1{font-size:20px;font-weight:600}
+  header h1 .tag{
+    font-family:var(--mono);font-size:11px;color:var(--accent2);
+    border:1px solid var(--accent2);padding:2px 8px;border-radius:4px;margin-left:10px;font-weight:400;
+  }
+  header .sub{color:var(--dim);font-size:13px;margin-top:8px}
+  header .meta{display:flex;gap:18px;margin-top:12px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--dim)}
+  header .meta b{color:var(--txt)}
+  nav.toc{
+    background:var(--panel);border:1px solid var(--border);border-radius:10px;
+    padding:12px 18px;margin-bottom:18px;font-size:13px;
+  }
+  nav.toc a{color:var(--accent);text-decoration:none;margin-right:18px;white-space:nowrap}
+  nav.toc a:hover{text-decoration:underline}
+  section{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:18px}
+  section h2{font-size:16px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  section h2 .no{
+    display:inline-block;font-family:var(--mono);font-size:12px;color:var(--bg);
+    background:var(--accent);border-radius:4px;padding:1px 7px;margin-right:8px;vertical-align:1px;
+  }
+  ol,ul{padding-left:22px}
+  li{margin:6px 0}
+  table{width:100%;border-collapse:collapse;background:var(--panel2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:12px 0;font-size:13px}
+  thead{background:#222a38}
+  th{text-align:left;padding:9px 12px;font-size:11px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);white-space:nowrap}
+  td{padding:9px 12px;border-bottom:1px solid #22272e;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#232b3a}
+  td:first-child{white-space:nowrap}
+  code{
+    font-family:var(--mono);font-size:12.5px;background:#0d1117;
+    border:1px solid var(--border);border-radius:4px;padding:1px 6px;color:var(--accent2);
+  }
+  pre{
+    background:#0d1117;border:1px solid var(--border);border-radius:10px;
+    padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;
+    line-height:1.55;margin:12px 0;color:#c9d1d9;
+  }
+  kbd{
+    display:inline-block;font-family:var(--mono);font-size:12px;color:var(--txt);
+    background:#21262d;border:1px solid #444c56;border-bottom-width:2px;
+    border-radius:5px;padding:1px 8px;margin:0 2px;vertical-align:1px;
+  }
+  .callout{border-radius:8px;padding:12px 16px;margin:12px 0;font-size:13px;border-left:3px solid;background:var(--panel)}
+  .callout.warn{border-color:var(--warn);background:rgba(210,153,34,.08);color:#ffdf80}
+  .callout.info{border-color:var(--accent);background:rgba(88,166,255,.08);color:#9ecbff}
+  .callout.ok{border-color:var(--accent2);background:rgba(63,185,80,.08);color:#7ee29a}
+  .callout b{color:var(--txt)}
+  footer{text-align:center;color:var(--dim);font-size:12px;margin-top:20px;padding:16px;border-top:1px solid var(--border);font-family:var(--mono)}
+  @media print{
+    body{background:#fff;color:#000;padding:0}
+    header,section,table,pre{background:#fff;border-color:#ccc}
+    nav.toc{display:none}
+    tbody tr:hover{background:#fff!important}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IPQ 研究 · 双电机差速的 PID 抑制<span class="tag">ipq_pid_speed.ino</span></h1>
+  <div class="sub">左右轮各一套编码器测速 + PID 速度环，跟踪同一目标转速，消除开环下 ~5% 的轮速差</div>
+  <div class="meta">
+    <span>接线 <b>wiring-checklist v3.3</b>（与测试程序完全相同）</span>
+    <span>依赖库 <b>无</b></span>
+    <span>已编译验证 <b>ESP32 Dev Module</b></span>
+    <span>更新 <b>2026-08-19</b></span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#intro">概述</a><a href="#quick">快速开始</a><a href="#cmd">命令</a><a href="#theory">控制原理</a><a href="#tele">读遥测</a><a href="#exp">实验设计</a><a href="#tune">调参</a><a href="#data">数据文件</a><a href="#faq">注意事项</a>
+</nav>
+
+<section id="intro">
+  <h2><span class="no">0</span>概述</h2>
+  <p><b>研究问题</b>：开环 PWM 下，两个电机因个体差异（绕组、减速箱摩擦、地面接触）产生约 5% 的轮速差，导致小车跑偏。
+  本程序给每个轮子配一套独立的 PID 速度闭环，让两轮实际转速都收敛到同一目标值——差速被控制器自动吸收。</p>
+  <div class="callout ok"><b>对照实验能力</b>：按 <kbd>o</kbd> 可在行驶中一键切换「开环（两轮相同 PWM）↔ 闭环（PID）」，开环模式即差速对照组；效果用两个独立量评价——轮速差 <code>d rpm</code>（编码器）和车体转向角速度 <code>gyrZ</code>（陀螺仪）。</div>
+  <p>本程序与综合测试程序 <code>ipq_robot_test</code> 相互独立：接线不变、烧谁用谁，原测试程序原样保留。</p>
+</section>
+
+<section id="quick">
+  <h2><span class="no">1</span>快速开始</h2>
+  <ol>
+    <li>Arduino IDE 打开 <code>ipq_pid_speed.ino</code>（确认开的是这个文件而不是测试程序），开发板 <b>ESP32 Dev Module</b>，上传。</li>
+    <li>烧录卡在 Connecting：按住 BOOT；仍失败拔掉 microSD 模块（GPIO2）。</li>
+    <li>串口监视器 <b>115200</b>。上电后 <b>保持小车静止 1 秒</b>（程序在做陀螺零偏校准，会打印结果）。</li>
+    <li>发 <kbd>3</kbd>（目标 45 rpm）→ <kbd>w</kbd> 起步。上电默认：<b>PID 闭环、目标 45rpm、kp2.0 ki0.15 kd0 ff1.3</b>。</li>
+  </ol>
+<pre>===== IPQ · 双电机差速 PID 抑制 =====
+I2C 扫描: 0x40 0x6B
+  [INA诊断] CFG回读=0x4587 OK
+  IMU: LSM6 系 (0x6B) 初始化成功
+  IMU 陀螺零偏校准中（保持静止）…完成（Z 轴 -6.3 dps）
+SD: 日志写入 /pid000.csv
+...</pre>
+</section>
+
+<section id="cmd">
+  <h2><span class="no">2</span>串口命令</h2>
+  <table>
+    <thead><tr><th>命令</th><th>作用</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>w</kbd> / <kbd>s</kbd> / <kbd>a</kbd> / <kbd>d</kbd></td><td>前进 / 后退 / 原地左转 / 原地右转（目标转速由 PID 跟踪）</td></tr>
+      <tr><td><kbd>x</kbd> / <kbd>c</kbd></td><td>刹车 / 滑行断电（同时复位积分器）</td></tr>
+      <tr><td><kbd>0</kbd>~<kbd>9</kbd></td><td>目标转速 = 数字 × 15 rpm（<kbd>3</kbd> → 45）</td></tr>
+      <tr><td><kbd>+</kbd> / <kbd>-</kbd></td><td>目标转速 ±5 rpm</td></tr>
+      <tr><td><kbd>o</kbd></td><td><b>开环 / 闭环切换</b>（研究对照）</td></tr>
+      <tr><td><kbd>z</kbd></td><td>编码器清零（测阶跃响应时用，建议停稳后再按）</td></tr>
+      <tr><td><kbd>r60</kbd></td><td>直接设目标转速（10~150 rpm）</td></tr>
+      <tr><td><kbd>kp2.0</kbd> <kbd>ki0.1</kbd> <kbd>kd0.05</kbd> <kbd>ff1.3</kbd></td><td>改 PID 参数 / 前馈，立即生效（如 <code>ki0</code> = 关积分）</td></tr>
+      <tr><td><kbd>v8.06</kbd></td><td>电池电压替代值（功率按它算；换新 INA226 后自动用实测）</td></tr>
+      <tr><td><kbd>e</kbd></td><td>串口 CSV 数据输出开关（无 SD 卡时配合电脑端 serial_logger.py 记录）</td></tr>
+      <tr><td><kbd>p</kbd> / <kbd>t</kbd> / <kbd>h</kbd></td><td>打印一帧 / 遥测开关 / 帮助</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><b>所有参数掉电丢失</b>（上电回到默认值）。每次开机后按实验计划重设；调参结论记到实验记录里，或固定后改代码默认值。</div>
+</section>
+
+<section id="theory">
+  <h2><span class="no">3</span>控制原理（左右轮各一套）</h2>
+<pre>                 ┌────────────── 左轮一套 / 右轮一套 ──────────────┐
+                 │                                                │
+ 目标转速 T ──►(e = T − rpm)──► PID ──►(＋ 前馈 ff·T)──► PWM ──► DRV8833 ──► 电机 ──► 车轮
+                   ▲                                            │
+                   │                                            ▼
+                   └────── 实测转速 rpm ◄── 低通滤波 ◄── 编码器计数 ┘</pre>
+  <ul>
+    <li><b>控制周期</b> 100ms；编码器差分测速后经低通滤波（系数 0.35）抑制量化噪声；</li>
+    <li><b>输出</b>：<code>u = ff·T + Kp·e + Ki·∫e·dt + Kd·(−d rpm/dt)</code>，钳位 ±255；</li>
+    <li><b>微分作用于测量值</b>而非误差，目标阶跃时不会产生微分踢；</li>
+    <li><b>积分限幅</b> ±120（抗饱和）；停车/刹车时积分器自动复位；</li>
+    <li><b>前馈 ff</b>（PWM/rpm）加快收敛，设 0 即纯 PID——可做「纯 PID vs 前馈+PID」对比实验；</li>
+    <li>转向命令（a/d）= 左右目标取相反符号，两环独立工作，天然支持差速转向。</li>
+  </ul>
+</section>
+
+<section id="tele">
+  <h2><span class="no">4</span>遥测行解读</h2>
+<pre>[  12.3s] PID T +45.0 | L  44.8rpm u +58  R  45.3rpm u +61 | d -0.5rpm gyrZ  -0.3 | bat 8.00*V cur 0.140A pow 1.13W</pre>
+  <table>
+    <thead><tr><th>字段</th><th>含义</th><th>怎么看</th></tr></thead>
+    <tbody>
+      <tr><td><code>PID / 开环</code></td><td>当前模式</td><td>按 <kbd>o</kbd> 切换</td></tr>
+      <tr><td><code>T</code></td><td>目标转速（带符号）</td><td>—</td></tr>
+      <tr><td><code>L / R</code></td><td>左右轮实测转速、PID 输出 PWM</td><td>闭环稳定后两轮 PWM 不同（快轮小、慢轮大）——这正是控制器在吸收电机差异</td></tr>
+      <tr><td><code>d</code></td><td><b>轮速差 rpmL − rpmR</b></td><td>核心评价指标，闭环应趋近 0</td></tr>
+      <tr><td><code>gyrZ</code></td><td>车体转向角速度（°/s，零偏已校准）</td><td>独立判据：走直线应 ≈0；与 d 互相印证</td></tr>
+      <tr><td><code>bat/cur/pow</code></td><td>电池电压 / 电机电流 / 功率</td><td><code>*</code> 表示替代值（INA226 母线通道损坏，用 v 命令设的值）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="exp">
+  <h2><span class="no">5</span>实验设计建议</h2>
+  <p><b>实验 1 · 开环 vs 闭环（核心对比）</b></p>
+  <ol>
+    <li>目标 45 rpm 起步，等转速稳定；</li>
+    <li>按 <kbd>o</kbd> 切到开环 → 记录 10s → 切回闭环 → 再记录 10s（可在 CSV 里清晰分段）；</li>
+    <li>对比两段的 <code>d</code> 和 <code>gyrZ</code> 的均值与波动——量化 PID 的抑制效果。</li>
+  </ol>
+  <p><b>实验 2 · 阶跃响应</b></p>
+  <ol>
+    <li>停稳后 <kbd>z</kbd> 清零 → <kbd>w</kbd> → 跑 5 秒 → <kbd>x</kbd>；</li>
+    <li>CSV 中即目标从 0→45 的阶跃响应曲线：上升时间、超调、稳态误差、两轮收敛差。</li>
+  </ol>
+  <p><b>实验 3 · 参数影响</b></p>
+  <ol>
+    <li>每组参数重复实验 2，画在同一张图上；</li>
+    <li>建议扫描顺序：只加 <code>kp</code> 直到轻微振荡 → 回退 30%；加 <code>ki</code> 消稳态差；最后尝试小 <code>kd</code>；<code>ff0</code> 对比收敛速度。</li>
+  </ol>
+  <p><b>实验 4 · 不同速度下的鲁棒性</b>：目标 15 / 45 / 90 rpm 各跑一遍（开环差速随速度变化，闭环应都能压住）。</p>
+</section>
+
+<section id="tune">
+  <h2><span class="no">6</span>调参指引</h2>
+  <table>
+    <thead><tr><th>参数</th><th>默认</th><th>范围</th><th>作用与调法</th></tr></thead>
+    <tbody>
+      <tr><td><code>kp</code></td><td>2.0</td><td>0~50</td><td>响应主力。加大→差速收敛快；过大→转速振荡（遥测 rpm 抖动、电机嗡响）</td></tr>
+      <tr><td><code>ki</code></td><td>0.15</td><td>0~10</td><td>消除稳态差速。加大→消差更快；过大→超调、来回摆</td></tr>
+      <tr><td><code>kd</code></td><td>0</td><td>0~10</td><td>抑制超调。转速有量化噪声，从 0.02 小量试</td></tr>
+      <tr><td><code>ff</code></td><td>1.3</td><td>0~3</td><td>前馈 PWM/rpm，加速起步收敛；0 = 纯 PID 对照</td></tr>
+    </tbody>
+  </table>
+  <div class="callout info"><b>起步瞬间输出</b> = ff×45 + kp×45 ≈ 148/255（约 58%），足以冲破静摩擦，所以闭环低速起步比开环干脆。</div>
+</section>
+
+<section id="data">
+  <h2><span class="no">7</span>SD 卡数据文件</h2>
+  <p>每 100ms 追加一行到 <code>/pidNNN.csv</code>（自动递增不覆盖，每秒落盘），断电取卡后 Excel / Python pandas 直接读：</p>
+<pre>ms,tgt,rpmL,rpmR,pwmL,pwmR,gyrZ,busV,curA,powW</pre>
+  <table>
+    <thead><tr><th>列</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td><code>ms</code></td><td>开机毫秒数</td></tr>
+      <tr><td><code>tgt</code></td><td>目标转速（带符号）</td></tr>
+      <tr><td><code>rpmL / rpmR</code></td><td>左右轮实测转速</td></tr>
+      <tr><td><code>pwmL / pwmR</code></td><td>控制器输出（−255~255）——两列的差就是控制器为抵消电机差异付出的努力</td></tr>
+      <tr><td><code>gyrZ</code></td><td>车体转向角速度（°/s）</td></tr>
+      <tr><td><code>busV / curA / powW</code></td><td>电池电压 / 电机电流 / 功率（<code>busV</code> 为空或为 v 命令设定值时表示替代）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="faq">
+  <h2><span class="no">8</span>注意事项</h2>
+  <table>
+    <thead><tr><th>事项</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>上电静止 1 秒</td><td>陀螺零偏校准在开机时进行；若开机时车在动，gyrZ 会带偏，按 RST 重来</td></tr>
+      <tr><td>参数掉电丢失</td><td>kp/ki/kd/ff/目标转速/电池替代值均在内存中，重开机需重设</td></tr>
+      <tr><td><code>bat</code> 带 <code>*</code></td><td>当前 INA226 模块母线通道损坏，用 <code>v8.06</code> 设定值；换新模块自动恢复实测</td></tr>
+      <tr><td><code>bat/cur</code> 变 <code>----</code></td><td>INA226 被震动震掉线，程序每 10s 自动重连；反复出现就重新插它的 4 根线</td></tr>
+      <tr><td>烧录失败</td><td>按住 BOOT 键；拔掉 microSD 模块（GPIO2 是启动脚）</td></tr>
+      <tr><td>原地转向测试</td><td>a/d 命令下左右轮目标相反，转速与编码器计数为一正一负，属正常</td></tr>
+      <tr><td>量化噪声</td><td>100ms 窗口下转速分辨率约 1.8 rpm，遥测个位数波动是正常的</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>IPQ-2026 · ipq_pid_speed.ino 配套 · 接线与 wiring-checklist.html v3.3 一致 · 2026-08-19</footer>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPQ · PID 差速实验 · 完整操作教程</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#2a3441;
+    --txt:#e6edf3; --dim:#8b98a9; --accent:#58a6ff; --accent2:#3fb950;
+    --warn:#d29922; --danger:#f85149; --mono:'SF Mono','Consolas','Courier New',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    line-height:1.75;padding:24px;font-size:14px;max-width:980px;margin:0 auto;
+  }
+  header{
+    background:linear-gradient(135deg,#161b22 0%,#1c2330 100%);
+    border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:18px;
+  }
+  header h1{font-size:20px;font-weight:600}
+  header h1 .tag{
+    font-family:var(--mono);font-size:11px;color:var(--accent2);
+    border:1px solid var(--accent2);padding:2px 8px;border-radius:4px;margin-left:10px;font-weight:400;
+  }
+  header .sub{color:var(--dim);font-size:13px;margin-top:8px}
+  header .meta{display:flex;gap:18px;margin-top:12px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--dim)}
+  header .meta b{color:var(--txt)}
+  nav.toc{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:18px;font-size:13px}
+  nav.toc a{color:var(--accent);text-decoration:none;margin-right:18px;white-space:nowrap}
+  nav.toc a:hover{text-decoration:underline}
+  section{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:18px}
+  section h2{font-size:16px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  section h2 .no{
+    display:inline-block;font-family:var(--mono);font-size:12px;color:var(--bg);
+    background:var(--accent);border-radius:4px;padding:1px 7px;margin-right:8px;vertical-align:1px;
+  }
+  section h3{font-size:14px;margin:14px 0 6px}
+  ol,ul{padding-left:22px}
+  li{margin:6px 0}
+  table{width:100%;border-collapse:collapse;background:var(--panel2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:12px 0;font-size:13px}
+  thead{background:#222a38}
+  th{text-align:left;padding:9px 12px;font-size:11px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);white-space:nowrap}
+  td{padding:9px 12px;border-bottom:1px solid #22272e;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#232b3a}
+  code{font-family:var(--mono);font-size:12.5px;background:#0d1117;border:1px solid var(--border);border-radius:4px;padding:1px 6px;color:var(--accent2)}
+  pre{
+    background:#0d1117;border:1px solid var(--border);border-radius:10px;
+    padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;
+    line-height:1.6;margin:12px 0;color:#c9d1d9;
+  }
+  kbd{
+    display:inline-block;font-family:var(--mono);font-size:12px;color:var(--txt);
+    background:#21262d;border:1px solid #444c56;border-bottom-width:2px;
+    border-radius:5px;padding:1px 8px;margin:0 2px;vertical-align:1px;
+  }
+  .callout{border-radius:8px;padding:12px 16px;margin:12px 0;font-size:13px;border-left:3px solid;background:var(--panel)}
+  .callout.warn{border-color:var(--warn);background:rgba(210,153,34,.08);color:#ffdf80}
+  .callout.info{border-color:var(--accent);background:rgba(88,166,255,.08);color:#9ecbff}
+  .callout.ok{border-color:var(--accent2);background:rgba(63,185,80,.08);color:#7ee29a}
+  .callout b{color:var(--txt)}
+  footer{text-align:center;color:var(--dim);font-size:12px;margin-top:20px;padding:16px;border-top:1px solid var(--border);font-family:var(--mono)}
+  @media print{
+    body{background:#fff;color:#000;padding:0}
+    header,section,table,pre{background:#fff;border-color:#ccc}
+    nav.toc{display:none}
+    tbody tr:hover{background:#fff!important}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>PID 差速实验 · 完整操作教程<span class="tag">从上传固件到拿到数据</span></h1>
+  <div class="sub">适用于：无 SD 卡，用「串口 CSV + 电脑记录」方案做双电机差速 PID 实验</div>
+  <div class="meta">
+    <span>固件 <b>ipq_pid_speed.ino</b></span>
+    <span>记录器 <b>serial_logger.py</b></span>
+    <span>环境已就绪 <b>Arduino IDE · esp32 核心 · pyserial</b></span>
+    <span>2026-08-19</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#s0">速通版</a><a href="#s1">① 上传固件</a><a href="#s2">② 开机自检</a><a href="#s3">③ 连接记录器</a><a href="#s4">④ 做实验</a><a href="#s5">⑤ 结束与数据</a><a href="#s6">⑥ 常见问题</a>
+</nav>
+
+<section id="s0">
+  <h2><span class="no">速通</span>五步速通版（赶时间看这里）</h2>
+  <ol>
+    <li>IDE 打开 <code>ipq_pid_speed.ino</code>，选 <b>ESP32 Dev Module</b>，上传；</li>
+    <li>上电后<b>车静止 1 秒</b>（陀螺校准）；</li>
+    <li><b>关掉 IDE 串口监视器</b>，命令行进入 <code>D:\IPQ\ipq_pid_speed</code> 运行 <code>py serial_logger.py</code>，选 ESP32 的 COM 口；</li>
+    <li>依次发送：<code>v8.06</code> → <code>e</code>（开 CSV）→ <code>t</code>（关刷屏）→ <code>3</code> → <code>w</code>，开跑；</li>
+    <li>做完 <kbd>Ctrl+C</kbd>，目录里拿 <code>pid_log_时间戳.csv</code>。</li>
+  </ol>
+</section>
+
+<section id="s1">
+  <h2><span class="no">①</span>上传固件（约 1 分钟）</h2>
+  <ol>
+    <li>Arduino IDE <b>文件 → 打开</b>，选择 <code>D:\IPQ\ipq_pid_speed\ipq_pid_speed.ino</code>——<b>确认标题栏是这个文件</b>，别开成测试程序 <code>ipq_robot_test</code>；</li>
+    <li><b>工具 → 开发板 → ESP32 Dev Module</b>（其它选项默认）；</li>
+    <li>USB 连接 ESP32，<b>工具 → 端口</b> 选新出现的 COM 口；</li>
+    <li>点右上角 <b>上传</b>（→ 按钮），等编译写出完成、板子自动复位。</li>
+  </ol>
+  <div class="callout warn"><b>卡在 Connecting........</b>：按住板上 <b>BOOT</b> 键不放再点上传，开始写出时松开；仍失败 → <b>拔掉 microSD 模块</b>再烧（GPIO2 是启动脚），烧完插回。</div>
+</section>
+
+<section id="s2">
+  <h2><span class="no">②</span>开机自检（约 10 秒）</h2>
+  <p>暂时还需要看一眼串口：IDE 打开串口监视器（115200），按一下板上 <b>RST</b> 复位，<b>车保持静止</b>，应看到：</p>
+<pre>===== IPQ · 双电机差速 PID 抑制 =====
+I2C 扫描: 0x40 0x6B
+  [INA诊断] CFG回读=0x4587 OK
+  IMU: LSM6 系 (0x6B) 初始化成功
+  IMU 陀螺零偏校准中（保持静止）…完成（Z 轴 -6.3 dps）
+SD 卡初始化失败（不影响其它功能…）      ← 没插卡，正常，忽略
+上电默认：PID 闭环、目标 45rpm、kp2.0 ki0.15 kd0 ff1.3</pre>
+  <ul>
+    <li>0x40（INA226）和 IMU 行正常即可；「SD 卡初始化失败」是没插卡的预期提示；</li>
+    <li>陀螺校准必须在<b>静止</b>时进行——如果开机时车在动，按 RST 重来一次；</li>
+    <li>看完后<b>关闭串口监视器</b>（右上角 × 或断开按钮），进入下一步。</li>
+  </ul>
+</section>
+
+<section id="s3">
+  <h2><span class="no">③</span>连接电脑记录器（约 1 分钟）</h2>
+  <ol>
+    <li>Win+R 输入 <code>cmd</code> 回车，打开命令行；</li>
+    <li>执行：
+<pre>cd /d D:\IPQ\ipq_pid_speed
+py serial_logger.py</pre></li>
+    <li>脚本列出串口，形如 <code>[0] COM3  Silicon Labs CP210x</code> 或 <code>CH340</code>——输入 ESP32 对应的序号回车；</li>
+    <li>看到遥测滚动即连接成功。此窗口既是<b>记录器</b>也是<b>命令终端</b>：直接输入命令回车即可发送。</li>
+  </ol>
+  <div class="callout warn"><b>提示"拒绝访问/Access Denied"</b>：Arduino IDE 的串口监视器还开着，先关掉再运行脚本。</div>
+  <h3>开始记录前的三连命令</h3>
+<pre>v8.06        ← 设电池电压（按万用表实际读数，功率更准）
+e            ← 开启 CSV 数据输出（每 100ms 一行）
+t            ← 关闭人读遥测，只留数据行</pre>
+  <p>之后窗口里滚动的内容就是纯数据行，例如：</p>
+<pre>9234,45.0,44.6,45.1,58,61,-0.4,8.06,0.142,1.15</pre>
+</section>
+
+<section id="s4">
+  <h2><span class="no">④</span>做实验（核心环节）</h2>
+  <div class="callout info"><b>安全提醒</b>：第一次建议<b>架空轮子</b>验证行为，再下地。任何异常立刻发 <kbd>x</kbd> 刹车。原地转向（a/d）轮子会一正一反，正常现象。</div>
+
+  <h3>实验 A · 开环 vs 闭环对比（研究核心，先做这个）</h3>
+  <ol>
+    <li>发 <code>3</code>（目标 45 rpm）；</li>
+    <li>发 <code>w</code> 起步，等 3~5 秒转速稳定；</li>
+    <li>发 <code>o</code> 切到<b>开环</b>，保持 10 秒（对照组，有差速、车会跑偏）；</li>
+    <li>再发 <code>o</code> 切回<b>闭环</b>，再保持 10 秒；</li>
+    <li>发 <code>x</code> 刹车。可在 txt 记录里看到这些切换点，CSV 数据自动分好段。</li>
+  </ol>
+  <p><b>分析指标</b>：两段的 <code>rpmL−rpmR</code>（差速）和 <code>gyrZ</code>（转向角速度）的均值与波动——闭环应显著趋近 0。</p>
+
+  <h3>实验 B · 阶跃响应（调参的基础测量）</h3>
+  <ol>
+    <li>停稳后发 <code>z</code>（编码器清零）；</li>
+    <li>发 <code>w</code>，跑 5 秒；</li>
+    <li>发 <code>x</code> 结束。CSV 里就是 0→45rpm 的完整阶跃响应曲线；</li>
+    <li>同组参数建议重复 3 次取平均。</li>
+  </ol>
+
+  <h3>实验 C · 参数扫描（论文素材主力）</h3>
+  <p>每组参数改完后重复<b>实验 B</b>（或再加一轮 A），推荐顺序：</p>
+  <table>
+    <thead><tr><th>轮次</th><th>改动</th><th>观察什么</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>kp1.0</code> → <code>kp2.0</code> → <code>kp4.0</code> → <code>kp6.0</code></td><td>响应变快；kp 过大时转速振荡（数据毛刺、电机嗡响），记下临界值后回退 30%</td></tr>
+      <tr><td>2</td><td>用回退后的 kp，改 <code>ki0</code> → <code>ki0.15</code> → <code>ki0.3</code></td><td>稳态差速消除速度；ki 过大有超调/来回摆</td></tr>
+      <tr><td>3</td><td><code>kd0.02</code>（可选）</td><td>超调是否减小</td></tr>
+      <tr><td>4</td><td><code>ff0</code> vs <code>ff1.3</code></td><td>纯 PID 与前馈+PID 的收敛速度对比</td></tr>
+    </tbody>
+  </table>
+
+  <h3>实验 D · 不同速度的鲁棒性</h3>
+  <p>用最终参数，分别在 <code>r15</code> / <code>r45</code> / <code>r90</code> 下重复实验 A——开环差速随速度变化，闭环应都能压住。</p>
+
+  <h3>实验记录表（建议每次手动登记）</h3>
+  <table>
+    <thead><tr><th>编号</th><th>日期</th><th>参数（kp/ki/kd/ff）</th><th>目标</th><th>实验类型</th><th>数据文件名</th></tr></thead>
+    <tbody>
+      <tr><td>01</td><td>08-19</td><td>2.0 / 0.15 / 0 / 1.3</td><td>45</td><td>开环vs闭环</td><td>pid_log_20260819_153012.csv</td></tr>
+      <tr><td>02</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s5">
+  <h2><span class="no">⑤</span>结束记录与数据文件</h2>
+  <ol>
+    <li>先 <code>x</code> 刹车，再按 <kbd>Ctrl+C</kbd> 结束脚本；</li>
+    <li>目录下生成两个文件：
+      <ul>
+        <li><b>pid_log_时间戳.csv</b> —— 纯数据行（第一行是列名），分析用这个；</li>
+        <li><b>pid_log_时间戳.txt</b> —— 全部串口输出，含你发过的命令，用来对分段。</li>
+      </ul>
+    </li>
+    <li>按实验记录表把文件重命名或登记，防止混淆；</li>
+    <li>数据可以直接：Excel 打开画图；或 pandas：<code>df = pd.read_csv("pid_log_xxx.csv")</code>。</li>
+  </ol>
+  <h3>CSV 列含义</h3>
+  <table>
+    <thead><tr><th>列</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td><code>ms</code></td><td>开机毫秒数（时间轴）</td></tr>
+      <tr><td><code>tgt</code></td><td>目标转速（带符号）</td></tr>
+      <tr><td><code>rpmL / rpmR</code></td><td>左右轮实测转速</td></tr>
+      <tr><td><code>pwmL / pwmR</code></td><td>控制器输出——两列的差 = 控制器为抵消电机差异付出的努力</td></tr>
+      <tr><td><code>gyrZ</code></td><td>车体转向角速度（°/s），直线应 ≈0</td></tr>
+      <tr><td><code>busV / curA / powW</code></td><td>电池电压 / 电机电流 / 功率（busV 为 v 命令设定值时是替代值）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s6">
+  <h2><span class="no">⑥</span>常见问题</h2>
+  <table>
+    <thead><tr><th>现象</th><th>处理</th></tr></thead>
+    <tbody>
+      <tr><td>脚本打不开端口（拒绝访问）</td><td>IDE 串口监视器没关；或换了个 USB 口（端口序号变了）</td></tr>
+      <tr><td>列表里没有串口</td><td>重插 USB；设备管理器确认 CH340/CP210x 驱动正常</td></tr>
+      <tr><td>窗口只有遥测没有数据行</td><td>忘了发 <code>e</code>（开启 CSV 输出的命令）</td></tr>
+      <tr><td>csv 文件是空的</td><td>同上——<code>e</code> 开启后才有 CSV 行</td></tr>
+      <tr><td>直线时 gyrZ 一直偏</td><td>开机陀螺校准时车在动 → 按 RST 静止重开，并重连记录器</td></tr>
+      <tr><td>bat/cur 变 ----</td><td>INA226 被震动震松，程序 10 秒后自动重连；反复出现就重插它的 4 根线</td></tr>
+      <tr><td>转速遥测个位数跳动</td><td>100ms 窗口的量化噪声（分辨率约 1.8 rpm），正常</td></tr>
+      <tr><td>换了参数没效果</td><td>确认命令格式：<code>kp3.0</code>（无空格）；改完看回显确认</td></tr>
+      <tr><td>重新上电后参数变回默认</td><td>设计如此（掉电丢失），按记录表重设</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>IPQ-2026 · PID 差速实验教程 · 配套 ipq_pid_speed.ino + serial_logger.py · 2026-08-19</footer>
+
+</body>
+</html>
