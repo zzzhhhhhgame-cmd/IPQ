@@ -1,0 +1,924 @@
+Advance in Electronic and Electric Engineering. 
+ISSN 2231-1297, Volume 3, Number 9 (2013), pp. 1209-1220 
+© Research India Publications 
+http://www.ripublication.com/aeee.htm 
+ 
+ 
+ 
+Speed Control of DC Motor Using Fuzzy PID Controller 
+ 
+ 
+1Umesh Kumar Bansal and 2Rakesh Narvey 
+ 
+1Dept. of Electrical Engineering, M.I.T.S. Gwalior. 
+2Assistant Professor, Dept. of Electrical Engineering, M.I.T.S. Gwalior. 
+ 
+ 
+Abstract 
+ 
+In this paper we have designed a DC motor whose speed can be 
+controlled using PID controller. The proportional, integral and derivate 
+(KP, KI, KD) gains of the PID controller are adjusted according to 
+FUZZY LOGIC. First, the fuzzy logic controller is designed according 
+to fuzzy rules so that the systems are fundamentally robust. There are 
+25 fuzzy rules for self-tuning of each parameter of PID controller. The 
+FLC has two inputs. One is the motor speed error between the 
+reference and actual speed and the second is change in speed error 
+(speed error derivative).Secondly, the output of the FLC i.e. the 
+parameters of PID controller are used to control the speed of the DC 
+Motor. The study shows that both precise characters of PID controllers 
+and flexible characters of fuzzy controller are present in fuzzy self-
+tuning PID controller. The fuzzy self-tuning approach implemented on 
+a conventional PID structure was able to improve the dynamic as well 
+as the static response of the system. Comparison between the 
+conventional output and the fuzzy self-tuning output was done on the 
+basis of the simulation result obtained by MATLAB. The simulation 
+results demonstrate that the designed self-tuned PID controller realize 
+a good dynamic behavior of the DC motor, a perfect speed tracking 
+with less rise and settling time, minimum overshoot, minimum steady 
+state error and give better performance compared to conventional PID 
+controller. 
+ 
+Keywords: Fuzzy logic, PID controller, DC motor drives speed 
+control. 
+ 
+ 
+ 
+Umesh Kumar Bansal & Rakesh Narvey 
+ 
+1210
+1. Introduction 
+The development of high performance motor drives is very important in industrial as 
+well as other purpose applications such as steel rolling mills, electric trains and 
+robotics. Generally, a high performance motor drive system must have good dynamic 
+speed command tracking and load regulating response to perform task. DC drives, 
+because of their simplicity, ease of application, high reliabilities, flexibilities and 
+favorable cost have long been a backbone of industrial applications, robot 
+manipulators and home appliances where speed and position control of motor are 
+required.  
+DC drives are less complex with a single power conversion from AC to DC. Again 
+the speed torque characteristics of DC motors are much more superior to That of AC 
+motors. A DC motors provide excellent control of speed for acceleration and 
+deceleration. DC drives are normally less expensive for most horsepower ratings. DC 
+motors have a long tradition of use as adjustable speed machines and a wide range of 
+options have evolved for this purpose. In these applications, the motor should be 
+precisely controlled to give the desired performance. The controllers of the speed that 
+are conceived for goal to control the speed of DC motor to execute one variety of 
+tasks, is of several conventional and numeric controller types, the controllers can be: 
+proportional integral (PI), proportional integral derivative (PID) Fuzzy Logic 
+Controller (FLC) or the combination between them: Fuzzy-Neural Networks, Fuzzy-
+Genetic Algorithm, Fuzzy-Ants Colony, Fuzzy-Swarm[10]. The proportional – 
+integral – derivative (PID) controller operates the majority of the control system in the 
+world. It has been reported that more than 95% of the controllers in the industrial 
+process control applications are of PID type as no other controller match the simplicity, 
+clear functionality, applicability and ease of use offered by the PID controller [3], [4]. 
+PID controllers provide robust and reliable performance for most systems if the PID 
+parameters are tuned properly. 
+The major problems in applying a conventional control algorithm (PI, PD, PID) in 
+a speed controller are the effects of non-linearity in a DC motor. The nonlinear 
+characteristics of a DC motor such as saturation and fiction could degrade the 
+performance of conventional controllers [1], [2].Generally, an accurate nonlinear 
+model of an actual DC motor is difficult to find and parameter obtained from systems 
+identification may be only approximated values. The field of Fuzzy control has been 
+making rapid progress in recent years. Fuzzy logic control (FLC) is one of the most 
+successful applications of fuzzy set theory, introduced by L.A Zadeh in 1973 and 
+applied (Mamdani 1974) in an attempt to control system that are structurally difficult 
+to model. Since then, FLC has been an extremely active and fruitful research area with 
+many industrial applications reported [5].In the last three decades, FLC has evolved as 
+an alternative or complementary to the conventional control strategies in various 
+engineering areas. Fuzzy control theory usually provides non-linear controllers that are 
+capable of performing different complex non-linear control action, even for uncertain 
+nonlinear Systems. Unlike conventional control, designing a FLC does not require 
+precise knowledge of the system model such as the poles and zeroes of the system 
+Speed Control of DC Motor Using Fuzzy PID Controller 
+1211 
+ 
+transfer functions. Imitating the way of human learning, the tracking error and the rate 
+change of the error are two crucial inputs for the design of such a fuzzy control system 
+[6], [7]. 
+ 
+ 
+2. Speed Control of DC  
+2.1 Motor  
+ 
+ 
+ 
+Fig 1: Model of DC Motor. 
+ 
+DC motors are most suitable for wide range speed control and are there for many 
+adjustable speed drives. Intentional speed variation carried out manually or 
+automatically to control the speed of DC motors. 
+α (Va-IaRa)/Ԅ  
+ 
+= (Va -IaRa)/KaԄ  
+Where Ԅ = Field flux per pole 
+ 
+Ka= Armature constant = PZ/2πa 
+ 
+Where P = No. of poles, Z = Total no. of armature conductor, a = No. of parallel 
+path 
+ 
+From the equation (1) it is clear that for DC motor there are basically 3 method of 
+speed control. 
+They are:- 
+1- Variation of resistance in armature circuit. 
+2- Variation of field flux. 
+3- Variation of armature terminal voltage 
+ 
+ 
+3. Modeling of DC Motor 
+From fig.1The armature voltage equation is given by: Va =Eb+ IaRa+ La (dIa/dt) 
+Umesh Kumar Bansal & Rakesh Narvey 
+ 
+1212
+Now the torque balance equation will be given by Tm = Jmdω/dt +Bmω+TL ----I 
+Taking field flux as Φ and Back EMF Constant as K. 
+Equation for back emf of motor will be 
+Eb = Kɸɷ------II 
+Tm= KɸIa----III 
+Taking laplace transform of the motor‟s armature voltage equation 
+Ia(S) = (Va – Eb)/ (Ra + LaS) 
+Now, taking equation (ii) into consideration, we have: Ia(s) = (Va – KΦω)/ Ra (1+ 
+LaS/Ra) 
+ 
+And ω(s) = (Tm - TL) /JS = (KΦIa - TL) /JmS (Armature Time Constant) 
+Ta=La/Ra 
+ 
+ 
+ 
+Fig. 2: Modelling Block diagram of DC Motor. 
+ 
+After simplifying the above motor model, the overall transfer function will be 
+ω (s) / Va(s) = [KΦ /Ra] /JmS(1+TaS) /[ 1 +(K²Φ² /Ra)/JmS(1+TaS)] 
+Tm= Jmdω/dt = KΦIa 
+ω(s) = [(Ra / Km) Ia(s) - TL Ra / (Km) ² ] (1/Tem(s)) 
+ 
+Now, Replacing KΦ by Km in equation (v), we will get: ω(s) /Va(s)=(1/Km) / 
+(1+STem+S²TaTem) 
+ 
+The armature time constant Ta is very much less than the electromechanical time 
+constant Tem, (Ta <<Tem) 
+Simplifying, 1 + STem + S²TaTem ≈ 1 + S (Ta+Tem) +S²TaTem = (1 + STem) (1 
++ STa) The equation can be written as: 
+ω(s) /Va(s) = (1/Km)/((1 + STem)(1 + STa)) 
+ 
+Tem and Ta are the time constants of the above system transfer function which will 
+determine the response of the system. Hence the dc motor can be replaced by the 
+transfer function obtained in above equation in the DC drive model. 
+ 
+Speed Control of DC Motor Using Fuzzy PID Controller 
+1213 
+ 
+Table 1: Parameters of the DC Motor. 
+ 
+Description of the parameter Parameter value 
+Armature resistance (Ra) 
+0.5Ω 
+Armature inductance (La) 
+0.02 H 
+Armature voltage (Va) 
+200 V 
+Mechanical inertia (jm) 
+0.1 Kg.m2 
+Friction coefficient (Bm) 
+0.008 N.m/rad/sec 
+Back emf constant (k) 
+1.25 V/rad/sec 
+Rated speed 
+1500 r.p.m 
+Motor torque constant 
+1 N.m/A 
+ 
+ 
+4. Fuzzy Logic Controller 
+Fuzzy systems are knowledge based or rule based systems. The heart of a fuzzy system 
+is a knowledge base consisting of the so- called If-Then rules. A fuzzy If-Then 
+statement in which some words are characterized by continuous membership functions. 
+After defining the fuzzy sets and assigning their membership functions, rules must be 
+written to describe the action to be taken for each combination of control variables. 
+These rules will relate the input variables to the output variable using If-Then 
+statements which allow decisions to be made. The If (condition) is an antecedent to the 
+Then (conclusion) of each rule. Each rule in general can be represented in the 
+following manner: 
+If (antecedent) Then (consequence). 
+For example: 
+If the speed of the car is high, then apply less force to the accelerator. 
+If pressure is high, then volume is small 
+A fuzzy logic controller has four main components as shown in Figure: 
+ 
+4.1 Fuzzification  
+The success of this work, and the like, depends on how good this stage is conducted. In 
+this stage, the crisp variables eω(k) and deω(k) are converted in to fuzzy variables e ω 
+and de ω respectively. The membership functions associated to the control variables 
+have been chosen with triangular shapes as shown in Fig. 2. The universe of discourse 
+of all the input and output Variables are established as The suitable scaling factors are 
+chosen to brought the input and output variables to this universe of discourse. Each 
+universe of discourse is divided into seven overlapping fuzzy sets: NL (Negative 
+Large), NM (Negative Medium), NS (Negative Small), ZE (Zero), PS (Positive Small), 
+PM (positive Medium), and PL (Positive Large). Each fuzzy variable is a member of 
+the subsets with a degree of membership μ varying between 0 (non-member) and 1 
+(full-member). All the membership functions have asymmetrical shape with more 
+crowding near the origin (steady state). This permits higher precision at Steady state 
+[3]. 
+121
+4.2 
+Kno
+gov
+func
+that
+kno
+rule
+AND
+be u
+pap
+ 
+4
+ 
+Inference e
+owledge ba
+verning the r
+ctions. In th
+t executes 2
+owledge of t
+e is expresse
+D ( ce ω is 
+used to prod
+er, the Max
+ 
+d
+ 
+N
+N
+Z
+P
+P
+ 
+ 
+engine  
+ase involve
+relationship
+his stage, the
+25 rules (5x5
+the system 
+ed in the fo
+Positive La
+duce the fu
+x-product inf
+T
+de 
+ 
+N
+e  
+NL 
+ 
+PV
+NS 
+ 
+PM
+ZE 
+ 
+PV
+PS 
+ 
+PM
+PL 
+ 
+PV
+s defining 
+p between in
+e variables e
+5) as shown
+behavior an
+rm as in the
+arge) THEN
+zzy set valu
+ference met
+able1: Rule
+NL 
+NS
+ 
+VL 
+PV
+ML 
+PM
+VS 
+PV
+ML 
+PM
+VL 
+PV
+Um
+ 
+the rules 
+nput and ou
+e ω and ce ω
+n in Table I
+nd the expe
+e following
+N ( *qs ci is 
+ues for the 
+thod [3] is u
+e base Param
+S 
+ZE
+ 
+VL 
+PVL
+ML 
+PML
+VS 
+PS
+ML 
+PML
+VL 
+PVL
+mesh Kuma
+represented
+tput variabl
+ω are proces
+. These rule
+erience of th
+ example: I
+Zero). Diffe
+output fuzz
+used 
+meters for K
+PS 
+ 
+L 
+PVL
+L 
+PL 
+PMS
+L 
+PL 
+L 
+PVL
+ar Bansal &
+d as IF-TH
+les in terms 
+ssed by an in
+es are estab
+he control e
+IF ( e ω is N
+ferent inferen
+zy variable 
+Kp. 
+PL 
+ 
+PVL 
+PVL 
+PMS 
+PVL 
+PVL 
+ Rakesh Na
+ 
+HEN statem
+of member
+nference en
+lished using
+engineers. E
+Negative La
+nce engines
+* qs ci . In
+ 
+arvey 
+ments 
+rship 
+ngine 
+g the 
+Each 
+arge) 
+s can 
+n this 
+Speed Control 
+ 
+ 
+ 
+of DC Moto
+T
+de 
+ 
+ 
+e
+NL 
+ 
+NS 
+ 
+ZE 
+ 
+PS 
+ 
+PL 
+ 
+Ta
+De 
+ 
+NL 
+NS 
+ZE 
+PS 
+PL 
+or Using Fu
+Table2: Rule
+NL 
+N
+  
+PM 
+P
+PMS 
+P
+PS 
+P
+PMS 
+P
+PM 
+P
+able 2: Rule
+ 
+NL 
+N
+e  
+ 
+PVS 
+P
+ 
+PMS 
+P
+ 
+PM 
+P
+ 
+PML 
+P
+ 
+PVL 
+P
+uzzy PID Co
+ 
+e base Param
+ 
+NS 
+ZE
+ 
+PM 
+PM
+PMS 
+PMS
+PS 
+PVS
+PMS 
+PMS
+PM 
+PM
+e base Param
+ 
+NS 
+ZE
+ 
+PMS 
+PM
+PML 
+PL
+PL 
+PL
+PVL 
+PVL
+PVL 
+PVL
+ 
+ontroller
+meters for K
+PS 
+ 
+PM 
+S 
+PMS 
+S 
+PS 
+S 
+PMS 
+PM 
+meters for K
+PS 
+P
+ 
+M 
+PL 
+P
+PVL P
+PVL P
+L PVL P
+L PVL P
+KI. 
+PL 
+ 
+PM 
+PMS 
+PS 
+PMS 
+PM 
+ 
+KD. 
+PL 
+PVL 
+PVL 
+PVL 
+PVL 
+PVL 
+ 
+1215 
+121
+fuzz
+defi
+con
+the 
+chan
+or l
+mai
+imp
+ 
+Con
+Acc
+to c
+6
+a) Rule ba
+A decision
+zy control a
+initions. Th
+ditions and 
+rules and co
+nge in error
+less natural
+intain for a
+plemented u
+ 
+ 
+b) Defuzz
+The revers
+ntroller (FL
+cording to r
+risp output.
+ 
+ 
+ase  
+n making lo
+action from
+he rules are 
+the Then si
+ompute a co
+r (de). In a 
+l language. 
+a non- spe
+sing conven
+ification  
+e of Fuzzif
+LC) produce
+real world r
+ 
+ogic which 
+m the knowl
+in “If The
+ide is called
+ontrol signa
+rule based c
+A rule bas
+ecialist end
+ntional techn
+fication is c
+es required 
+equirement
+Um
+ 
+is, simulati
+ledge of the
+en” format a
+d the conclu
+al depending
+controller th
+se controlle
+d user and
+niques. 
+called Defu
+output in 
+s, the lingu
+mesh Kuma
+ing a huma
+e control ru
+and formall
+usion. The c
+g on the me
+he control s
+er is easy t
+d an equiv
+uzzification.
+a linguistic
+uistic variab
+ 
+ar Bansal &
+an decision
+ules and lin
+ly the If sid
+computer is 
+easured inpu
+strategy is s
+to understan
+alent contr
+ 
+. The use o
+c variable (
+les have to 
+ Rakesh Na
+n process, in
+nguistic vari
+de is called
+able to exe
+uts error (e)
+stored in a m
+nd and eas
+roller could
+of Fuzzy L
+(fuzzy numb
+be transfor
+arvey 
+nters 
+iable 
+d the 
+ecute 
+) and 
+more 
+sy to 
+d be 
+Logic 
+ber). 
+rmed 
+Speed Control of DC Motor Using Fuzzy PID Controller 
+1217 
+ 
+In order to define fuzzy membership function, designers choose many different 
+shapes based on their preference and experience. There are generally four types of 
+membership functions used: 
+1. Trapezoidal MF  
+2. Triangular MF  
+3. Gaussian MF  
+4. Generalized bell MF  
+ 
+Fig. 3: Structure of fuzzy logic controller. 
+ 
+Implementation of an FLC requires the choice of four key factors 
+1. Number of fuzzy sets that constitute linguistic variables.  
+2. Mapping of the measurements onto the support sets.  
+3. Control protocol that determines the controller behavior.  
+4. Shape of membership functions.  
+ 
+PID parameters fuzzy self-tuning is to find the fuzzy relationship between the three 
+parameters of PID and "e" and "de", and according to the principle of fuzzy control, to 
+modify the three parameters in order to meet different requirements for control 
+parameters when "e" and "de" are different, and to make the control object a good 
+dynamic and static performance [12]. 
+ 
+4.3 Adjusting fuzzy membership functions and rules 
+In order to improve the performance of FLC, the rules and membership functions are 
+adjusted. The membership functions are adjusted by making the area of membership 
+functions near ZE region narrower to produce finer control resolution. On the other 
+hand, making the area far from ZE region wider gives faster control response. Also the 
+performance can be improved by changing the severity of rules [15]. An experiment to 
+study the effect of rise time (Tr), maximum overshoot (Mp) and steady-state error 
+(SSE) when varying KP, KI and KD was conducted. The results of the experiment 
+were used to develop 25-rules for the FLC of KP, KI and KD are the output variables 
+and from error and change of error are the input variables. Triangular membership 
+functions are selected. 
+ 
+ 
+Umesh Kumar Bansal & Rakesh Narvey 
+ 
+1218
+ 
+Fig. 4: Block diagram of self-tuning fuzzy PID controller. 
+ 
+ 
+Fig. 5: Simulink diagram self-tuning fuzzy PID Controller. 
+ 
+ 
+ 
+ 
+Fig. 6: Error Vs time response of fuzzy tuned PID controlled DC motor 
+ 
+0.5
+Voltage Constant
+speed
+To Workspace
+Spped Error
+Speed
+157.07
+Reference speed
+Rate of change of Speed error
+e
+u
+Fuzzy_PID
+du/dt
+Derivative
+Va
+Speed
+DC Motor
+Spe
+Fi
+5. 
+The
+of D
+fuzz
+thre
+tool
+inte
+and 
+with
+perf
+bett
+state
+ed Control 
+ig. 7: Chang
+Fi
+ 
+ 
+Conclusio
+e steady stat
+DC motor a
+zy logic and
+ee outputs 
+lbox to des
+egral and de
+change in 
+h the conv
+formance in
+ter dynamic
+e error (SSE
+ 
+of DC Moto
+ge of speed 
+ig. 6: Speed
+on 
+te operation
+are studied.
+d fuzzy set.
+self-tuning 
+sign fuzzy 
+erivate (KP, 
+speed error
+ventional P
+n both trans
+c response c
+E), high stea
+or Using Fu
+Vs Time re
+d Vs time re
+n and its var
+ We have 
+. This proje
+fuzzy PID
+controller. 
+KI, KD) gai
+r .From the 
+PID contro
+sient and st
+curve, short
+ady precisio
+uzzy PID Co
+ 
+sponse of fu
+ 
+esponse of P
+rious torque
+also studied
+ect introduce
+D controller
+The fuzzy 
+ins of the P
+simulation 
+oller, self-tu
+teady state 
+ter response
+on compared
+ontroller
+uzzy tuned P
+PID controll
+e-speeds, tor
+d basic defi
+es a design 
+r and make
+controller 
+ID controlle
+results it is
+uning PID
+response. T
+e time, sma
+d to the conv
+ 
+PID control
+ 
+led DC moto
+rque-curren
+finition and 
+method of 
+e use of M
+adjusted th
+er according
+s concluded 
+D controller
+The self tu
+all overshoo
+ventional PI
+1
+lled DC mot
+or. 
+nt characteri
+terminolog
+f two inputs
+MATLAB fu
+he proportio
+g to speed e
+d that ,comp
+r has a b
+unning FLC
+ot, small ste
+ID controlle
+1219 
+tor 
+istics 
+gy of 
+ and 
+fuzzy 
+onal, 
+error 
+pared 
+better 
+C has 
+eady 
+er. 
+Umesh Kumar Bansal & Rakesh Narvey 
+ 
+1220
+References 
+[1] 
+B.J. Chalmers, “Influence of saturation in brushless permanent magnet 
+drives.” IEE proc. B, Elect. Power Appl, vol.139, no.1, 1992 
+[2] 
+C.T. Johnson and R.D. Lorenz, “Experimental identification of friction and its 
+compensation in precise, position controlled mechanism.” IEEE Trans. Ind, 
+Applicant, vol.28, no.6, 1992. 
+[3] 
+Zhang, N. Wang and S. Wang, “A developed method of tuning PID 
+controllers with fuzzy rules for integrating process,” Proceedings of the 
+American Control Conference, Boston, 2004, pp. 1109-1114.  
+[4] 
+K.H. Ang, G. Chong and Y. Li, “PID control system analysis, design and 
+technology,” IEEE transaction on Control System Technology, Vol.13, No.4, 
+2005, pp. 559-576.  
+[5] 
+H.X.Li and S.K.Tso, "Quantitative design and analysis of Fuzzy Proportional-
+Integral-Derivative Control- aStep towards Auto tuning", International journal 
+of system science, Vol.31, No.5, 2000, pp.545-553. 
+[6] 
+Thana Pattaradej, GuanrongChen and pitikhate Sooraksa, "Design and. 
+Implementation of Fuzzy PID Control of a bicycle robot" Integrated 
+computer-aided engineering, Vol.9, No.4, 2002  
+[7] 
+Weiming Tang, Guanrong Chen and Rongde Lu, “A Modified Fuzzy PI 
+Controller for a Flexible-joint Robot Arm with Uncertainties”, Fuzzy Set and 
+System, 118 (2001) 109-119 
+[8] 
+PavolFedor, 
+Daniela 
+Perduková, 
+“A 
+Simple 
+Fuzzy 
+Controller 
+Structure,”ctaElectrotechnica ETInformatica No. 4, Vol. 5, 2005. 
+[9] 
+Maher M.F. Algreer andYhyaR.M.Kuraz, “Design Fuzzy Self Tuning of PID 
+Controller for Chopper-Fed DC Motor drive.” Kuraz. 
+[10] Bomediene 
+Alloua, 
+Abdellah 
+Laouf 
+Brahim 
+Gasbaoui 
+and 
+ABdessalamAbderrahamani, “Neuro-Fuzzy DC Motor speed Control Using 
+Particle Swarm Optimization,” Leonaro Electronic Journal of Practices and 
+Technologies ISSN,1583-1078.  
+[11] ManafeddinNamazov and OnurBasturk, “DC motor position control using fuzzy 
+proportional-derivative controllers with different defuzzification methods,” 
+Turkish Journal of Fuzzy Systems (eISSN: 1309–1190), Vol.1, No.1, pp. 36-54, 
+2010.  
+[12] Wang Xiao-kan, Sun Zhong-liang, Wanglei, Feng Dong-qing, "Design and 
+Research Based on Fuzzy PID-Parameters Self-Tuning Controller with 
+MATLAB," Advanced Computer Theory and Engineering, International 
+Conference on, pp. 996-999, 2008 International Conference on Advanced 
+Computer Theory and Engineering, 2008 
+[13] Gaddam Mallesham and Akula Rajani, “AUTOMATIC TUNING OF PID 
+CONTROLLER USING FUZZY LOGIC.” 8th International Conference on 
+DEVELOPMENT AND APPLICATION SYSTEMS Suceava, Romania, May 25 
+– 27, 2006.  
+[14] M.Chow and A. Menozzi ,”on the comparison of emerging and conventional 
+techniques for DC motor control” proc.IECON ,PP.1008-1013,1992.  

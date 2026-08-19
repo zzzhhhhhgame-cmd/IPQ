@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPQ · Arduino 移动机器人实验平台 · 采购清单</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#2a3441;
+    --txt:#e6edf3; --dim:#8b98a9; --accent:#58a6ff; --accent2:#3fb950;
+    --warn:#d29922; --danger:#f85149; --mentor:#bc8cff;
+    --mono:'SF Mono','Consolas','Courier New',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    line-height:1.5;padding:20px;font-size:14px;
+  }
+  /* Header */
+  header{
+    background:linear-gradient(135deg,#161b22 0%,#1c2330 100%);
+    border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:18px;
+  }
+  header h1{font-size:20px;font-weight:600;letter-spacing:.5px}
+  header h1 .tag{
+    font-family:var(--mono);font-size:11px;color:var(--accent);
+    border:1px solid var(--accent);padding:2px 8px;border-radius:4px;margin-left:10px;font-weight:400;
+  }
+  header .sub{color:var(--dim);font-size:13px;margin-top:6px}
+  header .meta{
+    display:flex;gap:18px;margin-top:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:11px;color:var(--dim);
+  }
+  header .meta b{color:var(--txt);font-weight:600}
+  /* Mentor coverage banner */
+  .coverage{
+    background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--mentor);
+    border-radius:8px;padding:14px 18px;margin-bottom:18px;
+  }
+  .coverage h3{color:var(--mentor);font-size:12px;margin-bottom:8px;letter-spacing:.5px}
+  .cov-grid{display:flex;gap:10px;flex-wrap:wrap}
+  .cov-item{
+    background:#0d1117;border:1px solid var(--border);border-radius:6px;padding:8px 12px;
+    font-family:var(--mono);font-size:12px;display:flex;align-items:center;gap:8px;
+  }
+  .cov-item .ico{color:var(--accent2);font-weight:700}
+  .cov-item b{color:var(--txt)}
+  .cov-item span{color:var(--dim);font-size:11px}
+  /* Toolbar */
+  .toolbar{
+    background:var(--panel);border:1px solid var(--border);border-radius:10px;
+    padding:14px 18px;margin-bottom:18px;display:flex;gap:14px;
+    flex-wrap:wrap;align-items:center;justify-content:space-between;position:sticky;top:10px;z-index:10;
+  }
+  .stats{display:flex;gap:24px;align-items:center}
+  .stat{font-family:var(--mono);font-size:12px;color:var(--dim)}
+  .stat b{color:var(--txt);font-size:15px;margin-left:4px}
+  .stat.total b{color:var(--accent2);font-size:20px}
+  .btn-export{
+    background:transparent;color:var(--accent);border:1px solid var(--accent);
+    padding:8px 16px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px;transition:.15s;
+  }
+  .btn-export:hover{background:var(--accent);color:#0d1117}
+  /* Table */
+  .bom-table{
+    width:100%;border-collapse:collapse;background:var(--panel);
+    border:1px solid var(--border);border-radius:10px;overflow:hidden;
+  }
+  .bom-table thead{background:#1c2330}
+  .bom-table th{
+    text-align:left;padding:11px 14px;font-size:11px;font-weight:600;
+    color:var(--dim);text-transform:uppercase;letter-spacing:.6px;
+    border-bottom:1px solid var(--border);white-space:nowrap;
+  }
+  .bom-table td{padding:12px 14px;border-bottom:1px solid #22272e;vertical-align:middle}
+  .bom-table tr:last-child td{border-bottom:none}
+  .bom-table tbody tr{transition:background .12s}
+  .bom-table tbody tr:hover{background:#1c2330}
+  .bom-table tr.checked{background:rgba(63,185,80,.06)}
+  .bom-table tr.checked td:not(:first-child){opacity:.55}
+  .chk{width:18px;height:18px;accent-color:var(--accent2);cursor:pointer}
+  /* category badge */
+  .cat{
+    display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;
+    padding:2px 8px;border-radius:3px;letter-spacing:.4px;white-space:nowrap;
+  }
+  .cat.mentor{background:rgba(188,140,255,.15);color:var(--mentor);border:1px solid rgba(188,140,255,.3)}
+  .cat.struct{background:rgba(88,166,255,.15);color:var(--accent);border:1px solid rgba(88,166,255,.3)}
+  .cat.power{ background:rgba(210,153,34,.15);color:var(--warn);border:1px solid rgba(210,153,34,.3)}
+  .cat.aux{background:rgba(139,152,169,.15);color:var(--dim);border:1px solid rgba(139,152,169,.3)}
+  .cat.mentor::before{content:'★ ';color:var(--mentor)}
+  /* component */
+  .comp{font-weight:600;color:var(--txt)}
+  .comp .model{color:var(--accent);font-family:var(--mono);font-size:12px}
+  .comp .spec{display:block;font-weight:400;color:var(--dim);font-size:12px;margin-top:2px;font-family:var(--mono)}
+  .price{font-family:var(--mono);font-weight:600;color:var(--accent2);text-align:right;white-space:nowrap}
+  .price .unit{color:var(--dim);font-size:11px;font-weight:400}
+  .qty{font-family:var(--mono);color:var(--txt);text-align:center;font-weight:600}
+  .role{font-size:12px;color:var(--dim)}
+  .role .kw{color:var(--warn);font-family:var(--mono);font-size:11px;display:block;margin-top:3px}
+  .tb-link{
+    display:inline-block;margin-top:5px;background:rgba(255,120,70,.12);
+    color:#ff8c42;border:1px solid rgba(255,140,66,.4);padding:3px 9px;border-radius:4px;
+    font-family:var(--mono);font-size:11px;text-decoration:none;cursor:pointer;transition:.15s;
+  }
+  .tb-link:hover{background:#ff8c42;color:#0d1117;text-decoration:none}
+  .tb-link::before{content:'🛒 '}
+  /* category headers */
+  .cat-head td{background:#0d1117!important;padding:13px 14px;border-top:2px solid var(--border)}
+  .cat-head .ct{font-size:13px;font-weight:700;letter-spacing:.5px}
+  .cat-head .cr{font-family:var(--mono);font-size:11px;color:var(--dim);float:right}
+  /* Notes */
+  .notes{
+    background:var(--panel);border:1px solid var(--border);border-radius:10px;
+    padding:18px;margin-top:18px;font-size:13px;color:var(--dim);
+  }
+  .notes h3{color:var(--txt);font-size:13px;margin-bottom:10px;font-weight:600}
+  .notes ul{padding-left:18px}
+  .notes li{margin:5px 0}
+  .notes .crit{color:var(--danger)}
+  .notes .ok{color:var(--accent2)}
+  .notes .warn{color:var(--warn)}
+  @media(max-width:720px){
+    .bom-table th:nth-child(7),.bom-table td:nth-child(7){display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>移动机器人 PID vs S-Curve 实验平台<span class="tag">单套方案 · 可直接下单</span></h1>
+  <div class="sub">IPQ 研究项目 · 测量转速跟踪 / Jerk 平滑性 / 能耗 三项指标 · 基于 ESP32 + 直流编码电机</div>
+  <div class="meta">
+    <span>项目 <b>IPQ-2026</b></span>
+    <span>方案版本 <b>v2.0</b></span>
+    <span>日期 <b>2026-08-04</b></span>
+    <span>器件总数 <b id="meta-count">0</b></span>
+    <span>预算 <b style="color:var(--accent2)">≈ ¥300</b></span>
+  </div>
+</header>
+
+<!-- Mentor coverage -->
+<div class="coverage">
+  <h3>★ MENTOR 指定核心件（4 项）— 全部覆盖</h3>
+  <div class="cov-grid">
+    <div class="cov-item"><span class="ico">✓</span>电机 <b>JGB37-520B</b> <span>12V 带编码器</span></div>
+    <div class="cov-item"><span class="ico">✓</span>电机驱动 <b>TB6612FNG</b> <span>双 H 桥</span></div>
+    <div class="cov-item"><span class="ico">✓</span>加速度传感器 <b>MPU6050</b> <span>6 轴</span></div>
+    <div class="cov-item"><span class="ico">✓</span>电流传感器 <b>INA226</b> <span>16 位功率计</span></div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="stats">
+    <div class="stat">已勾选 <b id="sel-count">0</b><span style="color:#444c56"> / </span><b id="vis-count">0</b></div>
+    <div class="stat total">合计 <b id="sel-total">¥0</b></div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="btn-export" id="btn-open-all" title="依次打开未勾选件的淘宝搜索页（浏览器可能拦截弹窗，请允许）">🛒 一键采购</button>
+    <button class="btn-export" id="btn-export">⤓ 导出清单 (.txt)</button>
+  </div>
+</div>
+
+<table class="bom-table">
+  <thead>
+    <tr>
+      <th style="width:40px">✓</th>
+      <th style="width:96px">类别</th>
+      <th>器件 / 型号</th>
+      <th style="width:60px">数量</th>
+      <th style="width:100px">单价</th>
+      <th style="width:100px;text-align:right">小计</th>
+      <th style="width:180px">用途 / 搜索关键词</th>
+    </tr>
+  </thead>
+  <tbody id="body"></tbody>
+</table>
+
+<div class="notes">
+  <h3>⚠ 可行性边界与采购提示</h3>
+  <ul>
+    <li><span class="crit">关键认知：</span>文献数值（如 overshoot 0.4% / settling 18ms）是 Simulink 理想仿真结果，硬件无法精确复现。本方案目标是在真实平台测得文献缺失的 <b>能耗</b> 与 <b>jerk</b> 对比数据——这是 IPQ 的差异化贡献。</li>
+    <li><span class="ok">方案可行性：</span>ESP32 双核 + 16 位 PWM 足够驱动 PID/S-Curve 实时控制；JGB37-520B 自带霍尔编码器可闭环测速；INA226 测功率精度 ±0.5%；MPU6050 测加速度间接得 jerk。整套系统<b>无不可实现环节</b>。</li>
+    <li><span class="warn">Jerk 风险：</span>jerk 需对 IMU 加速度数值微分，噪声放大严重，必须软件低通滤波；若压不住噪声，改报「加速度 RMS」同样是合法平滑性指标。</li>
+    <li><span class="crit">INA219 vs INA226：</span>本方案选 INA226（16 位，可测功率，¥13.5）而非 INA219（12 位），采样率和精度都高一档，能耗数据更可信。</li>
+    <li><span class="warn">电池物流：</span>18650 锂电池含电池，多数快递受限，<b>建议本地电子市场或顺丰可走商家购买</b>；或改用 12V/2A 直流稳压电源（¥15）插电测试。</li>
+    <li><b>采购建议：</b>★ 标记的 4 件 mentor 指定件优先在同一家店铺凑单（深圳电子模块店多数齐货），可省运费。MPU6050 市场有翻新货，选销量 1000+ 的店。</li>
+  </ul>
+</div>
+
+<script>
+// ============ BOM DATA ============
+// [category, name, model, spec, qty, unitPrice, role, searchKeyword, taobaoQuery]
+const CATS = {
+  mentor:{name:'★ Mentor 指定核心件',cls:'mentor',desc:'导师明确要求的 4 件'},
+  struct:{name:'结构件（mentor 未提但必需）',cls:'struct',desc:'让车跑起来的物理平台'},
+  power: {name:'电源系统（mentor 未提但必需）',cls:'power',desc:'供电 + 配电'},
+  aux:   {name:'辅助件（推荐配置）',cls:'aux',desc:'提升数据质量 / 接线耗材'},
+  tool:  {name:'配套工具（非实验器材）',cls:'aux',desc:'充电/调试工具，不装车上'},
+};
+const BOM = [
+  // ===== MENTOR 4 件 =====
+  ['mentor','直流减速电机','JGB37-520B','12V，霍尔编码器 11PPR，减速比 1:30，空载 333rpm（配 65mm 轮 ≈1.1m/s），6mm D 型轴',2,38,'驱动轮 + 闭环测速（PID/S-Curve 被控对象）。⚠ 下单务必确认:①带编码器 ②1:30/333转档 ③编码器3.3V兼容','jgb37-520b 333rpm 1:30 编码器','JGB37-520B 333RPM 减速比30 编码器'],
+  ['mentor','电机驱动模块','DRV8833','双 H 桥，MOSFET，1.5A/路，电机电压上限 10.8V，内阻360mΩ（能耗测量失真小）',1,5,'驱动 2 个电机，PWM 调速。⚠ 电机电源≤10.8V（故用2节18650）','drv8833 模块','DRV8833 电机驱动 模块'],
+  ['mentor','加速度/陀螺仪','MPU6050 (GY-521)','6 轴，I²C，带 DLPF 低通滤波',1,9,'测加速度→微分得 jerk（平滑性指标）','mpu6050 gy-521','MPU6050 GY-521'],
+  ['mentor','电流/功率传感器','INA226 (CJMCU-226)','16 位，I²C，±36V，可测电压/电流/功率',1,14,'测电机功率→积分得能耗（核心差异化指标）','ina226 cjmcu-226','INA226 CJMCU-226'],
+
+  // ===== STRUCT 结构件 =====
+  ['struct','主控板','ESP32 DevKit V1','30 针，240MHz 双核，WiFi/BT，16 位 LEDC PWM。⚠ 不需要扩展板，裸板插面包板即可',1,25,'主控（替代 Arduino Uno，算力/PWM 精度远优）','esp32 devkit v1 30针','ESP32 DevKit V1 30针'],
+  ['struct','亚克力小车底盘','双层/单层 4 轮智能车底板','预钻孔，含电池仓位',1,30,'移动机器人承载平台','亚克力 智能小车底盘','亚克力 智能小车底盘 4WD'],
+  ['struct','主动轮','65mm 橡胶轮','轮毂 6mm D 型孔 + M3 顶丝孔，适配 JGB37 的 6mm D 轴。⚠ 无需单独买联轴器，轮直接套轴顶丝锁紧',2,8,'驱动轮（直接套电机轴）','65mm 橡胶轮 d型孔 6mm jgb37','65mm 橡胶轮 D型孔 6mm JGB37'],
+  ['struct','万向从动轮','牛眼轮 M5，金属','总安装高 25–30mm（要配平 65mm 主动轮的半径32.5mm，否则底盘倾斜导致 jerk 数据失真）',2,5,'前/后支撑，灵活转向','牛眼轮 万向轮 m5 25mm','牛眼轮 万向轮 M5 25mm'],
+
+  // ===== POWER 电源 =====
+  ['power','锂电池组','18650 ×2','单节 3.7V 2200mAh，两串 7.4V（满电8.4V）。⚠ 用2节不用3节，因 DRV8833 上限10.8V',2,12,'动力电源（驱动电机 + 降压供电控）','18650 2200mah 动力电池','18650 2200mAh 动力电池'],
+  ['power','电池座','2 节 18650 串联电池盒','输出 7.4–8.4V，⚠ 出线选「杜邦带针 2P(公头)」可直接插面包板；勿选带孔(母头)，孔对孔插不进',1,7,'装电池，给系统供电','18650 电池盒 2节 串联 带针','18650 电池盒 2节 串联 杜邦带针'],
+  ['power','DC-DC 降压模块','MP1584 或 Mini360','输入 7.4V→输出 5V，3A。⚠ 仅给 ESP32/传感器供电；电机电源不经此模块(电流不够)，电机直接接电池',1,6,'给 ESP32/传感器供 5V（与电机电源隔离）','mp1584 降压 5v','MP1584 降压模块 5V'],
+
+  // ===== AUX 辅助 =====
+  ['aux','micro-SD 模块','SPI 接口','配 8GB TF 卡',1,10,'高频数据记录（串口跟不上，必须 SD 卡）','micro sd spi 模块','microSD SPI 模块'],
+  ['aux','面包板 + 杜邦线','400 孔面包板 + 40 路公母杜邦线','建议买2块面包板（ESP32占一块，模块占一块）',1,12,'原型接线，免焊接','面包板 400 杜邦线 套件','面包板 400孔 杜邦线 套件'],
+  ['aux','跳线/USB 线','Micro-USB 数据线 + 公母头','',1,5,'烧录 + 供电调试','micro usb 数据线','Micro-USB 数据线'],
+
+  // ===== TOOL 工具 =====
+  ['tool','18650 充电器','双槽 USB 输入','⚠ 不能直接对电池盒充电（无充电管理，过充起火）。必须把电池取出，用充电器逐节充','18650 充电器 双槽 usb','18650 充电器 双槽 USB'],
+  ['tool','Type-C 数据线','USB-A 转 Type-C','',1,5,'连接 ESP32 烧录（确认你的 ESP32 是 Type-C 还是 Micro-USB 口）','type-c 数据线','Type-C 数据线'],
+];
+// assign ids
+BOM.forEach((r,i)=>r._id='item-'+i);
+const checked = new Set();
+
+function catHead(cat){
+  const c=CATS[cat];
+  const subtotal=BOM.filter(r=>r[0]===cat).reduce((s,r)=>s+r[5]*r[4],0);
+  return `<tr class="cat-head"><td colspan="7">
+    <span class="ct"><span class="cat ${c.cls}">${c.name}</span> &nbsp;${c.desc}</span>
+    <span class="cr">小计 ≈ ¥${subtotal}</span>
+  </td></tr>`;
+}
+
+function render(){
+  const body=document.getElementById('body');
+  body.innerHTML='';
+  Object.keys(CATS).forEach(cat=>{
+    body.insertAdjacentHTML('beforeend', catHead(cat));
+    BOM.filter(r=>r[0]===cat).forEach(r=>{
+      const [ ,name,model,spec,qty,price,role,kw,tbq]=r;
+      const isChk=checked.has(r._id);
+      const tbUrl='https://s.taobao.com/search?q='+encodeURIComponent(tbq||kw);
+      body.insertAdjacentHTML('beforeend',`
+        <tr data-id="${r._id}" class="${isChk?'checked':''}">
+          <td><input type="checkbox" class="chk" data-id="${r._id}" ${isChk?'checked':''}></td>
+          <td><span class="cat ${CATS[r[0]].cls}">${CATS[r[0]].name.replace('★ ','').split('（')[0].split(' ')[0]}</span></td>
+          <td><div class="comp">${name} <span class="model">${model}</span>
+            <span class="spec">${spec}</span></div></td>
+          <td class="qty">${qty}</td>
+          <td class="price">¥${price}<span class="unit"> / 件</span></td>
+          <td class="price" data-sub>¥${price*qty}</td>
+          <td class="role">${role}<span class="kw">🔎 ${kw}</span><a class="tb-link" href="${tbUrl}" target="_blank" rel="noopener">淘宝搜索</a></td>
+        </tr>
+      `);
+    });
+  });
+  updateStats();
+}
+
+function updateStats(){
+  document.getElementById('meta-count').textContent=BOM.length;
+  document.getElementById('vis-count').textContent=BOM.length;
+  document.getElementById('sel-count').textContent=checked.size;
+  let total=0;
+  checked.forEach(id=>{const r=BOM.find(x=>x._id===id); if(r) total+=r[5]*r[4];});
+  document.getElementById('sel-total').textContent='¥'+total;
+}
+
+// events
+document.getElementById('body').addEventListener('change',e=>{
+  if(!e.target.classList.contains('chk')) return;
+  const id=e.target.dataset.id;
+  if(e.target.checked) checked.add(id); else checked.delete(id);
+  e.target.closest('tr').classList.toggle('checked',e.target.checked);
+  updateStats();
+});
+// one-click open all unchecked items' taobao search
+document.getElementById('btn-open-all').addEventListener('click',()=>{
+  const unchecked=BOM.filter(r=>!checked.has(r._id));
+  if(unchecked.length===0){alert('所有器件已勾选（已购买）🎉');return;}
+  if(!confirm(`将依次打开 ${unchecked.length} 个未购买器件的淘宝搜索页。\n浏览器可能拦截弹窗，请点击地址栏「允许此站点弹出窗口」后重试。\n\n继续？`))return;
+  unchecked.forEach((r,i)=>{
+    const tbq=r[8]||r[7];
+    const url='https://s.taobao.com/search?q='+encodeURIComponent(tbq);
+    setTimeout(()=>window.open(url,'_blank'),i*250);
+  });
+});
+document.getElementById('btn-export').addEventListener('click',()=>{
+  const sel=BOM.filter(r=>checked.has(r._id));
+  let list = sel.length? sel : BOM;
+  let txt=`IPQ 移动机器人实验平台 · 采购清单\n导出时间: ${new Date().toLocaleString('zh-CN')}\n${sel.length?`已勾选 ${sel.length} 件`:'（未勾选，导出全套 '+BOM.length+' 件）'}\n\n`;
+  let total=0;
+  Object.keys(CATS).forEach(cat=>{
+    const items=list.filter(r=>r[0]===cat);
+    if(!items.length) return;
+    txt+=`=== ${CATS[cat].name} ===\n`;
+    items.forEach(r=>{
+      const [c,name,model,spec,qty,price,role,kw,tbq]=r;
+      txt+=`[${name}] ${model}  ×${qty}  ¥${price}  小计¥${price*qty}\n`;
+      txt+=`   规格: ${spec}\n   用途: ${role}\n   搜: ${kw}\n`;
+      txt+=`   淘宝: https://s.taobao.com/search?q=${encodeURIComponent(tbq||kw)}\n\n`;
+      total+=price*qty;
+    });
+  });
+  txt+=`\n========================\n合计: ¥${total}\n\n`;
+  txt+=`提示:\n- 18650 电池物流受限，建议本地电子市场购买\n- MPU6050 有翻新货，选销量 1000+ 店铺\n- ★ 标记为 mentor 指定的 4 件核心件\n`;
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`IPQ_BOM_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();URL.revokeObjectURL(a.href);
+});
+
+// default: pre-check all
+BOM.forEach(r=>checked.add(r._id));
+render();
+</script>
+</body>
+</html>

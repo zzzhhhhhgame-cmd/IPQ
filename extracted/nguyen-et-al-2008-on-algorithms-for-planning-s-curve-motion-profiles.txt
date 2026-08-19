@@ -1,0 +1,2260 @@
+International Journal of Advanced Robotic Systems, Vol. 5, No. 1 (2008) 
+ISSN 1729-8806, pp. 99-106 
+ 
+99
+ 
+intehweb.com 
+ 
+On Algorithms for Planning S-curve 
+Motion Profiles 
+ 
+ 
+Kim Doang Nguyen; Teck-Chew Ng and I-Ming Chen 
+Robotics Research Center, Nanyang Technological University, Singapore  
+Corresponding author E-mail: z030004@ntu.edu.sg 
+ 
+ 
+Abstract: Although numerous researches on s-curve motion profiles have been carried out, up to date, no 
+systematic investigation on the general model of polynomial s-curve motion profiles is considered. In this paper, 
+the model of polynomial s-curve motion profiles is generalized in a recursive form. Based on that, a general 
+algorithm to design s-curve trajectory with time-optimal consideration is proposed. In addition, a special strategy 
+for planning s-curve motion profiles using a trigonometric model is also presented. The algorithms are 
+implemented on a linear motor system. Experimental results show the effectiveness and promising application 
+ability of the algorithms in s-curve motion profiling.  
+Keywords: Motion control, s-curve motion profile, trajectory planning algorithm, linear motor. 
+ 
+1. Introduction 
+ 
+Control theory is now understood not merely in the 
+narrow sense of the control of mechanisms but in wider 
+sense of the control of any dynamic system, for 
+example economics, finance, industrial processes, etc, 
+and even nature. As a key aspect of control theory, 
+motion control has a wide range of applications in 
+industry, such as manufacturing, targeting, robotics, 
+etc. In motion control systems, controllers are used 
+together with closed loops to control the velocity and 
+position of machines in order to generate desired 
+motions. The challenge in motion control is always how 
+to achieve precise motion with minimized vibration, 
+and overshoot in position as well as velocity. In the 
+attempt to solve the challenge, trajectory planning has 
+been extensively researched for a few decades. 
+Mechanically feasible and smooth paths with optimized 
+time and minimized overshoots are always the goals of 
+path planning. 
+It is well accepted that simple trapezoidal velocity 
+models, in which the motor is accelerated to a constant 
+velocity at a constant acceleration and decelerated to 
+zero at a constant deceleration, can achieve fast 
+motions. However as shown in Fig.1 (a), when the 
+velocity reach the maximum value at the time instant t1, 
+the acceleration jumps from its constant value to zero. 
+The jumps also occur at other time instants, t0, t2, t3 
+when the velocity changes its orientation. These 
+discontinuities of the acceleration make the jerk exhibit 
+infinite values. Therefore trapezoidal velocity profiles 
+tend to cause overshoots, and excite residual vibrations 
+that require time for the machine to reach the final 
+position with desired precision (Lin, 2002). This may be 
+a potential problem for precision system. As a result, s-
+curve velocity profiles have been proposed to reduce 
+the tendency to excite system vibration (Roover, 1997), 
+(Levin, 1994) and (Meckl, 1985). In these s-curve models 
+the template is kept in controllable finite value.  
+In (Meckl, 1998), a method for developing optimized 
+point-to-point motion profile to attain fast motion with 
+minimized vibration is proposed using s-curve model. 
+The research gave a guide to estimate the ramp-up and 
+ramp-down time. In the attempt of improving the 
+kinematic and dynamic performance of a punching 
+machine, Tsay and Lin developed an input strategy 
+with fast acceleration and slow deceleration to 
+minimize the residual response based on 3rd order 
+polynomial s-curve motion profiles (Tsay, 2005). In 
+addition a time-optimal solution in feedback form was 
+discussed through state-space analysis of a single DOF 
+closed-loop system whose actuator is a linear brushless 
+DC motor (Kim, 2003). The research also provided a 
+categorization of 3rd order polynomial s-curve models. 
+Macfarlane and Croft, (Macfarlane, 2003), developed an 
+online method for attaining smooth, jerk-bounded 
+trajectories, which was described as no oscillation and 
+near time optimal paths. In the method a sine-wave 
+template is used to compute control way-points, which 
+are then connected smoothly by 5th order polynomials. 
+This model can be considered as a combination of a 5th 
+order polynomial model and a trigonometric model. 
+Although various researches on s-curve motion profiles 
+have been carried out, up to date, no systematic 
+investigation on the general model of polynomial s-
+curve motion profiles is considered. In this paper, the 
+generalization of the polynomial s-curve model was 
+presented together with the proposal of a general 
+algorithm 
+to 
+design 
+s-curve 
+motion 
+trajectory. 
+Moreover the research on a trigonometric model, which 
+ International Journal of Advanced Robotic Systems, Vol. 5, No. 1 (2008) 
+ 
+100 
+is a combination of trigonometric and polynomial 
+functions, indicates a special strategy of path planning 
+for s-curve motions. Through experimental results, the 
+algorithms show their efficiency, and great application 
+ability. 
+ 
+ 
+2. Generalization of the polynomial s-curve model 
+ 
+In this paper, the highest order derivative of position 
+profile, whose peak value is finite, is denoted the 
+template of the model. Based on this template, the other 
+kinematics characteristics of the motion, for example jerk, 
+acceleration, velocity, position, etc, can be determined 
+using its integrations.  
+ 
+(i) 
+Trapezoidal velocity profile (refer to Fig.1 (a)) 
+The following is the template of the trapezoidal model, 
+whose velocity profile is not smooth. Its position is 
+defined by 2nd order polynomials. So it is sometimes 
+called 2nd order polynomial model. It is noticed that in 
+this trapezoidal model, the jerk exhibits infinite value 
+whenever the acceleration make a jump in value. This 
+may be a potential problem for any system. The number 
+of trajectory segments to be connected is 4. 
+ 
+0
+1
+2
+3
+,
+,
+peak
+peak
+A
+t
+t
+t
+a
+A
+t
+t
+t
+≤≤
+⎧⎪
+= ⎨−
+≤≤
+⎪⎩
+ 
+ 
+(ii) 
+3rd order s-curve model (refer to Fig.1 (b)) 
+Let the model of the trapezoidal model be M2, the 
+template of the 3rd order polynomial model is defined by 
+the below expression. For polynomial models whose 
+orders are higher than 2, the jerks exhibit finite values. So 
+their velocity profiles are smooth during motions. In 
+addition their kinematic features are described by 
+polynomials. Therefore they are called polynomial s-
+curve models. The number of trajectory segments to be 
+connected is 8. 
+ 
+2
+0
+3
+3
+2
+4
+7
+,
+,
+M
+t
+t
+t
+j
+M
+M
+t
+t
+t
+≤≤
+⎧
+=
+= ⎨−
+≤≤
+⎩
+ 
+ 
+ 
+ 
+ 
+(iii) 
+4th order s-curve model (refer to Fig.2) 
+Similarly, the following is the template of the 4th order s-
+curve model. The number of trajectory segments to be 
+connected is 16. 
+ 
+3
+0
+7
+4
+3
+8
+15
+,
+,
+M
+t
+t
+t
+M
+M
+t
+t
+t
+≤≤
+⎧
+= ⎨−
+≤≤
+⎩
+ 
+ 
+(iv) 
+nth order s-curve model (refer to Fig.3) 
+In general, the template of the nth order s-curve model is 
+inductively determined by the following recursive 
+expression. The number of trajectory segments to be 
+connected is 2n. 
+ 
+1
+1
+1
+0
+2
+1
+1
+2
+2
+1
+,
+,
+n
+n
+n
+n
+n
+n
+M
+t
+t
+t
+M
+M
+t
+t
+t
+−
+−
+−
+−
+−
+−
+≤
+≤
+⎧⎪
+= ⎨−
+≤
+≤
+⎪⎩
+ 
+ 
+ 
+Fig. 2.  Fourth order polynomial s-curve model 
+  
+ 
+ 
+Fig. 1.  Trapezoidal s-curve model (a) and third order 
+polynomial s-curve model 
+  
+Kim Doang Nguyen; Teck –Chew Ng and I –Ming Chen: On Algorithms for Planning S-curve Motion Profiles 
+ 
+101 
+3. General algorithm to design s-curve motion trajectory 
+ 
+The conceptual method of the s-curve trajectory design is 
+that the number of trajectory’s segments is determined 
+based on the model’s template. Then the time instants of 
+connection are calculated so that those segments are 
+connected smoothly. So for the defined general s-curve 
+model, the number of trajectory segments is 2n-1. Hence 
+the number of time instants of connection to be calculated 
+is 2n.  
+ 
+Problem definition for the algorithm: 
+ 
+ 
+• 
+Inputs: peak values of kinematic features such as 
+X0peak, X1peak, X2peak, …, Xnpeak. 
+• 
+Design a polynomial s-curve trajectory which is 
+smooth, and has finite template so that no the given 
+peak values were violated. 
+• 
+Optimize the time of motion 
+From the definition of the general s-curve model, its 
+kinematic features can be inductively determined as 
+followings. It is noticed that tk is the connection time 
+instant of the kth and k+1th trajectory segments, whereas 
+Tk is the time period of the constant input Xkpeak.  
+(
+)
+0
+0
+1
+2
+1
+1
+1
+1
+1
+0
+1
+2
+2
+2
+i
+peak
+n
+peak
+n
+n
+i
+n
+i
+peak
+n
+i
+j
+n
+n
+i
+j
+n
+i
+n
+j
+i
+X
+X
+t
+t
+T
+X
+T
+T
++ −
+−
+=
+−
++ −+
++ −
+=
+=
+=
+−
++
+⎡
+⎤
+⎛
+⎞
+=
++
+⎢
+⎥
+⎜
+⎟
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+∏
+∑
+∏
+ 
+ 
+Similarly, 
+1
+1
+1
+1
+1
+1
+0
+1
+2
+2
+...
+peak
+n
+i
+peak
+j
+n
+n
+i
+j
+n
+i
+n
+j
+i
+X
+X
+T
+T
+−
+−
++ −+
++ −
+−
+=
+=
+⎡
+⎤
+⎛
+⎞
+=
++
+⎢
+⎥
+⎜
+⎟
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+∑
+∏
+ 
+(
+)
+1
+1
+1
+0
+1
+1
+1
+0
+2
+2
+...
+2
+peak
+n k
+i
+peak
+j
+n
+k
+n
+i
+j
+n
+i
+n k
+j
+i
+peak
+peak
+n
+n
+n
+n
+n
+X
+X
+T
+T
+X
+X
+t
+t
+T
+X T
+−
+−
++ −+
++ −
+−
+=
+=
+−
+⎡
+⎤
+⎛
+⎞
+=
++
+⎢
+⎥
+⎜
+⎟
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+=
+−
++
+=
+∑
+∏
+ 
+ 
+The algorithm: 
+The main task of the algorithm is to calculate Tp, the time 
+period of the constant input Xppeak. The pseudo-code of 
+the algorithm is shown hereafter. 
+ 
+ 
+ 
+ 
+( )
+( )
+(
+)
+( )
+1
+0
+1
+1
+0
+1
+1
+max
+1
+1
+0
+1
+max
+1
+0
+1
+1 {
+2
+2
+2
+1
+1 {
+2
+3
+2
+2
+2
+p
+n
+i
+j
+n
+n
+i
+j
+n
+i
+n
+j
+i
+n q
+i
+j
+n
+q
+n
+i
+j
+n
+i
+n q
+j
+i
+peak
+q
+q
+p
+peak
+j
+n
+q
+n
+n q
+p
+n
+T
+p
+n
+X
+X
+T
+T
+q
+p
+X
+X
+T
+T
+X
+X
+T
+X
+X
+T
+−
++ −+
++ −
+=
+=
+−
+−
++ −+
++ −
+−
+=
+=
++
+−
+=
+=
+=
+⎡
+⎤
+⎛
+⎞
+=
++
+⎢
+⎥
+⎜
+⎟
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+=
+−
+⎡
+⎤
+⎛
+⎞
+=
++
+⎢
+⎥
+⎜
+⎟
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+>
+=
+∑
+∏
+∑
+∏
+for 
+to 
+for
+to
+for
+to
+if
+then
+Recalculate
+from
+( )
+1
+1
+1
+0
+1
+4
+}
+}
+n q
+i
+i
+j
+n
+i
+j
+i
+T
+−
+−
+−+
++ −
+=
+=
+⎡
+⎤
+⎛
+⎞+
+⎢
+⎥
+⎜
+⎟
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+∑
+∏
+ 
+ 
+ 
+In the algorithm, all of the time periods Tp are set to be 
+zero by (1). Tp is first calculated by the peak value of 
+position (X0peak) by (2). This Tp is used to calculate the 
+maximum value of the kinematic features Xqmax by (3). 
+This maximum value is then compared with the input 
+peak value. If the maximum value is larger than the 
+peak value, Tp is too large. The Tp is recalculated by (4). 
+The loop keeps going on until no peak input is 
+exceeded. 
+ 
+It is noticed that (2) and (4) are polynomial equations, 
+which have form 
+ 
+1
+1
+1
+1
+0
+...
+0
+m
+m
+m
+m
+a x
+a
+x
+a x
+a
+−
+−
++
++
++
++
+=
+ 
+ 
+Where a0 is negative, and the other coefficients of the 
+polynomial are positive. Therefore the polynomial has 
+only one positive real root, which is just the time period 
+to be calculated. By a simple approximating algorithm, 
+the positive real root can be easily calculated. 
+ 
+ 
+Fig.3.  Template of the nth order s-curve model 
+  
+ International Journal of Advanced Robotic Systems, Vol. 5, No. 1 (2008) 
+ 
+102 
+4. Experiments 
+ 
+4.1. Linear motor system (refer to Fig.5) 
+Linear motor system includes a linear motor, which 
+slides on an air-bearing system. They allow the motor 
+to operate smoothly and quietly with ultra-precision 
+motion and very low friction. The linear motor is 
+controlled by a PMDi MC4000 Pro controller card, 
+which is an eight-axis PCI-Bus motion control DSP 
+board provided by Precision MicroDynamics, Inc. The 
+motor’s motion is read by a laser sensor system of  
+ 
+ 
+Renishaw Group, including a laser sensor RLD and a 
+laser encoder RLU10 which processes electrical signals 
+returned by the laser sensor into quadrature signals 
+and feeds them to the PMDi controller as feedback 
+signals. 
+Users can communicate with the linear motor system 
+through the PMDi GUI (Fig.4), which was built in C 
+programming language with help of LabWindows/CVI 
+development environment of National Instruments. 
+ 
+ 
+ 
+Fig. 5.  Block diagram of the linear motor system 
+  
+ 
+ 
+     Fig. 4.  PMDi Graphical User Interface 
+Kim Doang Nguyen; Teck –Chew Ng and I –Ming Chen: On Algorithms for Planning S-curve Motion Profiles 
+ 
+103 
+ 
+ 
+ 
+4.2. Experimental results 
+The algorithm was applied to design 3rd, 4th, and 5th order 
+polynomial s-curve profiles. The way points in form of 
+numeric arrays, generated by the path planning program 
+using the algorithm, were downloaded into the PMDi 
+controller card. The controller commanded the linear 
+motor to perform the loaded s-curve trajectories. Various 
+experiments were carried out to study the high order 
+polynomial s-curve motion profiles.  
+Fig. 6 shows the velocity profile and the trajectory 
+planned by the algorithm. The velocity and position 
+profiles are smooth during the motion. Additionally there 
+is no violation of the input peak value of velocity 
+(60mm/s) and position (50mm). A comparison of the 
+actual velocity of the 3rd, 4th, and 5th order s-curve motions 
+performed by the linear motor is given by Fig. 7. On the 
+other hand, Fig. 8 illustrates the position errors of those s-
+curve motions. The results indicate that the higher the 
+order of the model, the better the performance of the 
+linear motor.  
+ 
+5. Trigonometric jerk model 
+ 
+In the attempt of looking for a new approach of 
+developing an s-curve trajectory, a new trigonometric jerk 
+model of s-curve was proposed, which is illuminated by 
+the graphical representation of the model in APPENDIX 
+B. Compared with the polynomial model illustrated in 
+Fig.1(b), in this trigonometric model, the rectangular 
+pulse in the jerk of the 3rd order s-curve model was 
+replaced by a trigonometric function, which is in form of 
+the following expressions:  
+(
+)
+(
+)
+(
+)
+1
+1
+2
+2
+2
+3
+3
+4
+4
+4
+5
+5
+6
+6
+6
+,
+2
+1 sin
+,
+0
+2
+2
+0,
+2
+1 sin
+,
+2
+2
+( )
+0,
+2
+1 sin
+,
+2
+2
+0,
+2
+1 sin
+,
+2
+2
+peak
+J
+peak
+J
+peak
+J
+peak
+J
+Jerk
+J
+t
+t
+t
+t
+t
+t
+t
+J
+t
+t
+t
+t
+t
+t
+j t
+t
+t
+t
+J
+t
+t
+t
+t
+t
+t
+t
+t
+t
+J
+t
+t
+t
+t
+t
+π
+π
+π
+π
+π
+π
+π
+π
+⎡
+⎤
+⎛
+⎞
+−
++
+≤≤
+⎢
+⎥
+⎜
+⎟
+⎝
+⎠
+⎣
+⎦
+< ≤
+⎡
+⎤
+⎛
+⎞
+−
+−
++
+< ≤
+⎢
+⎥
+⎜
+⎟
+⎝
+⎠
+⎣
+⎦
+=
+< ≤
+⎡
+⎤
+⎛
+⎞
+−
+−
+−
++
+< ≤
+⎢
+⎥
+⎜
+⎟
+⎝
+⎠
+⎣
+⎦
+< ≤
+⎡
+⎤
+⎛
+⎞
+−
+−
++
+< ≤
+⎢
+⎥
+⎜
+⎟
+⎝
+⎠
+⎣
+⎦
+7t
+⎧
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪⎨
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪⎩
+ 
+ 
+This jerk function ensures that the whole jerk is 
+absolutely smooth during the motor’s motion, which can 
+be referred in APPENDIX B. The trajectory is divided into 
+7 segments. The kinematical features can be found by the 
+integrations of the jerk model. The APPENDIX A presents 
+the definition of the acceleration, velocity, and position of 
+the profile for the 7 segments.  
+Fig. 8.  Comparison of 3rd, 4th, and 5th order s-curve motion’s
+position errors  
+Fig. 7.  Comparison of 3rd, 4th, and 5th order s-curve motion’s
+velocity
+Fig. 6.  Samples of velocity (a) and position (b) profiles generated 
+using the algorithm 
+ International Journal of Advanced Robotic Systems, Vol. 5, No. 1 (2008) 
+ 
+104 
+Then many experiments were done with the linear motor 
+system to study its performance with the motion profiles 
+planned by the trigonometric model. Fig.9 shows the 
+velocity and position profiles of this model, the shape is 
+quite similar to that of the polynomial model ones. As 
+implied in the sample results of position error in Fig.10, 
+the response of the system with the trigonometric model 
+perform as well as that of the 5th order polynomial model. 
+These results can be reasonably understood by the 
+similarity of the jerk of the two models. Both jerks are 
+smooth, and their first derivatives exhibit sharp edges at 
+the connection time instants. This it is concluded that 
+though the trigonometric model is as simple as the 3rd 
+order 
+polynomial 
+model, 
+it 
+produces 
+as 
+good 
+performance as the 5th order polynomial model. 
+ 
+6. Conclusion 
+ 
+The algorithms proposed herein, which plan s-curve 
+motion 
+profiles 
+with 
+polynomial 
+model 
+and 
+trigonometric model, have the ability of designing any s-
+curve trajectory, which is controllably smooth and time-
+optimal. The algorithms also ensure there is no violation 
+of the actuator effort limitation. They can be effectively 
+implemented by motion controllers.  It is strongly 
+believed that this works may find wide rage of 
+applications in manufacturing industry, robotics, and 
+wherever s-curve motion appears.  
+However there is still plenty of room for further research 
+on this work. We have planned to implement the 
+algorithms to other system, for example manipulators, 
+mobile robots, and so on, which normally require certain 
+trajectory generator. In addition, energy consumption of 
+the systems which use the algorithms to plan motion 
+profiles is going to be assessed. It is reasonable to believe 
+that the energy is optimally saved due to the smooth and 
+jerk-bounded motions that the system perform. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig. 10.  Comparison of the trigonometric and 5th order models 
+position error 
+Fig. 9.  Velocity and position profiles generated by the 
+trigonometric model 
+Kim Doang Nguyen; Teck –Chew Ng and I –Ming Chen: On Algorithms for Planning S-curve Motion Profiles 
+ 
+105 
+7. Appendix 
+A. Kinematic characteristics of motion profiles planned by the 
+trigonometric model 
+ 
+ 
+ 
+ 
+(
+)
+(
+)
+(
+)
+(
+)
+1
+1
+2
+2
+2
+2
+3
+3
+4
+4
+4
+4
+,
+2
+cos
+,
+0
+2
+2
+2
+,
+2
+cos
+,
+2
+2
+2
+( )
+0,
+2
+cos
+,
+2
+2
+2
+peak
+J
+J
+max
+peak
+J
+max
+J
+peak
+J
+J
+Acceleration
+J
+t
+t
+t
+t
+t
+t
+A
+t
+t
+t
+J
+t
+t
+t
+t
+t
+A
+t
+t
+t
+t
+a t
+t
+t
+t
+J
+t
+t
+t
+t
+t
+t
+t
+t
+π
+π
+π
+π
+π
+π
+π
+π
+π
+⎡
+⎤
+⎛
+⎞
+⎛
+⎞
+−
++
+≤≤
+⎢
+⎥
+⎜
+⎟
+⎜
+⎟
+⎝
+⎠
+⎝
+⎠
+⎣
+⎦
+< ≤
+⎡
+⎤
+⎛
+⎞
+⎛
+⎞
+−
+−
+−
++
++
+< ≤
+⎢
+⎥
+⎜
+⎟
+⎜
+⎟
+⎝
+⎠
+⎝
+⎠
+⎣
+⎦
+=
+< ≤
+⎡
+⎤
+⎛
+⎞
+⎛
+⎞
+−
+−
+−
+−
++
+<
+⎢
+⎥
+⎜
+⎟
+⎜
+⎟
+⎝
+⎠
+⎝
+⎠
+⎣
+⎦
+(
+)
+(
+)
+5
+5
+6
+6
+6
+6
+7
+,
+2
+cos
+,
+2
+2
+2
+max
+peak
+J
+max
+J
+t
+A
+t
+t
+t
+J
+t
+t
+t
+t
+t
+A
+t
+t
+t
+t
+π
+π
+π
+⎧
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪⎨
+⎪
+⎪
+≤
+⎪
+⎪
+−
+< ≤
+⎪
+⎪
+⎡
+⎤
+⎛
+⎞
+⎛
+⎞
+⎪
+−
+−
+−
++
+−
+< ≤
+⎢
+⎥
+⎜
+⎟
+⎜
+⎟
+⎪
+⎝
+⎠
+⎝
+⎠
+⎪
+⎣
+⎦
+⎩
+ 
+(
+)
+(
+)
+(
+)
+(
+)
+2
+2
+2
+1
+2
+1
+1
+1
+2
+2
+2
+2
+2
+2
+2
+2
+2
+3
+3
+4
+,
+2
+cos
+,
+0
+2
+2
+2
+2
+2
+,
+2
+cos
+,
+2
+2
+2
+2
+2
+( )
+peak
+J
+J
+J
+max
+peak
+J
+J
+max
+J
+peak
+pea
+Velocity
+J
+t
+t
+t
+t
+t
+t
+t
+A
+t
+t
+V
+t
+t
+t
+J
+t
+t
+t
+t
+t
+t
+A
+t
+t
+V
+t
+t
+t
+t
+v t
+V
+t
+t
+t
+J
+π
+π
+π
+π
+π
+π
+π
+π
+⎡
+⎤
+⎛
+⎞
+⎛
+⎞
+⎛
+⎞
+−
+−
++
+≤
+≤
+⎢
+⎥
+⎜
+⎟
+⎜
+⎟
+⎜
+⎟
+⎝
+⎠
+⎝
+⎠
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+−
++
+<
+≤
+⎡
+⎤
+−
+⎛
+⎞
+⎛
+⎞
+⎛
+⎞
+−
+−
+−
++
++
+−
++
+<
+≤
+⎢
+⎥
+⎜
+⎟
+⎜
+⎟
+⎜
+⎟
+⎝
+⎠
+⎝
+⎠
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+=
+<
+≤
+−
+(
+)
+(
+)
+(
+)
+(
+)
+(
+)
+2
+2
+2
+4
+4
+4
+5
+5
+5
+5
+6
+2
+2
+2
+6
+6
+6
+6
+6
+7
+2
+cos
+,
+2
+2
+2
+2
+2
+(
+)
+,
+2
+cos
+,
+2
+2
+2
+2
+2
+k
+J
+J
+max
+J
+max
+peak
+J
+J
+max
+J
+t
+t
+t
+t
+t
+t
+V
+t
+t
+t
+t
+A
+t
+t
+V
+t
+t
+t
+J
+t
+t
+t
+t
+t
+t
+A
+t
+t
+V
+t
+t
+t
+t
+π
+π
+π
+π
+π
+π
+π
+π
+⎧
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪⎨
+⎪
+⎡
+⎤
+−
+⎛
+⎞
+⎪
+⎛
+⎞
+⎛
+⎞
+−
+−
+−
++
++
+<
+≤
+⎢
+⎥
+⎜
+⎟
+⎪
+⎜
+⎟
+⎜
+⎟
+⎝
+⎠
+⎝
+⎠
+⎢
+⎥
+⎝
+⎠
+⎪
+⎣
+⎦
+⎪−
+−
++
+<
+≤
+⎪
+⎪
+⎡
+⎤
+−
+⎛
+⎞
+⎛
+⎞
+⎛
+⎞
+⎪
+−
+−
+−
++
+−
+−
++
+<
+≤
+⎢
+⎥
+⎜
+⎟
+⎜
+⎟
+⎜
+⎟
+⎪
+⎝
+⎠
+⎝
+⎠
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+⎩
+ 
+(
+)
+(
+)
+(
+)
+(
+)
+(
+)
+(
+)
+(
+)
+2
+3
+3
+1
+2
+1
+1
+1
+1
+1
+2
+3
+2
+3
+2
+2
+2
+2
+2
+2
+2
+, ( )
+2
+cos
+, 0
+2
+6
+2
+2
+2
+( ),
+2
+2
+cos
+(
+2
+6
+2
+2
+2
+2
+peak
+J
+J
+J
+max
+peak
+J
+J
+max
+J
+Position x t
+J
+t
+t
+t
+t
+t
+t
+t
+t
+A
+t
+t
+V t
+t
+x t
+t
+t
+t
+J
+t
+t
+t
+t
+A
+t
+t
+t
+t
+t
+t
+V
+t
+t
+x
+t
+π
+π
+π
+π
+π
+π
+π
+π
+=
+⎡
+⎤
+⎛
+⎞
+⎛
+⎞
+⎛
+⎞
+−
+−
++
+≤≤
+⎢
+⎥
+⎜
+⎟
+⎜
+⎟
+⎜
+⎟
+⎝
+⎠
+⎝
+⎠
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+−
++
+−
++
+< ≤
+⎡
+⎤
+−
+⎛
+⎞
+⎛
+⎞
+⎛
+⎞
+−
+−
+−
+−
++
++
+−
++
+−
++
+⎢
+⎥
+⎜
+⎟
+⎜
+⎟
+⎜
+⎟
+⎝
+⎠
+⎝
+⎠
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+(
+)
+(
+)
+(
+)
+(
+)
+(
+)
+(
+)
+2
+2
+3
+3
+3
+3
+4
+3
+2
+3
+4
+4
+4
+4
+4
+4
+5
+2
+5
+2
+5
+5
+5
+6
+3
+2
+6
+6
+),
+(
+)
+( ),
+2
+cos
+( ),
+2
+6
+2
+2
+2
+(
+)
+(
+)
+( ),
+2
+2
+6
+2
+2
+peak
+peak
+J
+J
+max
+J
+max
+peak
+J
+J
+t
+t
+t
+t
+V
+t
+t
+x t
+t
+t
+t
+J
+t
+t
+t
+t
+t
+t
+t
+t
+V
+t
+t
+x t
+t
+t
+t
+t
+A
+t
+t
+V t
+t
+x t
+t
+t
+t
+J
+t
+t
+t
+t
+t
+t
+π
+π
+π
+π
+π
+π
+< ≤
+−
++
+< ≤
+⎡
+⎤
+−
+⎛
+⎞
+⎛
+⎞
+⎛
+⎞
+−
+−
+−
+−
+−
++
++
+−
++
+< ≤
+⎢
+⎥
+⎜
+⎟
+⎜
+⎟
+⎜
+⎟
+⎝
+⎠
+⎝
+⎠
+⎢
+⎥
+⎝
+⎠
+⎣
+⎦
+−
+−
++
+−
++
+< ≤
+−
+⎛
+⎞
+⎛
+−
+−
+−
+⎜
+⎟
+⎜
+⎝
+⎠
+⎝
+(
+)
+(
+)
+(
+)
+3
+2
+6
+6
+1
+6
+6
+6
+7
+2
+cos
+( ),
+2
+2
+max
+J
+A
+t
+t
+t
+t
+V t
+t
+x t
+t
+t
+t
+t
+π
+π
+⎧
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪⎨
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎪
+⎡
+⎤
+⎛
+⎞
+⎞
+⎪
+−
++
+−
+−
++
+−
++
+< ≤
+⎢
+⎥
+⎜
+⎟
+⎟
+⎪
+⎠
+⎢
+⎥
+⎝
+⎠
+⎪
+⎣
+⎦
+⎩
+ 
+ International Journal of Advanced Robotic Systems, Vol. 5, No. 1 (2008) 
+ 
+106 
+8. References 
+ 
+Kim, Y. O.; Ha, I. J. (2003), Time-optimal control of a single-
+DOF mechanical system considering actuator dynamics, 
+IEEE Transactions on Control Systems Technology, Volume 
+11,  Issue 6,  Nov. 2003, Page(s): 919- 932. 
+Levin, C. (1994), Motion control gets gradually better, 
+Machine Design, Nov. 7, 1994, pp. 90-94.  
+Lin, F. J.; Shyu, K. K.; Lin, C. H. (2002), Incremental 
+motion 
+control 
+of 
+linear 
+synchronous 
+motor, 
+Aerospace and Electronic Systems, IEEE Transactions on, 
+Volume 38,  Issue 3,  July 2002, Page(s):1011 – 1022. 
+Macfarlane, S.; Croft, E. A. (2003), Jerk-bounded 
+manipulator trajectory planning: design for real-time 
+applications, IEEE Transactions on Robotics and 
+Automation, Volume 19,  Issue 1,  Feb. 2003, 
+Page(s):42 – 52. 
+Meckl, P. H. & Seering, W. P. (1985), Minimizing residual 
+vibration for point-to-point motion, J. of Vib., Acous., 
+streas, and Rel. in Des., vol. 107, Oct. 1985, pp. 378-382. 
+Meckl, P. H.; Arestides, P. B.; and Woods, M. C. (1998), 
+Optimized s-curve motion profiles for minimum 
+residual 
+vibration, 
+Proc. 
+Amer. 
+Contr. 
+Conf., 
+Philadelphia, PA, June 1998, pp. 2627–2631. 
+Roover, D. de (1997), Motion Control of a Wafer Stage, Delft 
+University Press, The Netherlands, 1997. 
+Tsay, D. M.; Lin, C. F. (2005), Asymmetrical inputs for 
+minimizing residual response, IEEE International 
+Conference on Mechatronics 2005, Taipei, Taiwan, July 
+2005, pp. 235- 240. 
+B. Graphical representation of the trigonometric model 
+ 
+ 

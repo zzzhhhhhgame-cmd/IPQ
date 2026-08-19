@@ -1,0 +1,430 @@
+International Journal of Power Electronics and Drive System (IJPEDS) 
+Vol. 11, No. 1, March 2020, pp. 127~134 
+ISSN: 2088-8694, DOI: 10.11591/ijpeds.v11.i1.pp127-134 
+     127 
+ 
+ 
+Journal homepage: http://ijpeds.iaescore.com 
+Design and implementation speed control system of DC Motor 
+based on PID control and Matlab Simulink 
+ 
+ 
+Salman Jasim Hammoodi1, Kareem Sayegh Flayyih2, Ahmed Refaat Hamad3 
+1 Department of Machines Technology, Middle Technical University, Iraq 
+2 Department of Electronic Technology, Southern technical University, Iraq 
+3 Department of Electrical Technology, Middle Technical University, Iraq 
+ 
+ 
+Article Info 
+ 
+ABSTRACT 
+Article history: 
+Received May 9, 2019 
+Revised Jul 22, 2019 
+Accepted Aug 4, 2019 
+ 
+ 
+In this paper, we first write a description of the operation of DC motors 
+taking into account which parameters the speed depends on thereof. The PID 
+(Proportional-Integral-Derivative) controllers are then briefly described, and 
+then applied to the motor speed control already described, that is, as an 
+electronic controller (PID), which is often referred to as a DC motor. The 
+closed loop speed control of a Brush DC motor is developed applying the 
+well-known PID control algorithm. The objective of this work is to designed 
+and simulate a new control system to keep the speed of the DC motor 
+constant before variations of the load (disturbances), automatically 
+depending to the PID controller. The system was designed and 
+implementation by using MATLAB/SIMULINK and DC motor. 
+Keywords: 
+DC Motor 
+MATLAB/SIMULIK 
+PID 
+PWM 
+Speed control 
+This is an open access article under the CC BY-SA license. 
+ 
+Corresponding Author: 
+Salman Hammoodi,  
+Department of Machines Technology, 
+Institute of Technology Baghdad, Middle Technical University, 
+Al-Za’franiya, 10074 Baghdad, Iraq 
+Email: salmanhammoodi66@gmail.com 
+ 
+ 
+1. 
+INTRODUCTION 
+At present, most of the motors in the industry are handled directly from the electrical distribution 
+lines, whether they are DC or AC motors. Because of this, the behaviour of the motor depends on the nature 
+of the load coupled to the axis of the machine [1-5]. In the case of a light load the motor develops a relatively 
+high speed and a low torque because it is the load requirement. On the contrary, if a heavy or difficult to 
+move load is available, the motor will move at a lower speed and deliver more torque as a higher load 
+demands it [4-9]. 
+As can be seen by directly connecting the motor to the AC or DC electrical network, its behaviour is 
+defined and it will remain unchanged for a certain fixed voltage in the power supply line. However, in a large 
+part of the industrial sector, there are processes in which the management of the operating characteristics of 
+said machines is required, which is why parameter control devices such as speed and frequency variations are 
+used. In the case of AC motors, these devices are commonly used and have a relatively low cost, however, 
+when working with DC motors the variable speed drives have an excessively high cost which makes them 
+little accessible to many industries that require its use [6-12]. 
+In this paper to design and implementation speed control system of DC Motor based on PID control 
+and Matlab Simulink, the motor is divided into two main parts the electrical part of the armature and the 
+mechanical part [11, 12]. The armature is modelled as a circuit with resistance R connected in series to a 
+conductor L, a source of voltage V and constant Kb of force against electromotive in the armature. The 
+      
+  
+ 
+       ISSN: 2088-8694 
+ Int J Pow Elec & Dri Syst Vol. 11, No. 1, Mar 2020 :  127 – 134 
+128
+mechanical part of the motor is the rotor which, when in motion, has a moment of inertia J, a Torque T, a 
+viscous friction coefficient b, a position θ and an angular velocity bθ = ω [4,7,10,11-12]. 
+The PID controller is responsible for correcting the error it receives from the difference of the input 
+signal and the output signal of the tachometer, the corrected error enters an amplification stage before 
+entering the plant. In this paper the development of a speed and direction motor for an autonomous race robot 
+is presented. Both controls use the PID control algorithm [13, 15-20]. 
+The paper aims to provide a solution to the difficult access that economic conditions have for these 
+automation technologies, developing an own speed control system for any DC motor that requires it, 
+economically viable and applicable to any type of machine, of easy use and implementation in all types of 
+industrial processes[19-25]. 
+ 
+ 
+2. 
+THE BASICS OF DC MOTORS 
+The history of the development of the construction of electric machines began in 1831 with the 
+discovery of Faraday's law until the middle of the eighth decade of the last century. The DC motors are 
+machines that convert electrical energy into mechanical energy, causing a rotary movement. There were 
+several reasons for the prolonged popularity of dc motors. One was that DC power systems are common even 
+in cars, trucks and airplanes. When a vehicle has a DC power system, it makes sense to use DC motors. DC 
+motors were also applied when wide variations in speed were required. Before the widespread use of 
+electronic power rectifier inverters, dc motors were not matched in speed control applications. Even if there 
+were no dc power source, the solid-state rectifiers and the trimmer circuits were used to create the necessary 
+power; dc motors were used to provide the desired speed control (induction motors with groups of solid-state 
+controllers are now preferred for most speed control applications.) However, there are still applications where 
+DC motors)[6-9]. 
+The dc motors are driven by a dc power source. Unless otherwise specified, it is assumed that the 
+input voltage is constant, since this assumption simplifies the analysis of the motors and the comparison 
+between the different types of them. There are five types of general purpose DC motors: 
+ 
+Independent excitation direct current motor. 
+ 
+Direct current motor in derivation. 
+ 
+Permanent magnet direct current motor. 
+ 
+Direct current motor in series. 
+ 
+Composite direct current motor. 
+The Figure 1 show the full equivalent circuit of the dc motor. The equivalent circuit in Figure 1 is 
+similar to the generator circuit only the current directions are different. The operation equations are, (1) is 
+present the Armature voltage equation [11-12].  
+ 
+ 
+ 
+ 
+Figure 1. Full equivalent circuit of DC motor 
+ 
+ 
+𝑉ௗ௖ൌ𝐸௔௠൅𝐼௔௠𝑅௔൅𝑉௕௥௨௦௛ 
+(1) 
+ 
+The induced motor voltage and motor speed vs angular frequency of the motor is present in (2). The 
+combination is present in (3) and the output power and torque are present in (4). 
+ 
+𝐸௔௠ൌ𝐾௠𝐼௙𝜔 
+ 
+𝜔ൌ2𝜋𝑛௠ 
+(2) 
+𝐾௠𝐼௙𝜔ൌ𝐸௔௠ൌ𝑉ௗ௖െ𝐼௔௠𝑅௠ 
+(3) 
+𝑃௢௨௧ൌ𝐸௔௠𝐼௔௠  
+Int J Pow Elec & Dri Syst 
+ISSN: 2088-8694 
+ 
+ 
+Design and implementation speed control system of DC Motor based on PID ... (Salman Jasim Hammoodi) 
+129
+𝑇ൌ
+௉೚ೠ೟
+ఠൌ𝐾௠𝐼௔௠𝐼௙ 
+(4) 
+ 
+ 
+3. 
+THE EXPLANATION OF PID CONTROLLER SYSTEM 
+3.1. The control systems 
+Automatic control is of vital importance in the world of engineering. In addition to being essential in 
+robotic systems or modern manufacturing processes, among others applications, has become essential in 
+industrial operations such as pressure control, temperature, humidity and viscosity, and flow in the 
+processing industries. Figure 2 shows a generic block diagram of a control system, in the Laplace domain. 
+ 
+ 
+ 
+ 
+Figure 2. The block diagram of a control system 
+ 
+ 
+Typically, the feedback contains a sensor or transducer element that measures a physical parameter, 
+such as speed or temperature, and converts it into a voltage or current. 
+The basic function of a controller is to compare the real value of the output of a plant c(t), with the 
+reference input r(t) (desired value), determine the error e(t), and produce a control signal that will reduce the 
+error to a value close to zero. 
+Figure 3 present the specifications for a control problem are often given in the time domain,  
+and usually include a certain transient response and an error in state stationary, for a specific entry as is 
+usually a step. 
+ 
+ 
+ 
+ 
+Figure 3. The specifications for a control problem 
+ 
+ 
+One way to achieve this is by placing a transfer driver Gc (s), in the control loop, as shown in the 
+Figure 3. The error signal E (s) is the input to the controller, and U (s) is the output of the same and at the 
+same time the input to the plant, and the purpose of the controller is to make the output of the system follow 
+the input. In Figure 4 we observe the different types of response according to the controller that is used. 
+ 
+      
+  
+ 
+       ISSN: 2088-8694 
+ Int J Pow Elec & Dri Syst Vol. 11, No. 1, Mar 2020 :  127 – 134 
+130
+ 
+ 
+Figure 4. Response to the step of a closed-loop feedback system given by: (a) Controller P (b) Controller PD 
+(c) Controller PID 
+ 
+ 
+3.2. The PID controllers method 
+error is changing with respect to time. In this way, the controller can estimate future values of the 
+error signal and compensate accordingly. It should be taken into account that even if the error is constant and 
+the derivative term does not contribute, if it is variant in time this term can be used to reduce the offset called 
+steady-state error. Another problem associated with the PD is that it works like a high-pass filter. Therefore, 
+the PD controller amplifies the high frequency noise, which reduces the stability of the total system. 
+To eliminate the steady state error, an integral term is added. That term it gives the PID controller 
+the ability to remember the past, also allowing an output non-zero for a null entry. So this controller allows to 
+have a status error stationary equal to zero. In return, the integrator adds a pole in the function of closed loop, 
+with which the stability of the system declines. From the above, the PID is an excellent controller. The 
+transfer function is given in (5)[12-18]: 
+ 
+𝐺௖ሺ𝑠ሻൌ𝐾௣൅𝐾ௗ. 𝑆൅
+௄೔
+ௌ 
+(5) 
+ 
+It should be clarified that if a mathematical model of the plant can be deduced, it is possible apply 
+several techniques to determine the controller parameters, which comply with the transient and steady state 
+specifications of the closed loop system. However, if the plant is so complicated that you cannot easily obtain 
+your mathematical model, the analytical design model of the PID controller is possible. Then you have to 
+resort to experimental procedures for the design of this type of controller. The process of select the 
+parameters of the controller so that it meets the specifications of operation is known as tuning or tuning the 
+controller. Ziegler and Nichols suggested rules for tuning PID controllers, that is, setting the values of Kp, 
+Kd and Ki[11,16]. 
+ 
+3.3. Types of PID controllers  
+for PIDs The transfer functions for the different types of PID drivers are[20-25]: 
+a. 
+PID not interacting or ideal form : is present in (6). 
+ 
+𝐺௖ሺ𝑝ሻൌ𝐾௖. ቀ1 ൅
+ଵ
+்೔൅
+ଵା்೏.௣
+ଵାఈ.்೏.௣ቁ 
+(6) 
+ 
+b. 
+Interactive PID or series form : is present in (7). 
+ 
+𝐺௖. ሺ𝑝ሻൌ𝐾௖. ቀ1 ൅
+ଵ
+௄೔.௣ቁ. ቀ
+ଵା்೏
+ଵାఈ.்೏.௣ቁ 
+(7) 
+ 
+c. 
+PID parallel form : is present in (8). 
+ 
+Int J Pow Elec & Dri Syst 
+ISSN: 2088-8694 
+ 
+ 
+Design and implementation speed control system of DC Motor based on PID ... (Salman Jasim Hammoodi) 
+131
+𝐺௖ሺ𝑝ሻൌ𝐾௣൅
+௄೔
+௣൅
+௄೏.௣
+ଵାఈ.்೏.௣ 
+(8) 
+ 
+d. 
+PID industrial form : is present in (9). 
+ 
+𝑢ሺ𝑡ሻൌ𝐾௖. ቀ1 ൅
+ଵ
+்೏.௣ቁ. ቀ𝑟ሺ𝑡ሻെ
+ଵା்೏.௣
+ଵାఈ.்೏.௣. 𝑦ሺ𝑡ሻቁ 
+(9) 
+ 
+ 
+4. 
+SIMULATION RESULTS AND DESCTIONS 
+Figure 5 shows the final MATLAB/SIMULINK speed control circuit separately excited dc motor 
+using chopper transistor circuit. MATLAB/SIMULINK toolbox is used in this paper to model the full 
+system, it consists of DC motor fed by a DC source voltage through a chopper transistor circuit. A single of 
+GTO-1 thyristor with its full control circuit and a free wheeling diode form the chopper circuit. The GTO-1 is 
+a switch modeled. The switch block model has three terminals: the middle terminal is a controls which of the 
+two other terminals is routed to the output. The control input signal is one, DC V is leading to the output 
+voltage, on the other hand, the control input singals is zero, a zero will be leading to the output. 
+ 
+ 
+ 
+ 
+Figure 5. The final simulation circuit of the speed control motor based on PID control 
+ 
+ 
+The DC motor drives system with a mechanical load characterized by inertia (J), friction coefficient 
+(B), and torq of the load (TL). The control circuit of the DC motor system consists of a speed control loop. A 
+proportional-integral-Drivetive (PID) controlled the speed of the control loop senses the actual speed of the 
+DC motor, and compares the mesurring speed with the reference speed (constant value) to determine the 
+reference armature current will be required by the DC motor. One may notice that any difference in actual 
+speed is a measure of the current of the motor required by the engine. 
+The simulation results of the full system are present on Figure 6 to Figure 9. Figure 6 present the 
+simulation results of rated speed (wr) related to the reference speed, in this figure we can see the fast 
+response of the PID control system of the system.  
+ 
+      
+  
+ 
+       ISSN: 2088-8694 
+ Int J Pow Elec & Dri Syst Vol. 11, No. 1, Mar 2020 :  127 – 134 
+132
+ 
+ 
+Figure 6. Simulation results of rated speed (wr) related to the reference speed 
+ 
+ 
+The load torque (TL) in Figure 7 and the armature current (A) of the DC motoe is presented in the 
+Figure 8 of the DC motor is presented the same fast response of the PID control system. Finaly the PWM 
+signals of the thyristor (GTO-1) is presented in the Figure 9.  
+ 
+Note: The parameter of the PID are (P=4, I=0.01 and D=0.5. 
+ 
+ 
+ 
+ 
+Figure 7. The load torque (TL) of the DC motoe 
+Int J Pow Elec & Dri Syst 
+ISSN: 2088-8694 
+ 
+ 
+Design and implementation speed control system of DC Motor based on PID ... (Salman Jasim Hammoodi) 
+133
+ 
+ 
+Figure 8. The armature current (A) of the DC motoe 
+ 
+ 
+ 
+ 
+Figure 9. The PWM signals of the thyristor (GTO-1) 
+ 
+ 
+5. 
+CONCLUSION 
+The first point discussed in this work was the description of the operation of a DC motor, where the 
+different aspects related to its operation were analysed, and the parameters that influence the speed control of 
+them. Then, made the operation of the PID controllers system, and their application to the control of the 
+speed of a DC motor. It is important to consider here that the effect on the dynamic behaviour of a control 
+loop is directly related to the type of controller used, PID in our specific case, and its operation, either as a 
+servomechanism or as a regulatory system. But it must also be taken into account that the equations used by 
+the manufacturers to carry out their PID controllers are not all the same. 
+The differences that exist between the equations used by the manufacturers to represent the PID 
+algorithm in their loop controllers, direct digital control programs and other equipment, make it indispensable 
+to know in order to be able to calculate the required parameters thereof in an appropriate manner and achieve 
+the desired dynamic behaviour of the control loop. The foregoing is fundamentally important when replacing 
+one controller with another, especially if the new one is from another manufacturer. 
+The results that have been presented and the methodology that has been proposed represent an 
+important contribution in the field of experimental modelling of systems for obtaining models of the 
+dynamics of unknown systems. 
+      
+  
+ 
+       ISSN: 2088-8694 
+ Int J Pow Elec & Dri Syst Vol. 11, No. 1, Mar 2020 :  127 – 134 
+134
+REFERENCES 
+[1] 
+A. J. Humaidi and I. Kasim Ibraheem, “Speed Control of Permanent Magnet DC Motor with Friction and 
+Measurement Noise Using Novel Nonlinear Extended State Observer-Based Anti-Disturbance Control,” Energies, 
+vol. 12, no. 9, p. 1651, 2019. 
+[2] 
+X. Yao, J. Zhao, G. Lu, H. Lin, and J. Wang, “Commutation Error Compensation Strategy for Sensorless Brushless 
+DC Motors,” Energies, vol. 12, no. 2, p. 203, 2019. 
+[3] 
+J. Hong, S. Wang, Y. Sun, and H. Cao, “An effective method with copper ring for vibration reduction in permanent 
+magnet brush DC motors,” IEEE Trans. Magn., vol. 54, no. 11, pp. 1–5, 2018. 
+[4] 
+L. Li and D. Jia, “Research on Air conditioning system of subway station based on fuzzy PID control,” Proc. - 
+2017 4th Int. Conf. Inf. Sci. Control Eng. ICISCE 2017, pp. 1131–1134, 2017. 
+[5] 
+E. Guerrero, J. Linares, E. Guzmán, H. Sira, G. Guerrero, and A. Martínez, “DC Motor Speed Control through 
+Parallel DC/DC Buck Converters,” IEEE Lat. Am. Trans., vol. 15, no. 5, 2017. 
+[6] 
+P. Alaeinovin and J. Jatskevich, “Filtering of hall-sensor signals for improved operation of brushless DC motors,” 
+IEEE Trans. Energy Convers., vol. 27, no. 2, pp. 547–549, 2012. 
+[7] 
+X. Changbo, L. Congcong, B. Zhenfu, and Z. Chengjin, “PID self-tuning immune fuzzy control of steam 
+temperature control system in fossil-fired power plant,” Proc. World Congr. Intell. Control Autom., vol. 1,  
+pp. 3973–3977, 2006. 
+[8] 
+N. Kasa and H. Watanabe, “A mechanical sensorless control system for salient-pole brushless DC motor with 
+autocalibration of estimated position angles,” IEEE Trans. Ind. Electron., vol. 47, no. 2, pp. 389–395, 2000. 
+[9] 
+Y. Mandel and G. Weiss, “Reduction of torque ripple in brushless DC motor drives,” IFAC Proc., vol. 6, no. 1,  
+pp. 84–89, 2009. 
+[10] I. Alhamrouni, M. A. Hairullah, N. S. Omar, M. Salem, A. Jusoh, and T. Sutikno, “Modelling and design of PID 
+controller for voltage control of AC hybrid micro-grid,” International Journal of Power Electronics and Drive 
+System (IJPEDS), vol. 10, no. 1, pp. 151–159, 2019. 
+[11] M. A. Ibrahim, A. K. Mahmood, and N. S. Sultan, “Optimal PID controller of a brushless DC motor using  
+genetic algorithm,” International Journal of Power Electronics and Drive System (IJPEDS), vol. 10, no. 2,  
+pp. 822–830, 2019. 
+[12] N. N. Baharudin and S. M. Ayob, “Brushless DC motor speed control using single input fuzzy PI controller,” 
+International Journal of Power Electronics and Drive System (IJPEDS), vol. 9, no. 4, pp. 1952–1966, 2018. 
+[13] Y. Tarmizi, A. Jidin, K. A. Karim, and T. Sutikno, “A simple constant switching frequency of direct torque control 
+of brushless DC motor,” International Journal of Power Electronics and Drive System (IJPEDS), vol. 10, no. 1,  
+pp. 10–18, 2019. 
+[14] M. Dasari, A. Srinivasula Reddy, and M. Vijaya Kumar, “GA-ANFIS PID compensated model reference adaptive 
+control for BLDC motor,” International Journal of Power Electronics and Drive System (IJPEDS), vol. 10, no. 1, 
+pp. 265–276, 2019. 
+[15] Mohannad Jabbar Mnati, “Position Control for flexible Joint Maipulator using Artificaial Neutral Network”, 
+University of Technology, Department Of Electrical & Electrionics Engineering, Baghdad, Iraq, 2005. 
+[16] P. Bhaskara Prasad, M. Padma Lalitha, and B. Sarvesh, “Fractional order PID controlled cascaded re-boost seven 
+level inverter fed induction motor system with enhanced response,” International Journal of Power Electronics and 
+Drive System (IJPEDS), vol. 9, no. 4, pp. 1784–1791, 2018. 
+[17] R. Meena Devi and L. Premalatha, “Soft computing technique of bridgeless SEPIC converter for PMBLDC motor 
+drive,” International Journal of Power Electronics and Drive System (IJPEDS), vol. 9, no. 4, pp. 1503–1509, 2018. 
+[18] A. Rincón, F. Angulo, and F. Hoyos, “Controlling a DC Motor through Lypaunov-like Functions and SAB 
+Technique,” International Journal of Electrical and Computer Engineering (IJECE), vol. 8, no. 4, p. 2180, 2019. 
+[19] M. J. Mnati, D. V. Bozalakov, and A. Van den Bossche, “PID Control of a Three Phase Photovoltaic Inverter Tied 
+to a Grid Based on a 120-Degree Bus Clamp PWM,” IFAC-PapersOnLine, vol. 51, no. 4, pp. 388–393, 2018.  
+[20] A. Faruq, M. F. N. Shah, and S. S. Abdullah, “Multi-objective optimization of PID controller using pareto-based 
+surrogate modeling algorithm for MIMO evaporator system,” International Journal of Electrical and Computer 
+Engineering (IJECE), vol. 8, no. 1, pp. 556–565, 2018. 
+[21] A. Prayitno, V. Indrawati, and I. I. Trusulaw, “Fuzzy gain scheduling PID control for position of the AR. Drone,” 
+International Journal of Electrical and Computer Engineering (IJECE), vol. 8, no. 4, pp. 1939–1946, 2018. 
+[22] H. Sun, M. J. Mnati, M. Nabil Ibrahim, and A. Van Den Bossche, “A Tuning Method for the Derivative Filter in 
+PID Controller with Delay Time,” Proc. 2018 9th Int. Conf. Mech. Aerosp. Eng. ICMAE 2018, pp. 574–578, 2018. 
+[23] H. Sun, M. N. Ibrahim, M. Jabbar Mnati, and A. Van Den Bossche, “A Tuning Method for PI Controller for an 
+Integrating System with Time Delay,” Proc. 2018 9th Int. Conf. Mech. Aerosp. Eng. ICMAE 2018, pp. 410–414, 
+2018. 
+[24] M. Yaich and M. Ghariani, “A novel technique for tuning PI-controller in switched reluctance motor drive for 
+transportation systems,” International Journal of Electrical and Computer Engineering (IJECE), vol. 8, no. 6, pp. 
+4272–4281, 2018.  
+[25] M. A. Shamseldin, M. Sallam, A. M. Bassiuny, and A. M. Abdel Ghany, “A novel self-tuning fractional order PID 
+control based on optimal model reference adaptive system,” International Journal of Power Electronics and Drive 
+System (IJPEDS), vol. 10, no. 1, pp. 230–241, 2018.  
+ 

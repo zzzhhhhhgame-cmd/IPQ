@@ -1,0 +1,771 @@
+Optimized S-Curve Motion Profiles for Minimum Residual Vibration
+Peter H. Meckl
+Associate Professor
+Peter B. Arestides
+Matthew C. Woods
+Students
+School of Mechanical Engineering
+Purdue University
+1288 Mechanical Engineering Bldg.
+West Lafayette, IN 47907-1288
+Abstract
+A method for developing optimized point-to-point motion
+profiles to achieve fast motions with minimum vibration is
+presented.  The proposed approach uses the well-known s-
+curve motion profiles, but optimizes the selection of the
+ramp-up (and ramp-down) time.  The selection of ramp-up
+time is based on a frequency analysis that minimizes the
+excitation energy of the input forcing function at the system
+natural frequency.  Simulation results on a lightly-damped
+system undergoing point-to-point motions demonstrate that
+the proposed approach decreases residual vibration by
+almost an order of magnitude over other approaches, even
+when the actual natural frequency is in error by 10%.
+1. Introduction
+The challenge of achieving fast motions without residual
+vibration 
+pervades 
+many 
+modern 
+manufacturing
+applications.  It is well known that simple trapezoidal
+velocity profiles, in which the machine is accelerated to a
+constant velocity at a constant acceleration and decelerated
+to rest at a constant deceleration, can achieve fast motions.
+However, since most real systems exhibit some compliance,
+these reference profiles tend to excite vibrations that require
+time to dissipate for the final position to be reached with
+desired precision.  As a result, s-curve velocity profiles have
+been proposed to reduce the tendency to excite system
+vibration [1,2].  In these profiles, the trajectory ramps up to
+peak acceleration and ramps down to constant velocity,
+thereby producing an s-shaped velocity profile.  Depending
+on the duration of this ramp-up time, the resulting motion
+can be both fast and precise.  However, to date, no
+systematic method for optimally tuning this parameter has
+been presented.  This paper will extend earlier work [3,4,5]
+on shaping the frequency content of the input commands to
+optimally select the ramp-up time for s-curve velocity
+profiles.  Both rest-to-velocity and rest-to-rest simulation
+results for a lightly-damped system will be provided.
+Typical motion profiles for trapezoidal and s-curve
+velocities are shown in Fig. 1.  The input is typically a force
+or torque command.  Notice that the trapezoidal velocity
+profiles exhibit large spikes in jerk, whereas the s-curve
+profiles exhibit finite jerk spread out over a period of time.
+It is primarily this quality that contributes to lower vibration
+for the s-curve profiles.  However, it can be shown that even
+trapezoidal profiles can achieve vibration-free motion for
+highly flexible systems if the acceleration and deceleration
+periods are properly chosen.  Thus, the ultimate vibration
+performance depends on more than just the presence or
+absence of large spikes in jerk.  In addition, without further
+analysis, it is impossible to determine an optimal selection
+of the ramp-up time (and ramp-down time) for the s-curve
+profiles that will achieve both fast motions and minimum
+residual vibration.
+2. Frequency Analysis
+An undamped two-mass system, with natural frequency
+(
+)
+1
+2
+1
+/
+/
+1
+m
+k
+m
+m
+n
++
+=
+ω
+, shown in Fig. 2, is used to
+develop desired motion profiles.  Although real systems
+exhibit some dissipation, the results presented here apply to
+lightly-damped systems with damping ratio less than 0.1.
+Most real systems have inherent damping ratios on this
+order.  For this analysis, only the acceleration to peak
+velocity will be investigated.  By properly constructing the
+acceleration profile, the system will reach peak velocity
+with minimal vibration.  It will then coast at peak velocity.
+The same waveform with negative force can be utilized to
+decelerate the system to rest, thereby achieving a similar
+suppression of residual vibration once the system comes to
+rest.
+The forcing function inputs needed to generate the
+acceleration portion of the trapezoidal and s-curve velocity
+profiles are shown in Fig. 3, along with their corresponding
+parameters.  By symmetry, the ramp-down time to reach
+0-7803-4530-4/98 $10.00 © 1998 AACC
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+(a) Trapezoidal Input
+(b) S-Curve Input
+Fig. 1  Comparison of Trapezoidal and S-Curve Velocity Profiles
+Fig. 2 System Model
+constant velocity has the same duration as ta, the ramp-up
+time.  Note also that when ta = 0, the input for an s-curve
+profile matches the rectangular pulse input for the
+trapezoidal profile.  In fact, the total time tsp to achieve peak
+velocity with the s-curve profile can be related to the total
+time tr for the rectangular pulse as follows:
+*
+1
+a
+r
+sp
+t
+t
+t
+−
+=
+(1)
+where 
+sp
+a
+a
+t
+t
+t
+/
+* =
+.  The rectangular pulse time tr is related
+to the peak force Fmax, total mass mtotal, and peak velocity vp
+as follows:
+max
+p
+total
+r
+F
+v
+m
+t =
+(2)
+The acceleration amplitude when the peak velocity is
+reached and the input is turned off is used as a measure of
+residual vibration.  This vibration amplitude can be related
+to the frequency content of the forcing function input that is
+used to accelerate the system [5].  For the s-curve force
+input, this relationship is given by:
+(
+)
+(
+)
+(
+)
+*
+a
+*
+a
+r
+n
+t
+/
+t
+j
+t
+j
+t
+/
+t
+t
+j
+*
+t
+/
+t
+t
+e
+e
+e
+a
+*
+a
+r
+n
+r
+n
+*
+a
+*
+a
+r
+n
+−
+−
+−
++
+=
+−
+−
+−
+−
+−
+1
+1
+1
+1
+ω
+ω
+ω
+ω
+(3)
+where 
+the 
+dimensionless 
+acceleration 
+amplitude
+max
+total
+*
+F
+/
+am
+a =
+, mtotal is the total inertia being moved
+and Fmax is the peak force used for acceleration.  As this
+expression makes clear, the residual vibration amplitude is a
+strong function of the dimensionless ramp-up time ta
+*. The
+parameter ωntr / 2π, hereafter referred to as the dimension-
+less response time,  represents the total number of periods
+of oscillation that occur within the rectangular pulse
+duration tr.  As such, it reflects the combined effects of
+system flexibility (ωn) relative to the speed of response tr.
+Systems having more compliance and faster move times will
+tend to have smaller values of ωntr / 2π.
+Fig. 4 shows dimensionless residual acceleration amplitudes
+a* (expressed in decibels) for the undamped two-mass
+Position
+Acceleration
+Input
+Velocity
+Jerk
+Time
+Time
+m1
+m2
+k
+x1
+x2
+F
+0
+Time
+Force
+Fmax
+tr
+Fig. 3(a)  Force input to generate acceleration portion of
+trapezoidal velocity profile
+0
+Time
+Force
+Fmax
+  ta
+  tsp
+Fig. 3(b)  Force input to generate acceleration portion of s-
+curve velocity profile
+system as function of ta
+* for several values of ωntr / 2π .  Of
+particular interest are the dips in acceleration amplitude that
+occur at several values of ta
+*.  The dip corresponding to the
+smallest value of ta
+* minimizes residual acceleration while
+providing the fastest response relative to the dips having
+higher values of ta
+*.  Notice that the value of ta
+* which
+minimizes response time becomes smaller as the value of
+ωntr / 2π increases.  Also, the number of dips in the
+acceleration amplitude plot increases for increasing values
+of ωntr / 2π .
+As a careful look at the relationship in eq. (3) shows, the
+acceleration amplitude is identically zero when ωntr / 2π
+takes on integer values and ta
+* = 0.  This implies that a
+conventional rectangular force input suffices for integer
+values of ωntr / 2π.  However, when the actual value of
+ωntr / 2π changes even slightly away from an integer value
+(as is shown with ωntr / 2π = 2.01 in the second plot of Fig.
+4), a value of ta
+* = 0 generates significant acceleration.
+Thus, for robustness to uncertainty in natural frequency, the
+value of ta
+* chosen for integer values of ωntr / 2π corresponds
+to the next dip in the acceleration amplitude curve (a ta
+*
+value of 0.332 for ωntr / 2π  = 2).
+3. Development of Optimized S-Curve Profiles
+If the minimum value of ta
+* that generates a dip in residual
+vibration (as shown in Fig. 4) is found for each value of
+ωntr / 2π, the plot of Fig. 5 results.  Note that smaller values
+of ta
+* are suggested for higher values of ωntr / 2π.
+The values of ta
+* given in Fig. 5 will reduce both response
+time and residual vibration.  For this reason, they have been
+called “optimal.”  In practice, many control engineers have
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+-100
+-50
+0
+a* (dB)
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+-100
+-50
+0
+a* (dB)
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+-100
+-50
+0
+ a* (dB)
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+-100
+-50
+0
+ a* (dB)
+Dimensionless ramp-up time ta*
+ωntr /2π = 1.4
+ωntr /2π = 2.01
+ωntr /2π = 2.2
+ωntr /2π = 3.4
+Fig. 4  Variation of a* with ta
+* for various Zntr / 2π values
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+0
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+0.35
+0.4
+0.45
+0.5
+Dimensionless ramp-up time  ta*
+Dimensionless response time ωntr /2π
+Fig. 5  Optimal ta* values as function of ωntr / 2π
+used a “Rule of Thumb” that suggests picking ta
+* = 1/6 [1].
+To compare these cases, residual acceleration amplitudes
+have been computed for various values of the parameter
+ωntr / 2π. The results are given in Fig. 6 (with residual
+acceleration amplitude again expressed in decibels).  Three
+different forcing function inputs are compared for the
+undamped system of Fig. 2; using rectangular pulse inputs
+with ta
+* = 0 that generate trapezoidal velocity profiles, using
+s-curve profiles with ta
+* = 1/6, and using s-curve profiles
+with optimal ta
+* values chosen as a function of ωntr / 2π
+based on Fig. 5.  Notice that even the simple s-curve input
+using ta
+* = 1/6 improves upon the rectangular pulse input for
+most cases.  The “optimal” selection of ta
+* gives the lowest
+residual vibration over the entire range of ωntr / 2π values,
+with significant improvement over the other approaches.
+The “noisiness” of the data is a result of numerical precision
+in correctly determining the true minimizing value of ta
+*.
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+-100
+-90
+-80
+-70
+-60
+-50
+-40
+-30
+-20
+-10
+0
+10
+Comparison of Ideal Responses for Different Input Shapes
+Dimensionless response time ωntr /2π
+Dimensionless acceleration a* (dB)
+Trapezoid
+S-Curve
+Optimal S
+Fig. 6 Comparison of dimensionless residual vibration
+amplitude for different inputs for an ideal undamped system
+having a single vibrating mode
+The results in Fig. 6 look promising, but these assume that
+the system parameters, in particular the natural frequency,
+are known precisely.  Since the method for picking ramp-up
+time ta
+* relies on finding the true minimum residual
+acceleration, the results of Fig. 4 suggest that this minimum
+is very narrow.  Thus, a small change in system parameter
+may well cause large residual acceleration.  To check this,
+the comparison plot of Fig. 6 was rerun, again for the
+undamped system, but this time, the actual natural
+frequency was assumed to be 10% higher than the natural
+frequency for which the optimized s-curve profiles were
+created.  The results for the same three input functions (with
+ta
+* = 0, ta
+* = 1/6, and optimal ta
+*) are shown in Fig. 7.
+Although the residual accelerations for the optimized s-
+curve inputs are larger than for the ideal case in Fig. 6, they
+are still significantly lower than for either the trapezoidal
+input or the s-curve input with ta
+* = 1/6.  In fact, the most
+significant improvement results at low values of ωntr / 2π,
+which represent systems that have a low natural frequency
+or require extremely fast motions, a regime that is usually
+the most difficult for achieving vibration-free motions.  The
+optimized s-curve profiles represent a viable strategy for
+achieving these fast motions.
+4. Point-to-Point Simulations
+Since the focus of this investigation is to achieve vibration-
+free point-to-point motions, the previous optimized s-curve
+acceleration profiles must be incorporated into a total
+motion profile that accelerates, coasts, and decelerates, as
+shown in Fig. 1.  Since the same forces as were used for
+acceleration are used to decelerate the system, the total time
+spent in decelerating from the peak velocity is the same as
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+-100
+-90
+-80
+-70
+-60
+-50
+-40
+-30
+-20
+-10
+0
+10
+Residual Acceleration with 10% Uncertainty in Natural Frequency ωn
+Dimensionless response time ωntr /2π
+Dimensionless acceleration a* (dB)
+Trapezoid
+S-Curve
+Optimal S
+Fig. 7 Comparison of dimensionless residual vibration
+amplitude for different inputs for an undamped system with
+an actual natural frequency 10% higher than nominal.
+that spent to accelerate.  The only additional parameter is
+the duration of time spent coasting at peak velocity.  In
+keeping 
+with 
+previous 
+practice, 
+this 
+time 
+is
+nondimensionalized as ωntd / 2π, that is, it represents the
+number of oscillation periods during the time td.  Obviously,
+the total duration of the input forcing function will depend
+on the desired point-to-point displacement yf.  The duration
+of coast time is related to this displacement as follows:
+max
+p
+total
+p
+f
+r
+p
+f
+d
+F
+v
+m
+v
+y
+t
+v
+y
+t
+−
+=
+−
+=
+(4)
+Note that the relationship between final displacement yf and
+peak velocity vp determines whether there will be any
+constant velocity coasting phase.  For short displacements
+and high peak velocities, the above calculation for td would
+become negative, thus suggesting that the velocity profile is
+triangular, that is, the system must decelerate even before it
+reaches peak velocity.  In that case, the peak velocity must
+be reduced until td just approaches zero, and that reduced
+value of peak velocity must then be used to determine tr and
+the corresponding optimized force profile.
+A series of simulations have been performed to evaluate the
+residual acceleration amplitudes for the same three input
+functions as before, but this time generating a total point-to-
+point motion.  The same two-mass system as shown in Fig.
+2 was used but this time a small amount of damping
+(damping ratio ζ of 0.05) was added.  The transfer function
+relating x2 to F is given by:
+( )
+( )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
++
+
+
+
+
+
+
++
+
+
+
+
+
+
++
+
+
+
+
+
+
+=
+2
+2
+2
+2
+2
+2
+2
+n
+a
+n
+a
+n
+a
+n
+a
+s
+s
+s
+s
+s
+F
+s
+X
+ω
+ω
+ω
+ω
+ς
+ω
+ω
+ω
+ω
+ς
+          (5)
+where ωa is the actual natural frequency, ωn is the nominal
+natural frequency, and s is normalized by ωn.  The
+simulations capture the effect of damping as well as the
+effect of the vibration remaining at the end of the coast
+phase on the residual vibration at the end of the move, when
+the final nominal position has been reached.  A coast time
+of ωntd /2π = 10 was used for all simulations.
+Figure 8 shows the simulated peak residual acceleration
+amplitudes for the ideal system (when ωa = ωn) for the three
+different input profiles (with ta
+* = 0, ta
+* = 1/6, and optimal
+ta
+*).  Notice that even the trapezoidal input generates
+acceleration amplitudes that diminish with higher values of
+ωntr /2π.  This is understandable, since higher values of
+ωntr /2π imply that more cycles of oscillation take place
+within the duration of the motion.  Thus, more periods of
+natural dissipation from damping are available to diminish
+the residual acceleration amplitudes.  The simulations once
+again demonstrate the value of using the optimized s-curve
+profiles to generate motion.  These inputs consistently result
+in lower values of residual acceleration than the other two
+input profiles.
+Whereas the results of Fig. 8 were generated using an ideal
+system model, another series of simulations were performed
+with the simulated natural frequency a full 10% higher than
+the nominal natural frequency for which the optimized input
+profiles were generated (i.e., ωa = 1.1 ωn).  These results are
+shown in Fig. 9, again for all three input profiles.  Although
+the residual acceleration amplitudes for the optimized inputs
+are higher than for the ideal case of Fig. 8, they are still
+significantly lower than the amplitudes for the other two
+inputs for a major portion of the range of ωntr /2π values.
+The improvement is on the order of 20 dB at small values of
+ωntr/2π, where system natural frequency is low and response
+time is fast.
+5. Conclusions
+Motion control using the so-called s-curve velocity profile
+has become a popular approach to achieving fast motions
+with reduced residual vibration.  However, the ramp-up
+time to reach peak acceleration for these forcing profiles has
+never been optimized to take full advantage of the
+vibration-reducing capability of this forcing function.  This
+paper provides a method based on the frequency content of
+the forcing function to select this ramp-up time so that both
+response time and residual vibration amplitude are
+minimized.  Open-loop simulations for a lightly-damped
+system confirm that these optimized input profiles can
+achieve superior performance, even when the actual system
+natural frequency differs by 10 % from the frequency for
+which the inputs were computed.  Vibration reduction of
+almost an order of magnitude is possible, relative to non-
+optimized inputs.  This improvement is most pronounced
+for systems having low natural frequencies and requiring
+fast motions.
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+-100
+-90
+-80
+-70
+-60
+-50
+-40
+-30
+-20
+-10
+0
+10
+Ideal Simulation Response for ωntd /2π = 10
+Dimensionless response time ωntr /2π
+Dimensionless acceleration a* (dB)
+Trapezoid
+S-Curve
+Optimal S
+Fig. 8 Simulation results showing peak residual vibration
+amplitude for a lightly-damped system with ideal natural
+frequency using three different input profiles.
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+-100
+-90
+-80
+-70
+-60
+-50
+-40
+-30
+-20
+-10
+0
+10
+Actual Simulation Response for ωntd /2π = 10
+Dimensionless response time ωntr /2π
+Dimensionless acceleration a* (dB)
+Trapezoid
+S-Curve
+Optimal S
+Fig. 9 Simulation results showing peak residual vibration
+amplitude for a lightly-damped system with natural
+frequency that is 10% higher than nominal.
+References
+[1] C. Lewin, “Motion control gets gradually better,”
+Machine Design, Nov. 7, 1994, pp. 90-94.
+[2] D. de Roover, Motion Control of a Wafer Stage, Delft
+University Press, The Netherlands, 1997.
+[3] P. H. Meckl and W. P. Seering, “Minimizing Residual
+Vibration for Point-to-Point Motion,” J. of Vib., Acous.,
+Stress, and Rel. in Des., Vol. 107, Oct. 1985, pp. 378-382.
+[4] P.H. Meckl and W.P. Seering, “Experimental Evaluation
+of Shaped Inputs to Reduce Vibration for a Cartesian
+Robot,” J. of Dyn. Syst., Meas., and Control, Vol. 112, No.
+2, June 1990, pp. 159-165.
+[5] P.H. Meckl and R. Kinceler, “Robust Motion Control of
+Flexible Systems Using Feedforward Forcing Functions,”
+Trans. Cont. Syst. Tech., Vol. 2, Sept. 1994, pp. 245-254.

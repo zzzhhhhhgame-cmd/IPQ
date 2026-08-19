@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPQ · 逐线接线清单 v3（DRV8833 · 2S · 定压版）</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#2a3441;
+    --txt:#e6edf3; --dim:#8b98a9; --accent:#58a6ff; --accent2:#3fb950;
+    --warn:#d29922; --danger:#f85149; --mentor:#bc8cff;
+    --mono:'SF Mono','Consolas','Courier New',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    line-height:1.6;padding:24px;font-size:14px;max-width:1100px;margin:0 auto;
+  }
+  header{
+    background:linear-gradient(135deg,#161b22 0%,#1c2330 100%);
+    border:1px solid var(--border);border-radius:12px;padding:26px;margin-bottom:18px;
+  }
+  header h1{font-size:21px;font-weight:600}
+  header h1 .tag{
+    font-family:var(--mono);font-size:11px;color:var(--accent2);
+    border:1px solid var(--accent2);padding:2px 8px;border-radius:4px;margin-left:10px;font-weight:400;
+  }
+  header .sub{color:var(--dim);font-size:13px;margin-top:8px}
+  header .meta{display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--dim)}
+  header .meta b{color:var(--txt)}
+  .toolbar{
+    background:var(--panel);border:1px solid var(--border);border-radius:10px;
+    padding:14px 18px;margin-bottom:18px;display:flex;gap:20px;align-items:center;
+    justify-content:space-between;flex-wrap:wrap;position:sticky;top:10px;z-index:10;
+  }
+  .stat{font-family:var(--mono);font-size:13px;color:var(--dim)}
+  .stat b{color:var(--accent2);font-size:18px;margin:0 4px}
+  .progress-wrap{flex:1;min-width:180px;max-width:340px;height:8px;background:#0d1117;border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+  .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#3fb950,#58a6ff);transition:width .3s}
+  .btn{
+    background:transparent;color:var(--accent);border:1px solid var(--accent);
+    padding:7px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:12px;
+  }
+  .btn:hover{background:var(--accent);color:#0d1117}
+  .callout{border-radius:8px;padding:12px 16px;margin:12px 0;font-size:13px;border-left:3px solid;background:var(--panel)}
+  .callout.crit{border-color:var(--danger);background:rgba(248,81,73,.08);color:#ffb4b0}
+  .callout.warn{border-color:var(--warn);background:rgba(210,153,34,.08);color:#ffdf80}
+  .callout.ok{border-color:var(--accent2);background:rgba(63,185,80,.08);color:#7ee29a}
+  .callout.info{border-color:var(--accent);background:rgba(88,166,255,.08);color:#9ecbff}
+  .callout b{color:var(--txt)}
+  table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:14px 0}
+  thead{background:var(--panel2)}
+  th{
+    text-align:left;padding:10px 12px;font-size:11px;font-weight:600;color:var(--dim);
+    text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);white-space:nowrap;
+  }
+  td{padding:10px 12px;border-bottom:1px solid #22272e;font-size:13px;vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#1c2330}
+  tr.group td{
+    background:#0d1117;color:var(--accent);font-weight:700;font-size:12px;
+    letter-spacing:.5px;padding:11px 12px;border-top:2px solid var(--border);
+  }
+  tr.group td span.cnt{color:var(--dim);font-weight:400;font-family:var(--mono);font-size:11px;float:right}
+  .wno{font-family:var(--mono);color:var(--dim);font-size:12px;text-align:center}
+  .mod{font-weight:600}
+  .prt{font-family:var(--mono);color:var(--accent);font-weight:600}
+  .prt.gnd{color:#f8516a}
+  .prt.pwr{color:#ff8c42}
+  .prt.sig{color:#3fb950}
+  .arrowc{color:var(--dim);text-align:center;font-family:var(--mono)}
+  .clr{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1px solid rgba(255,255,255,.25)}
+  .note{color:var(--dim);font-size:12px}
+  .note .hot{color:var(--warn)}
+  .chk{width:17px;height:17px;accent-color:var(--accent2);cursor:pointer}
+  tr.done td:not(:first-child){opacity:.45}
+  tr.done .wno{opacity:1;color:var(--accent2)}
+  .legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:10px 0}
+  .legend .lg{background:#0d1117;border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:12px}
+  section{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:18px}
+  section h2{font-size:16px;margin-bottom:4px}
+  section .desc{color:var(--dim);font-size:13px;margin-bottom:10px}
+  .checklist{list-style:none;padding:0}
+  .checklist li{padding:7px 0 7px 26px;position:relative;font-size:13px;border-bottom:1px solid #22272e}
+  .checklist li:last-child{border-bottom:none}
+  .checklist li::before{content:'☐';position:absolute;left:2px;color:var(--accent)}
+  .checklist .crit{color:var(--danger)}
+  footer{text-align:center;color:var(--dim);font-size:12px;margin-top:20px;padding:16px;border-top:1px solid var(--border);font-family:var(--mono)}
+  @media print{
+    body{background:#fff;color:#000;padding:0}
+    header,.toolbar,section,table{background:#fff;border-color:#ccc}
+    .chk{display:none}
+    td,tr:hover{background:#fff!important}
+    .progress-wrap{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IPQ 移动机器人 · 逐线接线清单<span class="tag">共 42 根 · 接一根勾一根</span></h1>
+  <div class="sub">ESP32 DevKit V1 · DRV8833 · JGB37-520B×2 · INA226 · MPU6050 · microSD · MP1584 定压 5V · 2×18650 (7.4V)</div>
+  <div class="meta">
+    <span>版本 <b>v3.3</b></span>
+    <span>日期 <b>2026-08-17</b></span>
+    <span>已核对 <b>DRV8833 厂家资料</b></span>
+    <span>电源 <b>2S 7.4–8.4V · 定压 MP1584</b></span>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="stat">已接线<b id="done">0</b>/ 42</div>
+  <div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+  <button class="btn" id="btn-reset">↺ 重置全部</button>
+</div>
+
+<section>
+  <h2>⚠ 接线前的四个关键说明</h2>
+
+  <div class="callout crit"><b>① 电池线「一分为二」怎么做到？</b><br>
+  电池的 (+) 要同时供给 <b>INA226 VIN+</b> 和 <b>MP1584 IN+</b>；(−) 要同时供给 <b>DRV8833 GND</b> 和 <b>MP1584 IN−</b>。物理实现二选一：<br>
+  <b>方式 A（推荐）：</b>把两根线的铜端并排<b>一起压进同一个螺丝端子</b>——电池(+)和去 MP1584 的红线同压 INA226 的 VIN+ 端子；电池(−)和去 MP1584 的黑线同压 DRV8833 的 GND 端子。逻辑电流不会流过 INA226 分流电阻，测量仍然只含电机 ✅<br>
+  <b>方式 B：</b>在电池引线上焊接 Y 形分头，热缩管/胶带绝缘。<br>
+  <span style="color:var(--dim)">❌ 不许把 7.4V 动力电放上面包板轨道；❌ 电机电流路径（线 1/2/3/27–30）不经过面包板。</span></div>
+
+  <div class="callout warn"><b>② microSD 模块的 VCC 电压（线 15）先看板子再接：</b><br>
+  板上有 <b>AMS1117 稳压器芯片 + 电平转换芯片</b> → VCC 接 <b>5V</b>（从 MP1584 OUT+ 引一根，不占红轨）；<br>
+  板上<b>没有</b>稳压器、直通 3.3V → VCC 接<b>面包板红轨 (3.3V)</b>。<br>
+  接错电压轻则不读卡，重则烧卡。</div>
+
+  <div class="callout info"><b>③ 面包板两轨定义：</b><br>
+  红轨 ⊕ = <b>ESP32 输出的 3.3V</b>（源头是 ESP32 的 3V3 引脚，即线 8）<br>
+  蓝轨 ⊖ = <b>GND 汇流</b>（源头是 ESP32 的 GND 引脚，即线 9）<br>
+  ⚠ 先用万用表确认你的面包板轨道<b>中段没有断开</b>（红轨首尾孔量通断），断了就拿线桥接。</div>
+
+  <div class="callout crit"><b>④ GPIO 12 与 GPIO 0 禁用（启动 strapping 脚）：</b><br>
+  GPIO 12（丝印 D12）在开机瞬间若是高电平，ESP32 会把 flash 电压切到 1.8V → <b>反复重启、进不了系统</b>。CS 平时就是高电平，接 12 必定无法开机；SD 模块其它线（带上拉）同样会踩雷。GPIO 0 则影响烧录模式，也不要占用。<br>
+  → 因此 CS 从 GPIO 13 改到 <b>GPIO 27</b>（13 本身安全，但它的插孔紧挨着 D12，容易数错一格误插）。</div>
+</section>
+
+<section>
+  <h2>🎨 线色约定（强烈建议遵守）</h2>
+  <div class="desc">颜色统一，排查问题时能省一半时间。没条件全遵守时，至少保证：<b>红=正、黑=地</b>。</div>
+  <div class="legend">
+    <div class="lg"><span class="clr" style="background:#e5534b"></span>红 = 电池+ / 3.3V</div>
+    <div class="lg"><span class="clr" style="background:#1f1f23"></span>黑 = GND</div>
+    <div class="lg"><span class="clr" style="background:#e3b341"></span>黄 = 编码器 A 相</div>
+    <div class="lg"><span class="clr" style="background:#3fb950"></span>绿 = 编码器 B 相</div>
+    <div class="lg"><span class="clr" style="background:#58a6ff"></span>蓝 = I²C SDA / 左电机</div>
+    <div class="lg"><span class="clr" style="background:#e6edf3"></span>白 = I²C SCL / 右电机</div>
+    <div class="lg"><span class="clr" style="background:#bc8cff"></span>紫 = PWM 调速</div>
+    <div class="lg"><span class="clr" style="background:#ff8c42"></span>橙 = 方向控制</div>
+  </div>
+</section>
+
+<section>
+  <h2>🔌 全部 42 根线 · 端到端清单</h2>
+  <div class="desc">按组排列，组内顺序即推荐施工顺序：先电源轨 → 再信号 → 最后电机动力。勾选状态自动保存在本浏览器。</div>
+
+  <table id="wtab">
+    <thead>
+      <tr>
+        <th style="width:36px">✓</th>
+        <th style="width:40px">#</th>
+        <th style="width:30%">起点（模块 · 端口）</th>
+        <th style="width:18px"></th>
+        <th style="width:30%">终点（模块 · 端口）</th>
+        <th style="width:70px">线色</th>
+        <th>用途 / 备注</th>
+      </tr>
+    </thead>
+    <tbody id="body"></tbody>
+  </table>
+</section>
+
+<section>
+  <h2>✅ 全部接完后的上电快检</h2>
+  <ul class="checklist">
+    <li><span class="crit">万用表蜂鸣档</span>：电池(+) ↔ 各模块 VCC <b>不应</b>短路到 GND（红轨 ↔ 蓝轨应不通）</li>
+    <li>电池电压 ≤ 8.4V（2S 满电）；MP1584 OUT+ 对 GND ≈ 5V（定压版只验证不调）</li>
+    <li>DRV8833：<b>STBY 已接红轨</b>、VM 上量到电池电压（经 INA226）</li>
+    <li>先拔电机线，只上逻辑电：ESP32 跑 I²C 扫描，应出现 <b>0x40</b>（INA226）和 <b>0x68</b>（MPU6050）</li>
+    <li>I²C 通了再接电机：PWM 30% 低速试转，方向不对就对调 AO1/AO2（或 BO1/BO2）</li>
+    <li><span class="hot">烧录程序失败时</span>：拔掉 microSD 模块再烧（GPIO 2 是启动脚，SD 卡会干扰进烧录模式）</li>
+    <li><span class="crit">任何线都不得接 GPIO 12 / GPIO 0</span>（启动脚，接高会无法开机或无法烧录，见说明④）</li>
+  </ul>
+</section>
+
+<footer>IPQ-2026 · 逐线清单 v3.3 · 与 wiring.html (v3.2) 配套 · 2026-08-17</footer>
+
+<script>
+// [组名, [模块, 端口, 模块2, 端口2, 线色css, 线色名, 备注]]
+const WIRES = [
+  ['A · 动力主干（电池 → 电机系统，不上面包板）', [
+    ['2×18650 电池盒','(+) 红线','INA226','VIN+','#e5534b','红','电流入口；方式A下与线4同压一个端子'],
+    ['INA226','VIN−','DRV8833','VM','#e5534b','红','电流出口 → 电机电源；方向不能反'],
+    ['2×18650 电池盒','(−) 黑线','DRV8833','GND','#1f1f23','黑','电机电流回路，走粗线'],
+    ['2×18650 电池盒','(+)（分接）','MP1584','IN+','#e5534b','红','见顶部说明①；定压5V输入'],
+    ['2×18650 电池盒','(−)（分接）','MP1584','IN−','#1f1f23','黑','见顶部说明①；双焊盘任用一个'],
+    ['MP1584','OUT+ (5V)','ESP32','VIN / 5V','#e5534b','红','逻辑主电源；定压版无需调试'],
+    ['MP1584','OUT−','ESP32','GND','#1f1f23','黑','逻辑地（与动力地经 MP1584 内部连通）'],
+  ]],
+  ['B · 面包板电源轨（全系统的 3.3V / GND 分配总线）', [
+    ['ESP32','3V3','面包板','红轨 ⊕ 任意孔','#e5534b','红','红轨=3.3V 总线，只此一根进线'],
+    ['ESP32','GND（另一脚）','面包板','蓝轨 ⊖ 任意孔','#1f1f23','黑','蓝轨=GND 汇流排'],
+  ]],
+  ['C · 3.3V 分发（红轨 → 各模块 VCC）', [
+    ['面包板','红轨 ⊕','DRV8833','STBY','#e5534b','红','⭐ 必接！厂家：悬空/接地芯片不工作'],
+    ['面包板','红轨 ⊕','左电机编码器','VCC','#e5534b','红','编码器必须 3.3V 供电（匹配 ESP32 电平）'],
+    ['面包板','红轨 ⊕','右电机编码器','VCC','#e5534b','红','同上'],
+    ['面包板','红轨 ⊕','INA226','VCC','#e5534b','红','逻辑供电，不是测量端子'],
+    ['面包板','红轨 ⊕','MPU6050','VCC','#e5534b','红','GY-521 板载上拉，总线无需加上拉'],
+    ['面包板','红轨 ⊕','microSD','VCC','#e5534b','红','⚠ 视板型：有稳压器→改接5V（见说明②）'],
+  ]],
+  ['D · GND 分发（各模块 → 蓝轨）', [
+    ['DRV8833','GND（另一端子）','面包板','蓝轨 ⊖','#1f1f23','黑','推荐：让驱动与逻辑地就近连通'],
+    ['左电机编码器','GND','面包板','蓝轨 ⊖','#1f1f23','黑',''],
+    ['右电机编码器','GND','面包板','蓝轨 ⊖','#1f1f23','黑',''],
+    ['INA226','GND','面包板','蓝轨 ⊖','#1f1f23','黑',''],
+    ['MPU6050','GND','面包板','蓝轨 ⊖','#1f1f23','黑',''],
+    ['MPU6050','AD0','面包板','蓝轨 ⊖','#1f1f23','黑','拉低 → I²C 地址 0x68'],
+    ['microSD','GND','面包板','蓝轨 ⊖','#1f1f23','黑',''],
+  ]],
+  ['E · 电机驱动控制（ESP32 → DRV8833，全部可上面包板）', [
+    ['ESP32','GPIO 23','DRV8833','AIN1','#ff8c42','橙','左电机方向'],
+    ['ESP32','GPIO 19','DRV8833','AIN2','#bc8cff','紫','左电机 PWM 调速（厂家：直接给 IN）'],
+    ['ESP32','GPIO 18','DRV8833','BIN1','#ff8c42','橙','右电机方向'],
+    ['ESP32','GPIO 16','DRV8833','BIN2','#bc8cff','紫','右电机 PWM 调速'],
+  ]],
+  ['F · 电机动力输出（DRV8833 → 电机两端，不上面包板）', [
+    ['DRV8833','AO1','左电机 JGB37-520B','M+（粗线）','#58a6ff','蓝','接反则反转，对调 AO1/AO2 即可'],
+    ['DRV8833','AO2','左电机 JGB37-520B','M−（粗线）','#58a6ff','蓝',''],
+    ['DRV8833','BO1','右电机 JGB37-520B','M+（粗线）','#e6edf3','白',''],
+    ['DRV8833','BO2','右电机 JGB37-520B','M−（粗线）','#e6edf3','白',''],
+  ]],
+  ['G · 编码器信号（左=34/35 input-only，右=32/33 普通脚）', [
+    ['左电机编码器','A 相（黄）','ESP32','GPIO 34','#e3b341','黄','⭐ input-only'],
+    ['左电机编码器','B 相（绿）','ESP32','GPIO 35','#3fb950','绿','⭐ input-only'],
+    ['右电机编码器','A 相（黄）','ESP32','GPIO 32','#e3b341','黄','v3.3 改（原 36/VP）；若黄线实际在 33 也无需重接，方向校准时处理'],
+    ['右电机编码器','B 相（绿）','ESP32','GPIO 33','#3fb950','绿','v3.3 改（原 39/VN）'],
+  ]],
+  ['H · I²C 总线（ESP32 → 两传感器并联）', [
+    ['ESP32','GPIO 21 (SDA)','INA226','SDA','#58a6ff','蓝','并联总线，见下方说明'],
+    ['ESP32','GPIO 21 (SDA)','MPU6050','SDA','#58a6ff','蓝','与上一根同一信号，可经面包板同一行分接'],
+    ['ESP32','GPIO 22 (SCL)','INA226','SCL','#e6edf3','白',''],
+    ['ESP32','GPIO 22 (SCL)','MPU6050','SCL','#e6edf3','白','地址不冲突：0x40 / 0x68'],
+  ]],
+  ['I · SPI 总线（ESP32 → microSD）', [
+    ['ESP32','GPIO 14','microSD','SCK / CLK','#ff8c42','橙','SPI 时钟'],
+    ['ESP32','GPIO 15','microSD','MOSI / DI','#ff8c42','橙','主出从入'],
+    ['microSD','MISO / DO','ESP32','GPIO 2','#e3b341','黄','主入从出；烧录失败先拔SD（见快检）'],
+    ['ESP32','GPIO 27','microSD','CS','#e3b341','黄','片选；v3.2 从 13 改到 27，远离禁用的 D12（见说明④）'],
+  ]],
+];
+
+const KEY='ipq-wire-checklist-v1';
+let state={};
+try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){state={}}
+
+const body=document.getElementById('body');
+let n=0;
+WIRES.forEach(([gname,rows])=>{
+  body.insertAdjacentHTML('beforeend',
+    `<tr class="group"><td colspan="7">${gname}<span class="cnt">${rows.length} 根</span></td></tr>`);
+  rows.forEach(w=>{
+    n++;
+    const [m1,p1,m2,p2,ccol,cname,note]=w;
+    body.insertAdjacentHTML('beforeend',`
+      <tr data-id="w${n}" class="${state['w'+n]?'done':''}">
+        <td><input type="checkbox" class="chk" data-id="w${n}" ${state['w'+n]?'checked':''}></td>
+        <td class="wno">${n}</td>
+        <td><span class="mod">${m1}</span> · <span class="prt pwr">${p1}</span></td>
+        <td class="arrowc">→</td>
+        <td><span class="mod">${m2}</span> · <span class="prt ${/GND|蓝轨|AD0/.test(p2)?'gnd':'sig'}">${p2}</span></td>
+        <td><span class="clr" style="background:${ccol}"></span>${cname}</td>
+        <td class="note">${note}</td>
+      </tr>`);
+  });
+});
+
+function upd(){
+  const boxes=[...document.querySelectorAll('.chk')];
+  const d=boxes.filter(b=>b.checked).length;
+  document.getElementById('done').textContent=d;
+  document.getElementById('pbar').style.width=(d/boxes.length*100)+'%';
+}
+document.getElementById('body').addEventListener('change',e=>{
+  if(!e.target.classList.contains('chk'))return;
+  const id=e.target.dataset.id;
+  state[id]=e.target.checked;
+  e.target.closest('tr').classList.toggle('done',e.target.checked);
+  localStorage.setItem(KEY,JSON.stringify(state));
+  upd();
+});
+document.getElementById('btn-reset').addEventListener('click',()=>{
+  if(!confirm('清空全部 42 根线的勾选记录？'))return;
+  state={};localStorage.removeItem(KEY);
+  document.querySelectorAll('.chk').forEach(b=>{b.checked=false;b.closest('tr').classList.remove('done')});
+  upd();
+});
+upd();
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPQ · 机器人测试程序操作说明</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#2a3441;
+    --txt:#e6edf3; --dim:#8b98a9; --accent:#58a6ff; --accent2:#3fb950;
+    --warn:#d29922; --danger:#f85149; --mono:'SF Mono','Consolas','Courier New',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    line-height:1.7;padding:24px;font-size:14px;max-width:980px;margin:0 auto;
+  }
+  header{
+    background:linear-gradient(135deg,#161b22 0%,#1c2330 100%);
+    border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:18px;
+  }
+  header h1{font-size:20px;font-weight:600}
+  header h1 .tag{
+    font-family:var(--mono);font-size:11px;color:var(--accent2);
+    border:1px solid var(--accent2);padding:2px 8px;border-radius:4px;margin-left:10px;font-weight:400;
+  }
+  header .sub{color:var(--dim);font-size:13px;margin-top:8px}
+  header .meta{display:flex;gap:18px;margin-top:12px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--dim)}
+  header .meta b{color:var(--txt)}
+  nav.toc{
+    background:var(--panel);border:1px solid var(--border);border-radius:10px;
+    padding:12px 18px;margin-bottom:18px;font-size:13px;
+  }
+  nav.toc a{color:var(--accent);text-decoration:none;margin-right:18px;white-space:nowrap}
+  nav.toc a:hover{text-decoration:underline}
+  section{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:18px}
+  section h2{font-size:16px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  section h2 .no{
+    display:inline-block;font-family:var(--mono);font-size:12px;color:var(--bg);
+    background:var(--accent);border-radius:4px;padding:1px 7px;margin-right:8px;vertical-align:1px;
+  }
+  ol,ul{padding-left:22px}
+  li{margin:6px 0}
+  table{width:100%;border-collapse:collapse;background:var(--panel2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:12px 0;font-size:13px}
+  thead{background:#222a38}
+  th{text-align:left;padding:9px 12px;font-size:11px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);white-space:nowrap}
+  td{padding:9px 12px;border-bottom:1px solid #22272e;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#232b3a}
+  td:first-child{white-space:nowrap}
+  code{
+    font-family:var(--mono);font-size:12.5px;background:#0d1117;
+    border:1px solid var(--border);border-radius:4px;padding:1px 6px;color:var(--accent2);
+  }
+  pre{
+    background:#0d1117;border:1px solid var(--border);border-radius:10px;
+    padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;
+    line-height:1.55;margin:12px 0;color:#c9d1d9;
+  }
+  pre .ok{color:#7ee29a}
+  pre .dim{color:var(--dim)}
+  kbd{
+    display:inline-block;font-family:var(--mono);font-size:12px;color:var(--txt);
+    background:#21262d;border:1px solid #444c56;border-bottom-width:2px;
+    border-radius:5px;padding:1px 8px;margin:0 2px;vertical-align:1px;
+  }
+  .callout{border-radius:8px;padding:12px 16px;margin:12px 0;font-size:13px;border-left:3px solid;background:var(--panel)}
+  .callout.warn{border-color:var(--warn);background:rgba(210,153,34,.08);color:#ffdf80}
+  .callout.info{border-color:var(--accent);background:rgba(88,166,255,.08);color:#9ecbff}
+  .callout b{color:var(--txt)}
+  .pin{font-family:var(--mono);color:var(--accent);font-weight:600}
+  footer{text-align:center;color:var(--dim);font-size:12px;margin-top:20px;padding:16px;border-top:1px solid var(--border);font-family:var(--mono)}
+  @media print{
+    body{background:#fff;color:#000;padding:0}
+    header,section,table,pre{background:#fff;border-color:#ccc}
+    nav.toc{display:none}
+    tbody tr:hover{background:#fff!important}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IPQ 移动机器人 · 全系统测试程序操作说明<span class="tag">ipq_robot_test.ino</span></h1>
+  <div class="sub">ESP32 DevKit V1 · DRV8833 · JGB37-520B(1:30)×2 · INA226 · IMU(MPU6050/LSM6 兼容芯片自动识别) · microSD</div>
+  <div class="meta">
+    <span>接线清单 <b>v3.3</b></span>
+    <span>固件 <b>已编译验证 · 无需第三方库</b></span>
+    <span>更新 <b>2026-08-17</b></span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#pin">引脚速查</a><a href="#flash">烧录步骤</a><a href="#boot">上电检查</a><a href="#cmd">串口命令</a><a href="#tele">读数据</a><a href="#first">首次测试流程</a><a href="#dir">方向修正</a><a href="#param">可调参数</a><a href="#faq">故障排查</a>
+</nav>
+
+<section id="pin">
+  <h2><span class="no">速查</span>引脚分配（与 wiring-checklist.html v3.3 一致）</h2>
+  <table>
+    <thead><tr><th>功能</th><th>信号</th><th>ESP32 引脚</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="4">电机驱动 → DRV8833</td><td>AIN1 左方向</td><td class="pin">GPIO 23</td><td rowspan="4">STBY 已接 3.3V</td></tr>
+      <tr><td>AIN2 左 PWM</td><td class="pin">GPIO 19</td></tr>
+      <tr><td>BIN1 右方向</td><td class="pin">GPIO 18</td></tr>
+      <tr><td>BIN2 右 PWM</td><td class="pin">GPIO 16</td></tr>
+      <tr><td rowspan="4">编码器 → ESP32</td><td>左 A 相</td><td class="pin">GPIO 34</td><td>input-only</td></tr>
+      <tr><td>左 B 相</td><td class="pin">GPIO 35</td><td>input-only</td></tr>
+      <tr><td>右 A 相</td><td class="pin">GPIO 32</td><td>v3.3 由 36 改</td></tr>
+      <tr><td>右 B 相</td><td class="pin">GPIO 33</td><td>v3.3 由 39 改</td></tr>
+      <tr><td rowspan="2">I²C 总线</td><td>SDA</td><td class="pin">GPIO 21</td><td>INA226=0x40 · IMU=0x6B</td></tr>
+      <tr><td>SCL</td><td class="pin">GPIO 22</td><td>并联两器件</td></tr>
+      <tr><td rowspan="4">SPI → microSD</td><td>SCK</td><td class="pin">GPIO 14</td><td rowspan="4">MISO 在 GPIO2（启动脚）：烧录失败先拔 SD</td></tr>
+      <tr><td>MOSI</td><td class="pin">GPIO 15</td></tr>
+      <tr><td>MISO</td><td class="pin">GPIO 2</td></tr>
+      <tr><td>CS</td><td class="pin">GPIO 27</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="flash">
+  <h2><span class="no">1</span>烧录步骤</h2>
+  <ol>
+    <li>Arduino IDE 安装 <b>esp32 by Espressif Systems</b> 开发板包（开发板管理器搜索 esp32，选 Espressif 那个）。</li>
+    <li><b>工具 → 开发板</b> 选 <b>ESP32 Dev Module</b>，其余选项保持默认。</li>
+    <li>USB 线连接 ESP32，<b>工具 → 端口</b> 选对应 COM 口。</li>
+    <li>点击「上传」。</li>
+  </ol>
+  <div class="callout warn"><b>烧录卡在 Connecting 时：</b>按住板上 <b>BOOT</b> 键再点上传，开始写出时松开；若仍失败，<b>拔掉 microSD 模块再烧</b>（GPIO2 是启动脚），烧完再插回。</div>
+  <div class="callout info"><b>不需要安装任何第三方库</b>——程序只用了核心自带的 Wire / SPI / SD，INA226 和 IMU 都是程序内直接寄存器读写。串口监视器波特率设 <b>115200</b>。</div>
+</section>
+
+<section id="boot">
+  <h2><span class="no">2</span>上电 / 复位后会看到什么</h2>
+<pre>===== IPQ 机器人全系统测试 =====
+I2C 扫描: 0x40 0x6B
+  INA226 (0x40): 在线
+  INA226 配置: 成功(16次平均)
+  [IMU诊断] 0x6B: WHO_AM_I(0x0F)=0x69
+  [IMU诊断] 0x6B 按 LSM6 寄存器试探成功(CTRL回读一致)，静止合加速度 1.02 g ≈1g → 按兼容芯片启用
+  IMU: LSM6 系 (0x6B) 初始化成功
+SD: 日志写入 /ipq000.csv
+编码器: 11 脉冲/圈 × 1:30 = 每圈轮轴 330 个计数(A相上升沿)
+===== 命令（串口发送单个字符）===== ...
+上电默认电机为滑行断电状态，发 'g' 或 'w' 开始测试。</pre>
+  <p>之后每 100ms 打印一行遥测数据（10Hz）。</p>
+  <div class="callout info">
+    <b>检查点：</b><br>
+    · I²C 扫描必须出现 <code>0x40</code>（INA226）；IMU 支持 MPU6050（0x68/0x69）和 LSM6 系（0x6A/0x6B）以及身份码异常的兼容芯片，自动识别；<br>
+    · SD 行显示文件名说明记录正常；显示"初始化失败"不影响其它功能；<br>
+    · <b>上电后电机不转是正常的</b>（安全设计，滑行断电），必须发命令才动。
+  </div>
+</section>
+
+<section id="cmd">
+  <h2><span class="no">3</span>串口命令（串口监视器输入单个字符发送）</h2>
+  <table>
+    <thead><tr><th>命令</th><th>作用</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>w</kbd></td><td>前进（当前速度）</td></tr>
+      <tr><td><kbd>s</kbd></td><td>后退</td></tr>
+      <tr><td><kbd>a</kbd></td><td>原地左转（左轮退、右轮进）</td></tr>
+      <tr><td><kbd>d</kbd></td><td>原地右转</td></tr>
+      <tr><td><kbd>x</kbd></td><td>刹车（能耗制动，立即停）</td></tr>
+      <tr><td><kbd>c</kbd></td><td>滑行（断电，惯性滑到停）</td></tr>
+      <tr><td><kbd>+</kbd></td><td>速度 +10%（上限 100%）</td></tr>
+      <tr><td><kbd>-</kbd></td><td>速度 −10%</td></tr>
+      <tr><td><kbd>0</kbd>~<kbd>9</kbd></td><td>直接设定速度 0%~90%（如 <kbd>3</kbd> = 30%）</td></tr>
+      <tr><td><kbd>g</kbd></td><td>演示序列：前进 2s → 刹车 0.8s → 后退 2s → 刹车</td></tr>
+      <tr><td><kbd>v8.06</kbd></td><td>设置电池电压替代值（按万用表实测输入；功率按它计算，换新 INA226 模块后自动用实测）</td></tr>
+      <tr><td><kbd>tl1.05</kbd> / <kbd>tr0.94</kbd></td><td>左/右轮 PWM 微调（校正差速，0.80~1.20；单独的 <kbd>t</kbd> 仍是遥测开关）</td></tr>
+      <tr><td><kbd>z</kbd></td><td>编码器计数清零</td></tr>
+      <tr><td><kbd>p</kbd></td><td>立即打印一帧数据（不影响周期遥测）</td></tr>
+      <tr><td><kbd>t</kbd></td><td>开/关周期遥测打印（SD 记录不受影响，一直在写）</td></tr>
+      <tr><td><kbd>h</kbd></td><td>显示帮助</td></tr>
+    </tbody>
+  </table>
+  <p>上电默认速度 <b>30%</b>（对应接线清单"PWM 30% 低速试转"的要求）。</p>
+</section>
+
+<section id="tele">
+  <h2><span class="no">4</span>遥测数据怎么读</h2>
+  <p>串口每行格式：</p>
+<pre>[  12.3s] encL +1234 (+33)  encR  -567 (-12)  rpm L  -12.3 R  -5.6 | bat 7.82V  cur 0.312A  pow 2.44W | acc +0.02 -0.99 +0.05 g  gyr   1.2  -0.5   3.4 dps  28.5C</pre>
+  <table>
+    <thead><tr><th>字段</th><th>含义</th><th>正常参考值</th></tr></thead>
+    <tbody>
+      <tr><td><code>encL/encR</code></td><td>左/右轮累计计数（括号内是本周期增量）</td><td>前进时增大；每 330 计数 = 轮轴一圈</td></tr>
+      <tr><td><code>rpm L/R</code></td><td>左/右轮轴转速（转/分），带方向</td><td>空载 30% 大约 ±100~150</td></tr>
+      <tr><td><code>bat</code></td><td>电池电压（INA226 母线端）</td><td>2S 满电 8.4V，&lt;6.4V 该充电</td></tr>
+      <tr><td><code>cur</code></td><td>电机总电流</td><td>空转零点几安，顶到 ±0.82 不再涨＝堵转超量程</td></tr>
+      <tr><td><code>pow</code></td><td>电机功率 = V×I</td><td>—</td></tr>
+      <tr><td><code>acc</code></td><td>加速度（单位 g）</td><td>静止水平放置约 <code>0 0 ±1</code></td></tr>
+      <tr><td><code>gyr</code></td><td>角速度（°/s）</td><td>静止时接近 0</td></tr>
+      <tr><td><code>C</code></td><td>IMU 芯片温度</td><td>室温~35°C</td></tr>
+    </tbody>
+  </table>
+  <div class="callout info"><b>SD 卡记录</b>：同样的数据每 100ms 追加一行到 <code>/ipqNNN.csv</code>（文件名自动递增不覆盖，每秒落盘一次）。断电后取卡插电脑，Excel / Python pandas 直接读，列名在 CSV 第一行。</div>
+</section>
+
+<section id="first">
+  <h2><span class="no">5</span>首次测试推荐流程（安全顺序）</h2>
+  <ol>
+    <li><b>架空轮子</b>（垫起车体，轮子离地），接好电源。</li>
+    <li>上电 → 确认 I²C 扫描出 0x40、IMU 识别成功，遥测正常滚动。</li>
+    <li>静止读数体检：<code>acc</code> 第三列 ≈ ±1，<code>gyr</code> ≈ 0，<code>bat</code> ≈ 电池实际电压。</li>
+    <li>发 <kbd>g</kbd> 跑演示序列，观察：
+      <ul>
+        <li>某个轮子转向不对 → 记下是哪个（见第 6 节方向修正）；</li>
+        <li>某个轮子 <code>enc</code> 计数一直是 0 → 查该编码器 VCC/GND/A/B 四根线；</li>
+        <li>前进时某侧计数是负的 → 编码器方向反（第 6 节）。</li>
+      </ul>
+    </li>
+    <li>都正常后发 <kbd>w</kbd> 手动开，用 <kbd>+</kbd>/<kbd>-</kbd> 逐步提速；结束发 <kbd>x</kbd>。</li>
+    <li>一切正常后再放下地面，低速直线测试，用 <kbd>z</kbd> 清零后走固定距离核对编码器刻度。</li>
+  </ol>
+</section>
+
+<section id="dir">
+  <h2><span class="no">6</span>方向反了怎么改（二选一）</h2>
+  <p><b>改接线（推荐，一劳永逸）</b>：转向反的电机，把 DRV8833 上该电机的两根输出线对调（左 = AO1/AO2，右 = BO1/BO2）；编码器方向反则对调该电机的 A/B 相两根信号线。</p>
+  <p><b>改软件（免重新接线）</b>：打开 <code>.ino</code>，改文件开头的宏再重新上传：</p>
+<pre>#define MOT_L_INVERT 0   // 'w' 前进时左轮反转 → 改 1
+#define MOT_R_INVERT 0   // 'w' 前进时右轮反转 → 改 1
+#define ENC_L_INVERT 0   // 前进时左编码器计数变负 → 改 1
+#define ENC_R_INVERT 0   // 前进时右编码器计数变负 → 改 1</pre>
+</section>
+
+<section id="param">
+  <h2><span class="no">7</span>其它可调参数（文件开头）</h2>
+<pre>#define PWM_FREQ_HZ 20000  // 电机 PWM 频率，DRV8833 上限 250kHz
+#define TELE_MS      100    // 遥测/记录周期(ms)
+#define R_SHUNT      0.1f   // INA226 采样电阻：看板上粗电阻丝印，R100=0.1(默认)
+                           //   R010=0.01Ω → 改 0.01；R001=0.001Ω → 改 0.001
+#define ENC_PPR      11     // 编码器每转脉冲（JGB37-520B 出厂 11）
+#define GEAR_RATIO   30     // 减速比（电机标签 1:30）</pre>
+  <div class="callout warn"><b>电流读数说明</b>：INA226 分流满量程 ±81.92mV。配常见的 0.1Ω(R100) 分流电阻时，可测电流上限约 ±0.82A——正常运行电流足够，堵转电流会被削顶（读数停在 0.82 附近）。这不影响电压/功率趋势判断；若板子丝印不是 R100，按上表改 <code>R_SHUNT</code>。</div>
+</section>
+
+<section id="faq">
+  <h2><span class="no">8</span>常见问题排查</h2>
+  <table>
+    <thead><tr><th>现象</th><th>排查</th></tr></thead>
+    <tbody>
+      <tr><td>烧录失败 / 卡在 Connecting</td><td>按住 BOOT 键再点上传；拔掉 microSD 模块（GPIO2）</td></tr>
+      <tr><td>I²C 扫描一个地址都没有</td><td>查 21(SDA)/22(SCL) 是否接反；红轨 3.3V / 蓝轨 GND 是否正常</td></tr>
+      <tr><td>有一个地址、缺另一个</td><td>缺的器件单独查 4 根线（VCC/GND/SDA/SCL）；扫描出 <code>0x6B</code> 属正常（LSM6 系地址），程序自动识别</td></tr>
+      <tr><td>电机完全不动、无电流</td><td>DRV8833 的 <b>STBY 是否接了 3.3V</b>（悬空芯片不工作）；VM 上量电池电压</td></tr>
+      <tr><td>一侧转一侧不转</td><td>查不转那侧的 IN1/IN2 两根控制线（23/19 或 18/16）和电机两根动力线</td></tr>
+      <tr><td>电流读数总是 0</td><td>电机线必须从 INA226 的 VIN+/VIN− 走（清单线 1/2），接反则读数为负</td></tr>
+      <tr><td>SD 初始化失败</td><td>卡是否插反；模块 VCC 电压（有稳压器的板接 5V，直通的接 3.3V）；CS(27)/MISO(2) 接线</td></tr>
+      <tr><td>数据偶尔跳变</td><td>电池电压过低，或面包板轨道中段断开（用万用表量红轨首尾通断）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>IPQ-2026 · 与 wiring-checklist.html v3.3 及 ipq_robot_test.ino 配套 · 2026-08-17</footer>
+
+</body>
+</html>

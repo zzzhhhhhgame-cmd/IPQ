@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPQ · 接线方案 v2 (DRV8833 + 2S 电池)</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#2a3441;
+    --txt:#e6edf3; --dim:#8b98a9; --accent:#58a6ff; --accent2:#3fb950;
+    --warn:#d29922; --danger:#f85149; --mentor:#bc8cff; --pink:#ff7eb6;
+    --mono:'SF Mono','Consolas','Courier New',monospace;
+    --motor:#58a6ff; --drv:#3fb950; --enc:#bc8cff; --i2c:#d29922;
+    --sd:#f85149; --power:#ff8c42;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    line-height:1.6;padding:24px;font-size:14px;max-width:1200px;margin:0 auto;
+  }
+  /* Header */
+  header{
+    background:linear-gradient(135deg,#161b22 0%,#1c2330 100%);
+    border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:20px;
+  }
+  header h1{font-size:22px;font-weight:600;letter-spacing:.3px}
+  header h1 .tag{
+    font-family:var(--mono);font-size:11px;color:var(--accent2);
+    border:1px solid var(--accent2);padding:2px 8px;border-radius:4px;margin-left:10px;font-weight:400;
+  }
+  header .sub{color:var(--dim);font-size:13px;margin-top:8px}
+  header .meta{
+    display:flex;gap:20px;margin-top:16px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:11px;color:var(--dim);
+  }
+  header .meta b{color:var(--txt);font-weight:600}
+
+  /* section */
+  section{
+    background:var(--panel);border:1px solid var(--border);border-radius:12px;
+    padding:22px;margin-bottom:20px;
+  }
+  section h2{
+    font-size:17px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:10px;
+  }
+  section h2 .ico{font-size:20px}
+  section h2 .sub{font-size:12px;color:var(--dim);font-weight:400;margin-left:8px}
+  section > p.desc{color:var(--dim);font-size:13px;margin-bottom:14px}
+
+  /* warning callout */
+  .callout{
+    border-radius:8px;padding:12px 16px;margin:12px 0;font-size:13px;
+    border-left:3px solid;
+  }
+  .callout.crit{background:rgba(248,81,73,.08);border-color:var(--danger);color:#ffb4b0}
+  .callout.warn{background:rgba(210,153,34,.08);border-color:var(--warn);color:#ffdf80}
+  .callout.ok{background:rgba(63,185,80,.08);border-color:var(--accent2);color:#7ee29a}
+  .callout.info{background:rgba(88,166,255,.08);border-color:var(--accent);color:#9ecbff}
+  .callout b{color:var(--txt)}
+
+  /* changes table */
+  .changes{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+  .changes th{
+    text-align:left;padding:8px 12px;color:var(--dim);font-size:11px;
+    text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);
+  }
+  .changes td{padding:10px 12px;border-bottom:1px solid #22272e}
+  .changes td:first-child{color:var(--dim)}
+  .changes .new{color:var(--accent2);font-family:var(--mono)}
+  .changes .old{color:var(--dim);text-decoration:line-through;font-family:var(--mono)}
+
+  /* wiring table */
+  .wtable{width:100%;border-collapse:collapse;margin:10px 0;background:#0d1117;border-radius:8px;overflow:hidden}
+  .wtable thead{background:var(--panel2)}
+  .wtable th{
+    text-align:left;padding:10px 14px;font-size:11px;font-weight:600;
+    color:var(--dim);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);
+  }
+  .wtable td{padding:11px 14px;border-bottom:1px solid #22272e;font-family:var(--mono);font-size:12.5px}
+  .wtable tr:last-child td{border-bottom:none}
+  .wtable tbody tr:hover{background:#1c2330}
+  .wtable .arrow{color:var(--dim);text-align:center;width:30px}
+  .wtable .pin{color:var(--accent);font-weight:600}
+  .wtable .pin.in{color:var(--mentor)}
+  .wtable .note{color:var(--dim);font-size:11px;font-family:inherit}
+  .wtable tr.section-head td{
+    background:var(--panel2);color:var(--accent);font-weight:600;font-size:11px;
+    text-transform:uppercase;letter-spacing:.6px;padding:8px 14px;
+  }
+  /* color dots for modules */
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  .dot.motor{background:var(--motor)}
+  .dot.drv{background:var(--drv)}
+  .dot.enc{background:var(--enc)}
+  .dot.i2c{background:var(--i2c)}
+  .dot.sd{background:var(--sd)}
+  .dot.power{background:var(--power)}
+
+  /* ASCII diagram */
+  pre.diagram{
+    background:#05080d;border:1px solid var(--border);border-radius:10px;
+    padding:20px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.45;
+    color:#9ecbff;margin:14px 0;white-space:pre;
+  }
+  pre.diagram .c{color:var(--dim)}     /* comment */
+  pre.diagram .h{color:var(--accent2);font-weight:bold} /* box header */
+  pre.diagram .w{color:var(--accent)}   /* wire */
+  pre.diagram .k{color:var(--warn)}     /* keyword */
+  pre.diagram .r{color:var(--danger)}   /* risk */
+  pre.diagram .p{color:var(--mentor)}   /* pin */
+
+  /* truth table */
+  .truth{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+  .truth .cell{
+    background:#0d1117;border:1px solid var(--border);border-radius:6px;padding:10px;
+    text-align:center;font-family:var(--mono);font-size:12px;
+  }
+  .truth .cell .v{font-size:16px;font-weight:600;color:var(--accent);margin-bottom:4px}
+  .truth .cell .l{color:var(--dim);font-size:10px}
+  .truth .cell.brake{border-color:var(--warn)}
+  .truth .cell.brake .v{color:var(--warn)}
+
+  /* checklist */
+  .checklist{list-style:none;padding:0}
+  .checklist li{
+    padding:8px 0 8px 28px;position:relative;font-size:13px;color:var(--txt);
+    border-bottom:1px solid #22272e;
+  }
+  .checklist li:last-child{border-bottom:none}
+  .checklist li::before{
+    content:'☐';position:absolute;left:0;top:7px;font-size:16px;color:var(--accent);
+  }
+  .checklist li .crit{color:var(--danger)}
+
+  /* pin map grid */
+  .pinmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin:10px 0}
+  .pinmap .pcard{
+    background:#0d1117;border:1px solid var(--border);border-radius:6px;padding:9px 12px;
+    font-family:var(--mono);font-size:12px;display:flex;flex-direction:column;gap:2px;
+  }
+  .pinmap .pcard .gp{color:var(--accent);font-weight:600}
+  .pinmap .pcard .to{color:var(--txt);font-size:11px}
+  .pinmap .pcard .fn{color:var(--dim);font-size:10px}
+  .pinmap .pcard.io{border-left:3px solid var(--mentor)}
+  .pinmap .pcard.out{border-left:3px solid var(--accent2)}
+  .pinmap .pcard.in{border-left:3px solid var(--warn)}
+
+  @media print{
+    body{background:white;color:black;padding:0}
+    section,header{background:white;border:1px solid #ccc;break-inside:avoid}
+    pre.diagram{background:#f6f8fa;color:#333;border:1px solid #ccc}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IPQ 移动机器人 · 接线方案 v3<span class="tag">DRV8833 + 2S 7.4V</span></h1>
+  <div class="sub">ESP32 DevKit V1 · JGB37-520B 编码电机 ×2 · DRV8833 · INA226 · MPU6050 · microSD</div>
+  <div class="meta">
+    <span>项目 <b>IPQ-2026</b></span>
+    <span>版本 <b>v3.2</b> <span style="color:var(--accent2)">(厂家资料核对 · CS→27 · 右编码→32/33)</span></span>
+    <span>日期 <b>2026-08-17</b></span>
+    <span>主控 <b>ESP32 DevKit V1 (30针)</b></span>
+    <span>电源 <b>2×18650 串联 7.4–8.4V</b></span>
+  </div>
+</header>
+
+<!-- 厂家资料核对说明 -->
+<section style="border-left:3px solid var(--accent2)">
+  <h2><span class="ico">📚</span>厂家资料核对 <span class="sub">基于 D2-1-2F DRV8833 模块资料包</span></h2>
+  <p class="desc">本方案已对照 DRV8833 模块的厂家资料（引脚说明、真值表、使用说明、示例代码）逐项核对。丝印名称、真值表、电压范围均以厂家资料为准。</p>
+  <table class="changes">
+    <thead><tr><th>项目</th><th>厂家资料原文</th><th>本方案采用</th></tr></thead>
+    <tbody>
+      <tr><td>VM 电压范围</td><td>"2.7V－10.8V" / "VM 接 12V 以内电源"</td><td>2×18650 串联 7.4–8.4V ✓</td></tr>
+      <tr><td>使能脚</td><td>"STBY：接地或悬空芯片不工作，无输出，接 5V 工作"</td><td>STBY → ESP32 3V3</td></tr>
+      <tr><td>PWM 接法</td><td>"这个不需要接 pwm（en）引脚，直接接 in 引脚"</td><td>PWM 直接给 AIN2/BIN2</td></tr>
+      <tr><td>真值表</td><td>00=滑行 / 01=反转 / 10=正转 / 11=刹车</td><td>完全采用</td></tr>
+      <tr><td>输出端丝印</td><td>AO1/AO2（1路H桥）、BO1/BO2（2路H桥）</td><td>已采用 AO/BO 命名</td></tr>
+    </tbody>
+  </table>
+  <div class="callout ok"><b>✓ 核对结论：</b>核心接法（PWM 直接给 IN、2S 电池、STBY 拉高）与厂家资料完全一致。仅丝印名称按实物修正（OUT1-4 → AO1/AO2/BO1/BO2，nSLEEP → STBY）。</div>
+</section>
+
+<!-- 变更摘要 -->
+<section>
+  <h2><span class="ico">🔄</span>变更摘要 <span class="sub">vs 之前 TB6612 + 3S 版本</span></h2>
+  <p class="desc">从 TB6612 换成 DRV8833，并相应调整了电源与控制引脚。以下是关键变化点：</p>
+  <table class="changes">
+    <thead><tr><th>项目</th><th>旧 (TB6612)</th><th>新 (DRV8833)</th></tr></thead>
+    <tbody>
+      <tr><td>电池组</td><td><span class="old">3 串 11.1V (满电 12.6V)</span></td><td><span class="new">2 串 7.4V (满电 8.4V)</span></td></tr>
+      <tr><td>原因</td><td colspan="2"><span class="new">DRV8833 的 VM 上限 10.8V，12.6V 会烧片；改 2S 后电机仍可正常工作</span></td></tr>
+      <tr><td>使能脚</td><td><span class="old">STBY (拉高)</span></td><td><span class="new">nSLEEP (拉高)</span></td></tr>
+      <tr><td>逻辑供电</td><td><span class="old">VCC</span></td><td><span class="new">VCC (3.3V 即可)</span></td></tr>
+      <tr><td>PWM 调速脚</td><td><span class="old">PWMA / PWMB (独立)</span></td><td><span class="new">AIN2 / BIN2 直接 PWM</span></td></tr>
+      <tr><td>方向控制</td><td colspan="2"><span class="new">AIN1/AIN2 两脚（与 TB6612 相同的真值表）</span></td></tr>
+    </tbody>
+  </table>
+  <div class="callout crit"><b>⚠ 三个必记要点：</b>
+    <ol style="margin:6px 0 0 18px">
+      <li><b>电池改 2 串</b>（满电 8.4V），在 DRV8833 的 10.8V 安全区内</li>
+      <li><b>DRV8833 的 nSLEEP 必须接 3V3</b>，不接芯片一直休眠、电机不转</li>
+      <li><b>INA226 串联</b>在「电池正极 → DRV8833 VM」之间，像电流表一样串进去</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 电源系统 -->
+<section>
+  <h2><span class="ico">🟠</span>一、电源系统 <span class="sub">动力回路 + 逻辑回路</span></h2>
+  <p class="desc">两条独立电源回路：<span class="dot power"></span><b>动力回路</b>（电池→INA226→DRV8833→电机）和 <span class="dot power"></span><b>逻辑回路</b>（电池→MP1584→ESP32/传感器）。两路共用电池，但 GND 必须连通。</p>
+
+  <h3 style="margin:14px 0 6px;color:var(--accent);font-size:13px"><span class="dot power"></span>动力回路（被 INA226 测量）</h3>
+  <table class="wtable">
+    <thead><tr><th>起点</th><th>起点端口</th><th class="arrow">→</th><th>终点</th><th>终点端口</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>2×18650 电池盒</td><td><span class="pin">(+) 红线</span></td><td class="arrow">→</td><td>INA226</td><td class="pin in">VIN+</td><td class="note">电流流入</td></tr>
+      <tr><td>INA226</td><td class="pin in">VIN−</td><td class="arrow">→</td><td>DRV8833</td><td class="pin">VM</td><td class="note">电流流出 → 驱动</td></tr>
+      <tr><td>2×18650 电池盒</td><td><span class="pin">(−) 黑线</span></td><td class="arrow">→</td><td>DRV8833</td><td class="pin">GND</td><td class="note">接全局共地</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin:14px 0 6px;color:var(--accent);font-size:13px"><span class="dot power"></span>逻辑回路（不经 INA226）</h3>
+  <table class="wtable">
+    <thead><tr><th>起点</th><th>起点端口</th><th class="arrow">→</th><th>终点</th><th>终点端口</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>2×18650 电池盒</td><td><span class="pin">(+) 红线</span></td><td class="arrow">→</td><td>MP1584</td><td class="pin">IN+</td><td class="note">7.4V 输入</td></tr>
+      <tr><td>2×18650 电池盒</td><td><span class="pin">(−) 黑线</span></td><td class="arrow">→</td><td>MP1584</td><td class="pin">IN−</td><td class="note">共地</td></tr>
+      <tr><td>MP1584</td><td class="pin">OUT+ (5V 定压版)</td><td class="arrow">→</td><td>ESP32</td><td class="pin">VIN / 5V</td><td class="note">⭐ 定压输出，直接用</td></tr>
+      <tr><td>MP1584</td><td class="pin">OUT−</td><td class="arrow">→</td><td>ESP32</td><td class="pin">GND</td><td class="note">共地</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout ok"><b>✓ 定压版 MP1584：</b>输出已固定 5.0V，无需调试，接上即用。</div>
+  <div class="callout crit"><b>共地原则：</b>电池(−) = MP1584 IN− = DRV8833 GND = ESP32 GND = 所有传感器 GND，<b>全部连通</b>。</div>
+</section>
+
+<!-- 电机驱动 -->
+<section>
+  <h2><span class="ico">🟦</span>二、ESP32 ↔ DRV8833 电机驱动 <span class="sub">驱动 2 个 JGB37-520B · 厂家丝印</span></h2>
+
+  <p class="desc" style="color:var(--accent2)">✓ 已核对厂家资料：本模块丝印为 <b>STBY / VM / AIN1 / AIN2 / BIN1 / BIN2 / AO1 / AO2 / BO1 / BO2 / GND</b>。<b>无 VCC、无 nSLEEP、无 EN 引脚</b>（模块内部已处理）。</p>
+
+  <h3 style="margin:10px 0 6px;color:var(--accent);font-size:13px">控制信号真值表（厂家资料原文）</h3>
+  <div class="truth">
+    <div class="cell"><div class="v">0 / 0</div><div class="l">滑行 Coast<br>(惯性/快速衰减)</div></div>
+    <div class="cell"><div class="v">0 / 1</div><div class="l">反转</div></div>
+    <div class="cell"><div class="v">1 / 0</div><div class="l">正转</div></div>
+    <div class="cell brake"><div class="v">1 / 1</div><div class="l">刹车 Brake<br>(短路制动)</div></div>
+  </div>
+  <p class="desc" style="margin:8px 0"><b>PWM 调速方法（厂家推荐）：</b>固定 IN1=1（正转），在 <b>IN2 上给 PWM</b>，占空比 0–100% 控制转速。厂家接线说明："不需要接 pwm（en）引脚，直接接 in 引脚"。</p>
+
+  <h3 style="margin:14px 0 6px;color:var(--accent);font-size:13px"><span class="dot drv"></span>控制信号接线（ESP32 → DRV8833）</h3>
+  <table class="wtable">
+    <thead><tr><th>ESP32 端口</th><th class="arrow">→</th><th>DRV8833 模块丝印</th><th>功能</th></tr></thead>
+    <tbody>
+      <tr><td class="pin">GPIO 23</td><td class="arrow">→</td><td class="pin">AIN1</td><td><span class="note">左电机方向控制</span></td></tr>
+      <tr><td class="pin">GPIO 19</td><td class="arrow">→</td><td class="pin">AIN2</td><td><span class="note">左电机 PWM 调速 ⭐</span></td></tr>
+      <tr><td class="pin">GPIO 18</td><td class="arrow">→</td><td class="pin">BIN1</td><td><span class="note">右电机方向控制</span></td></tr>
+      <tr><td class="pin">GPIO 16</td><td class="arrow">→</td><td class="pin">BIN2</td><td><span class="note">右电机 PWM 调速 ⭐</span></td></tr>
+      <tr><td class="pin">3V3</td><td class="arrow">→</td><td class="pin">STBY</td><td><span class="note" style="color:var(--danger)">⭐ 必接！厂家原文："接 5V 工作，接地或悬空不工作"</span></td></tr>
+      <tr><td class="pin">GND</td><td class="arrow">→</td><td class="pin">GND</td><td><span class="note">共地</span></td></tr>
+    </tbody>
+  </table>
+  <div class="callout info"><b>注意：本模块无 VCC 引脚</b>——逻辑供电已由 VM 通过内部稳压提供，不需要单独接 3.3V/5V 给逻辑侧。只需接 <code>VM</code>（动力）+ <code>STBY</code>（使能）+ <code>GND</code> + 4 个 IN 控制脚。</div>
+
+  <h3 style="margin:14px 0 6px;color:var(--accent);font-size:13px"><span class="dot drv"></span>动力电源接线</h3>
+  <table class="wtable">
+    <thead><tr><th>来源</th><th class="arrow">→</th><th>DRV8833 模块丝印</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>INA226 VIN−（来自电池+）</td><td class="arrow">→</td><td class="pin">VM</td><td><span class="note">电机供电 7.4–8.4V（厂家："2.7–10.8V"）</span></td></tr>
+      <tr><td>电池(−)</td><td class="arrow">→</td><td class="pin">GND</td><td><span class="note">共地</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin:14px 0 6px;color:var(--accent);font-size:13px"><span class="dot drv"></span>电机输出（DRV8833 → 电机，厂家丝印）</h3>
+  <table class="wtable">
+    <thead><tr><th>DRV8833 模块丝印</th><th class="arrow">→</th><th>电机</th><th>说明（厂家原文）</th></tr></thead>
+    <tbody>
+      <tr><td class="pin">AO1</td><td class="arrow">→</td><td>左电机 JGB37-520B</td><td><span class="note">"AO1、AO2 为 1 路 H 桥输出"——接电机两端</span></td></tr>
+      <tr><td class="pin">AO2</td><td class="arrow">→</td><td>左电机 JGB37-520B</td><td><span class="note">接反则反转，对调即可</span></td></tr>
+      <tr><td class="pin">BO1</td><td class="arrow">→</td><td>右电机 JGB37-520B</td><td><span class="note">"BO1、BO2 为 2 路 H 桥输出"</span></td></tr>
+      <tr><td class="pin">BO2</td><td class="arrow">→</td><td>右电机 JGB37-520B</td><td><span class="note">接反则反转，对调即可</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 编码器 -->
+<section>
+  <h2><span class="ico">🟢</span>三、ESP32 ↔ 编码器 <span class="sub">JGB37-520B 自带霍尔编码器</span></h2>
+  <p class="desc">每个电机有 6 根线：电机 2 根 + 编码器 4 根。编码器是推挽输出，<b>任意 GPIO 都可接</b>。左编码器用 input-only 脚 34/35；右编码器 v3.3 起改用普通脚 <b>32/33</b>，功能完全相同。</p>
+
+  <table class="wtable">
+    <thead><tr><th>电机编码器线</th><th>线色（常见）</th><th class="arrow">→</th><th>ESP32 端口</th><th>功能</th></tr></thead>
+    <tbody>
+      <tr class="section-head"><td colspan="5">左电机编码器</td></tr>
+      <tr><td>VCC</td><td>红</td><td class="arrow">→</td><td class="pin">3V3</td><td><span class="note">编码器供电</span></td></tr>
+      <tr><td>GND</td><td>黑</td><td class="arrow">→</td><td class="pin">GND</td><td></td></tr>
+      <tr><td>A 相</td><td>黄</td><td class="arrow">→</td><td class="pin in">GPIO 34 ⭐</td><td><span class="note">A 相脉冲（input-only）</span></td></tr>
+      <tr><td>B 相</td><td>绿</td><td class="arrow">→</td><td class="pin in">GPIO 35 ⭐</td><td><span class="note">B 相脉冲（input-only）</span></td></tr>
+      <tr class="section-head"><td colspan="5">右电机编码器</td></tr>
+      <tr><td>VCC</td><td>红</td><td class="arrow">→</td><td class="pin">3V3</td><td></td></tr>
+      <tr><td>GND</td><td>黑</td><td class="arrow">→</td><td class="pin">GND</td><td></td></tr>
+      <tr><td>A 相</td><td>黄</td><td class="arrow">→</td><td class="pin in">GPIO 32</td><td><span class="note">v3.3 改（原 36/VP），普通脚功能相同</span></td></tr>
+      <tr><td>B 相</td><td>绿</td><td class="arrow">→</td><td class="pin in">GPIO 33</td><td><span class="note">v3.3 改（原 39/VN）</span></td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><b>⚠ 线色因厂家而异：</b>请以你买到的电机标签为准（通常是 红=VCC、黑=GND、黄=A、绿=B，可能还有白线备用）。</div>
+</section>
+
+<!-- I2C 传感器 -->
+<section>
+  <h2><span class="ico">🟣🟡</span>四、ESP32 ↔ INA226 + MPU6050 <span class="sub">I²C 并联共用总线</span></h2>
+  <p class="desc">两个传感器 <b>共用同一条 I²C 总线</b>，地址不冲突（INA226=0x40，MPU6050=0x68）。SDA/SCL 分别并联接到同一对 ESP32 引脚。</p>
+
+  <table class="wtable">
+    <thead><tr><th>ESP32 端口</th><th class="arrow">→</th><th>INA226 (CJMCU-226)</th><th class="arrow">→</th><th>MPU6050 (GY-521)</th><th>功能</th></tr></thead>
+    <tbody>
+      <tr><td class="pin">GPIO 21 (SDA)</td><td class="arrow">→</td><td class="pin in">SDA</td><td class="arrow">→</td><td class="pin in">SDA</td><td><span class="note">I²C 数据线（并联）</span></td></tr>
+      <tr><td class="pin">GPIO 22 (SCL)</td><td class="arrow">→</td><td class="pin in">SCL</td><td class="arrow">→</td><td class="pin in">SCL</td><td><span class="note">I²C 时钟线（并联）</span></td></tr>
+      <tr><td class="pin">3V3</td><td class="arrow">→</td><td class="pin in">VCC</td><td class="arrow">→</td><td class="pin in">VCC</td><td><span class="note">供电</span></td></tr>
+      <tr><td class="pin">GND</td><td class="arrow">→</td><td class="pin in">GND</td><td class="arrow">→</td><td class="pin in">GND</td><td><span class="note">共地</span></td></tr>
+    </tbody>
+  </table>
+  <div class="callout info"><b>INA226 电流采样端子（独立接动力回路，见第一节）：</b><code>VIN+ ← 电池(+)</code>，<code>VIN− → DRV8833 VM</code>。这是核心串联接法。</div>
+  <div class="callout ok"><b>MPU6050 提示：</b>板载已有 4.7kΩ 上拉电阻，I²C 总线无需额外加上拉。<code>AD0 接 GND</code>（或留空）→ 地址 0x68。</div>
+</section>
+
+<!-- microSD -->
+<section>
+  <h2><span class="ico">🔴</span>五、ESP32 ↔ microSD 模块 <span class="sub">SPI 接口，高频数据记录</span></h2>
+  <p class="desc">使用 ESP32 的 <b>VSPI 默认引脚组</b>，Arduino-ESP32 的 <code>SD.begin()</code> 直接可用。</p>
+  <table class="wtable">
+    <thead><tr><th>ESP32 端口</th><th class="arrow">→</th><th>microSD 模块</th><th>功能</th></tr></thead>
+    <tbody>
+      <tr><td class="pin">GPIO 14 (HS2_CLK)</td><td class="arrow">→</td><td class="pin in">SCK / CLK</td><td><span class="note">SPI 时钟</span></td></tr>
+      <tr><td class="pin">GPIO 15 (HS2_CMD)</td><td class="arrow">→</td><td class="pin in">MOSI / DI</td><td><span class="note">主出从入</span></td></tr>
+      <tr><td class="pin">GPIO 2 (HS2_DATA0)</td><td class="arrow">→</td><td class="pin in">MISO / DO</td><td><span class="note">主入从出</span></td></tr>
+      <tr><td class="pin">GPIO 27</td><td class="arrow">→</td><td class="pin in">CS</td><td><span class="note">片选 ⚠ 避开禁用的 GPIO 12（启动脚，接高会无法开机）</span></td></tr>
+      <tr><td class="pin">3V3 或 5V</td><td class="arrow">→</td><td class="pin in">VCC</td><td><span class="note">⚠ 看模块标注：5V 兼容版接 5V，纯 3.3V 版接 3V3</span></td></tr>
+      <tr><td class="pin">GND</td><td class="arrow">→</td><td class="pin in">GND</td><td><span class="note">共地</span></td></tr>
+    </tbody>
+  </table>
+  <div class="callout crit"><b>⚠ GPIO 12 / GPIO 0 禁用：</b>两者均为启动 strapping 脚。GPIO 12 开机瞬间为高电平会把 flash 电压切到 1.8V，导致 ESP32 反复重启无法开机——CS 平时为高电平，接 12 必出问题。CS 因此从 GPIO 13 改到 <b>GPIO 27</b>（13 本身安全，但插孔紧邻 D12，易误插）。</div>
+</section>
+
+<!-- 完整电路图 -->
+<section>
+  <h2><span class="ico">🖼</span>完整端到端电路示意图 <span class="sub">端口名称标注</span></h2>
+  <p class="desc">下图展示所有模块的真实电气连接关系，每一根线都标注了端口名称。</p>
+<pre class="diagram"><span class="c">╔═══════════════════════════════════════════════════════════════════════╗</span>
+<span class="c">║</span>                        <span class="h">IPQ 机器人 · 整体接线图</span>                          <span class="c">║</span>
+<span class="c">║</span>                  <span class="h">ESP32 + DRV8833 + 2×18650 (7.4V)</span>                     <span class="c">║</span>
+<span class="c">╚═══════════════════════════════════════════════════════════════════════╝</span>
+
+<span class="k">【动力回路 — 电机供电，被 INA226 测量】</span>
+┌─────────────┐
+│ 2×18650 电池 │ <span class="w">(+红)──────►[INA226 VIN+]──[INA226 VIN−]──►┐</span>
+│   7.4~8.4V   │                                              <span class="w">▼</span>
+│              │                                    ┌─────────────────────┐
+│              │                                    │   <span class="h">DRV8833</span>          │
+│              │                                    │   <span class="p">VM</span>  ◄────────────┤  <span class="c">(来自 INA226 VIN−)</span>
+│              │                                    │                     │
+│              │                                    │   <span class="p">AO1</span> ──► 左电机(M+)
+│              │                                    │   <span class="p">AO2</span> ──► 左电机(M−)
+│              │                                    │   <span class="p">BO1</span> ──► 右电机(M+)
+│              │                                    │   <span class="p">BO2</span> ──► 右电机(M−)
+│              │ <span class="w">(−黑)────────────────────────────►</span> │   <span class="p">GND</span>             │
+└─────────────┘                          <span class="w">┌         └─────────────────────┘</span>
+                                         <span class="w">│                  ▲</span>
+                                         <span class="w">│                  │</span>
+                                    <span class="r">(所有 GND 共地)     │</span>
+                                         <span class="w">│                  │</span>
+<span class="k">【逻辑回路 — 给 ESP32/传感器 5V，不经 INA226】</span>        <span class="w">│</span>
+┌─────────────┐                          <span class="w">│                  │</span>
+│ 2×18650 电池 │ <span class="w">(+)──►[MP1584 IN+]       │                  │</span>
+│              │      <span class="w">MP1584 定压5V输出    │                  │</span>
+│              │      <span class="w">MP1584 OUT+ ──► ESP32 VIN              │</span>
+│              │      <span class="w">MP1584 OUT− ──► ESP32 GND ──┐          │</span>
+│              │ <span class="w">(−)─────────────────────────────┤          │</span>
+└─────────────┘                                  <span class="w">│          │</span>
+                                                  <span class="w">▼          │</span>
+<span class="c">╔══════════════════════════════════════════════════════════╤══════════╗</span>
+<span class="c">║</span>                     <span class="h">ESP32 DevKit V1</span>                      <span class="c">│          ║</span>
+<span class="c">║</span>                                                          <span class="c">│  信号侧  ║</span>
+<span class="c">║</span>   <span class="p">VIN(5V)</span> ◄──── MP1584 OUT+                              <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GND</span>    ◄──── MP1584 OUT− (与动力GND共地)                <span class="c">│          ║</span>
+<span class="c">║</span>                                                          <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">3V3</span> ─────┬─────► <span class="p">DRV8833 STBY</span>      <span class="r">(使能,必接!)</span>     <span class="c">│          ║</span>
+<span class="c">║</span>            ├─────► 编码器×2 VCC                        <span class="c">│          ║</span>
+<span class="c">║</span>            ├─────► <span class="p">INA226 VCC</span>                          <span class="c">│          ║</span>
+<span class="c">║</span>            ├─────► <span class="p">MPU6050 VCC</span>                         <span class="c">│          ║</span>
+<span class="c">║</span>            └─────► <span class="p">microSD VCC</span>                         <span class="c">│          ║</span>
+<span class="c">║</span>            <span class="c">(本模块无 VCC——逻辑电由 VM 内部供给)</span>     <span class="c">│          ║</span>
+<span class="c">║</span>                                                          <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 23</span> ──────► <span class="p">DRV8833 AIN1</span>   (左电机方向)         <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 19</span> ──────► <span class="p">DRV8833 AIN2</span>   (左电机<span class="k">PWM</span>)          <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 18</span> ──────► <span class="p">DRV8833 BIN1</span>   (右电机方向)         <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 16</span> ──────► <span class="p">DRV8833 BIN2</span>   (右电机<span class="k">PWM</span>)          <span class="c">│          ║</span>
+<span class="c">║</span>                                                          <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 34</span> ◄───── 左编码 A相(黄) <span class="k">⭐input-only</span>            <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 35</span> ◄───── 左编码 B相(绿) <span class="k">⭐input-only</span>            <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 32</span> ◄───── 右编码 A相(黄) <span class="k">（v3.3改）</span>            <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 33</span> ◄───── 右编码 B相(绿) <span class="k">（v3.3改）</span>            <span class="c">│          ║</span>
+<span class="c">║</span>                                                          <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 21 (SDA)</span> ─┬─► <span class="p">INA226 SDA</span>                        <span class="c">│          ║</span>
+<span class="c">║</span>                  └─► <span class="p">MPU6050 SDA</span>   <span class="w">(I²C并联)</span>            <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 22 (SCL)</span> ─┬─► <span class="p">INA226 SCL</span>                        <span class="c">│          ║</span>
+<span class="c">║</span>                  └─► <span class="p">MPU6050 SCL</span>   <span class="w">(I²C并联)</span>            <span class="c">│          ║</span>
+<span class="c">║</span>                                                          <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 14</span> ──────► <span class="p">microSD SCK</span>                          <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 15</span> ──────► <span class="p">microSD MOSI</span>                         <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO  2</span> ◄───── <span class="p">microSD MISO</span>                          <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GPIO 27</span> ──────► <span class="p">microSD CS</span>                           <span class="c">│          ║</span>
+<span class="c">║</span>                                                          <span class="c">│          ║</span>
+<span class="c">║</span>   <span class="p">GND</span> ─────┬─────► <span class="p">DRV8833 GND</span>                          <span class="c">│          ║</span>
+<span class="c">║</span>            ├─────► 编码器 GND                            <span class="c">│          ║</span>
+<span class="c">║</span>            ├─────► <span class="p">INA226 GND</span>                           <span class="c">│          ║</span>
+<span class="c">║</span>            ├─────► <span class="p">MPU6050 GND</span>                          <span class="c">│          ║</span>
+<span class="c">║</span>            ├─────► <span class="p">microSD GND</span>                          <span class="c">│          ║</span>
+<span class="c">║</span>            └─────► <span class="r">(接入全局共地线)</span>                       <span class="c">│          ║</span>
+<span class="c">╚════════════════════════════════════════════════════════════════════╝</span>
+
+<span class="k">【全局共地】</span>  <span class="r">电池(−) = MP1584 IN− = DRV8833 GND = ESP32 GND = 所有传感器GND</span>
+                         <span class="c">└────────────── 全部连通 ──────────────┘</span></pre>
+</section>
+
+<!-- 引脚分配总表 -->
+<section>
+  <h2><span class="ico">📋</span>ESP32 引脚分配总表 <span class="sub">DRV8833 版，无冲突</span></h2>
+  <div class="pinmap">
+    <div class="pcard in"><div class="gp">GPIO 2</div><div class="to">→ microSD</div><div class="fn">MISO</div></div>
+    <div class="pcard out"><div class="gp">GPIO 27</div><div class="to">→ microSD</div><div class="fn">CS</div></div>
+    <div class="pcard out"><div class="gp">GPIO 14</div><div class="to">→ microSD</div><div class="fn">SCK</div></div>
+    <div class="pcard out"><div class="gp">GPIO 15</div><div class="to">→ microSD</div><div class="fn">MOSI</div></div>
+    <div class="pcard out"><div class="gp">GPIO 16</div><div class="to">→ DRV8833 BIN2</div><div class="fn">右电机 PWM ⭐</div></div>
+    <div class="pcard out"><div class="gp">GPIO 18</div><div class="to">→ DRV8833 BIN1</div><div class="fn">右电机方向</div></div>
+    <div class="pcard out"><div class="gp">GPIO 19</div><div class="to">→ DRV8833 AIN2</div><div class="fn">左电机 PWM ⭐</div></div>
+    <div class="pcard io"><div class="gp">GPIO 21</div><div class="to">→ INA226+MPU6050</div><div class="fn">I²C SDA</div></div>
+    <div class="pcard io"><div class="gp">GPIO 22</div><div class="to">→ INA226+MPU6050</div><div class="fn">I²C SCL</div></div>
+    <div class="pcard out"><div class="gp">GPIO 23</div><div class="to">→ DRV8833 AIN1</div><div class="fn">左电机方向</div></div>
+    <div class="pcard in"><div class="gp">GPIO 34 ⭐</div><div class="to">← 左编码 A 相</div><div class="fn">input-only</div></div>
+    <div class="pcard in"><div class="gp">GPIO 35 ⭐</div><div class="to">← 左编码 B 相</div><div class="fn">input-only</div></div>
+    <div class="pcard io"><div class="gp">GPIO 32</div><div class="to">← 右编码 A 相</div><div class="fn">普通脚（v3.3，原36）</div></div>
+    <div class="pcard io"><div class="gp">GPIO 33</div><div class="to">← 右编码 B 相</div><div class="fn">普通脚（原39）</div></div>
+  </div>
+  <p class="desc" style="margin-top:10px">⭐ = ESP32 的 <b>input-only 引脚</b>（现仅左编码器用的 34/35）；右编码器 v3.3 起用普通脚 32/33，功能相同。VP(36)/VN(39) 已空出备用。</p>
+</section>
+
+<!-- 检查清单 -->
+<section>
+  <h2><span class="ico">✅</span>上电检查清单 <span class="sub">接线后必做</span></h2>
+  <ul class="checklist">
+    <li>用万用表测电池盒电压，<span class="crit">确认 ≤ 8.4V</span>（满电两串），超过先放电</li>
+    <li>MP1584 <b>定压版</b>，确认接线极性正确即可（OUT+→VIN、OUT−→GND），无需调压</li>
+    <li>DRV8833 的 <b>STBY 已接 3V3</b>（厂家原文："接 5V 工作，悬空不工作"——最容易忘的一脚）</li>
+    <li>INA226 的 <b>VIN+ 接电池正极、VIN− 接 DRV8833 VM</b>（电流串联，方向不能反，反了测负值）</li>
+    <li>所有 <b>GND 连通</b>（用通断档量：电池(−) ↔ ESP32 GND ↔ DRV8833 GND）</li>
+    <li>电池正极没有短路到 GND（通断档量应不通）</li>
+    <li>ESP32 的 VIN 上是 <b>5V</b> 不是 12V（量一下！）</li>
+    <li>先<b>拔掉电机线</b>，通电测 I²C：能扫到 0x40 (INA226) 和 0x68 (MPU6050)</li>
+    <li>最后接电机，用低 PWM（30%）试转，确认方向正确</li>
+    <li>电机方向反了？对调 AO1/AO2（或 BO1/BO2）两根线即可</li>
+  </ul>
+  <div class="callout info" style="margin-top:14px"><b>💡 建议的上电顺序：</b>① 先接电池 → MP1584 → 万用表确认 OUT 输出约 5V（定压版，只验证不调）<br>② 接 ESP32 + I²C 传感器（不接电机/驱动），跑 I²C 扫描<br>③ 确认传感器都识别后，接 DRV8833 控制线（STBY 一定接）<br>④ 最后接电机动力线，低 PWM 试转</div>
+</section>
+
+<div style="text-align:center;color:var(--dim);font-size:12px;margin-top:24px;padding:16px;border-top:1px solid var(--border)">
+  IPQ-2026 · 接线方案 v3.2 · ESP32 + DRV8833 + 2S 7.4V · 已核对厂家资料 · 2026-08-17
+</div>
+
+</body>
+</html>
