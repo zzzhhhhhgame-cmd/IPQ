@@ -10,11 +10,10 @@
 
 ```
 IPQ/
-├── 工程文件/          # 小车工程：代码、接线、物料清单、硬件资料
+├── 工程文件/          # 小车工程：代码、接线、物料清单
 │   ├── ipq_robot_test/        # 全系统联合测试程序（.ino + 操作说明）
 │   ├── ipq_pid_speed/         # 双轮 PID 速度控制程序（.ino + 教程/说明 + 串口日志）
 │   ├── i2c_identify/          # I2C 器件识别小工具（确认 IMU 实际芯片型号）
-│   ├── D2-1-2F（未焊接）/     # DRV8833 驱动板资料（接线说明、引脚图、真值表、芯片手册、uno 示例代码）
 │   ├── wiring.html            # 接线总图（网页版）
 │   ├── wiring-checklist.html  # 逐线接线检查清单（v3.1，与固件引脚一一对应）
 │   └── bom.html               # 物料清单（BOM）
@@ -24,7 +23,8 @@ IPQ/
 │   ├── project proposal form - IPQ draft.docx  # 申请书 Word 草稿（与上一文件内容一致）
 │   └── project proposal form(1).docx           # 申请书 Word 版本
 │
-├── 参考资料/          # 整理性资料：教材、论文总结、实验提取报告及其生成脚本
+├── 参考资料/          # 整理性资料：硬件资料、教材、论文总结、实验提取报告及其生成脚本
+│   ├── D2-1-2F（未焊接）/               # DRV8833 驱动板产品资料（接线说明、引脚图、真值表、芯片手册、uno 示例代码）
 │   ├── PID Controllers (Åström & Hägglund).pdf  # PID 控制经典教材（理论背景）
 │   ├── summaries/                    # 5 篇论文的中文总结 PDF（自整理）
 │   ├── extracted/                    # 5 篇论文的全文纯文本提取（工作数据）
@@ -59,7 +59,7 @@ IPQ/
 | `ipq_pid_speed` | 双轮独立 PID 速度控制（含抗积分饱和），附实验教程、使用说明和串口日志（`serial_logger.py` 采集） |
 | `i2c_identify` | I2C 总线扫描，识别传感器板上实际焊接的芯片型号 |
 
-硬件资料：`D2-1-2F（未焊接）/` 是所用 DRV8833 驱动板的整套产品资料（整文件夹保留）；`wiring*.html` 与 `bom.html` 为接线和物料文档，其中 `wiring-checklist.html` v3.1 与固件引脚定义逐线对应。
+接线与物料文档：`wiring*.html` 与 `bom.html`，其中 `wiring-checklist.html` v3.1 与固件引脚定义逐线对应。
 
 ### 2. 答辩
 
@@ -67,8 +67,9 @@ IPQ 项目申请书（Project Proposal Form）的填写材料。`PPF draft answe
 
 ### 3. 参考资料
 
-围绕文献做的整理性材料：
+围绕文献与硬件做的整理性材料：
 
+- **硬件资料**（`D2-1-2F（未焊接）/`）：所用 DRV8833 驱动板的产品资料（接线说明、引脚图、真值表、芯片手册、uno 示例代码）。
 - **教材**：Åström & Hägglund《PID Controllers》，PID 整定理论的背景阅读。
 - **论文总结**（`summaries/`）：5 篇核心文献的中文总结 PDF。
 - **实验提取报告**（`Experiment_Extraction_Report.pdf`）：从 5 篇论文中提取的自变量/因变量/控制变量等实验设计要素，用于设计自己的实验方案。
