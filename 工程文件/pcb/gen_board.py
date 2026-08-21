@@ -598,7 +598,7 @@ if __name__ == '__main__':
     errs, warns = run_drc()
     out, gdir, zpath = emit()
     render(os.path.join(out,'preview_top.png'), 'T')
-    render(os.path.join(out,'preview_bottom.png'), 'B', mirror=True)
+    render(os.path.join(out,'preview_bottom.png'), 'B')
     with open(os.path.join(out,'report.txt'),'w') as f:
         f.write('IPQ CARRIER DRC-lite report\n'+'='*50+'\n')
         f.write('焊盘 %d，过孔 %d，走线段 %d\n\n' % (len(pads), len(vias), sum(len(t['pts'])-1 for t in tracks)))
