@@ -1,0 +1,12 @@
+G04 IPQ-2026 carrier board*
+%FSLAX35Y35*%
+%MOMM*%
+%TF.FileFunction,Profile*%
+%ADDC0.1C,0.1000*%
+DC0.1*
+X0Y0D02*
+X95Y0D01*
+X95Y80D01*
+X0Y80D01*
+X0Y0D01*
+M02*

@@ -1,0 +1,355 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1060" viewBox="0 0 1500 1060">
+<rect width="1500" height="1060" fill="#0d1117"/>
+<text x="40.0" y="46.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="22" fill="#e6edf3" text-anchor="start" font-weight="600">IPQ-2026 小车模块载板 · 电路原理图</text>
+<text x="40.0" y="68.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="12" fill="#8b98a9" text-anchor="start" font-weight="normal">Carrier v1.0 · 95×80mm 双层板 · 网表与 wiring v3.3 / 固件 ipq_robot_test 完全一致 · 2026-08-21</text>
+<rect x="590.0" y="100.0" width="300.0" height="545.0" rx="8" fill="#161b22" stroke="#2a3441" stroke-width="1.5"/>
+<text x="740.0" y="124.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="600">ESP32 DevKit V1 (30P)</text>
+<text x="740.0" y="141.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="middle" font-weight="normal">插座 J1 · USB 朝板边</text>
+<circle cx="590.0" cy="160.0" r="3.2" fill="#ff8c42"/>
+<circle cx="890.0" cy="160.0" r="3.2" fill="#ff8c42"/>
+<text x="599.0" y="164.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">3V3</text>
+<text x="881.0" y="164.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">3V3</text>
+<circle cx="590.0" cy="181.0" r="3.2" fill="#f8516a"/>
+<circle cx="890.0" cy="181.0" r="3.2" fill="#f8516a"/>
+<text x="599.0" y="185.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="start" font-weight="normal">GND</text>
+<text x="881.0" y="185.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="end" font-weight="normal">GND</text>
+<circle cx="590.0" cy="202.0" r="3.2" fill="#ff8c42"/>
+<circle cx="890.0" cy="202.0" r="3.2" fill="#ff8c42"/>
+<text x="599.0" y="206.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">VIN ←5V</text>
+<text x="881.0" y="206.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">VIN ←5V</text>
+<circle cx="590.0" cy="223.0" r="3.2" fill="#3fb950"/>
+<circle cx="890.0" cy="223.0" r="3.2" fill="#3fb950"/>
+<text x="599.0" y="227.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="start" font-weight="normal">D23→AIN1</text>
+<text x="881.0" y="227.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="end" font-weight="normal">D23→AIN1</text>
+<circle cx="590.0" cy="244.0" r="3.2" fill="#3fb950"/>
+<circle cx="890.0" cy="244.0" r="3.2" fill="#3fb950"/>
+<text x="599.0" y="248.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="start" font-weight="normal">D19→AIN2</text>
+<text x="881.0" y="248.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="end" font-weight="normal">D19→AIN2</text>
+<circle cx="590.0" cy="265.0" r="3.2" fill="#3fb950"/>
+<circle cx="890.0" cy="265.0" r="3.2" fill="#3fb950"/>
+<text x="599.0" y="269.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="start" font-weight="normal">D18→BIN1</text>
+<text x="881.0" y="269.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="end" font-weight="normal">D18→BIN1</text>
+<circle cx="590.0" cy="286.0" r="3.2" fill="#3fb950"/>
+<circle cx="890.0" cy="286.0" r="3.2" fill="#3fb950"/>
+<text x="599.0" y="290.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="start" font-weight="normal">D16→BIN2</text>
+<text x="881.0" y="290.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="end" font-weight="normal">D16→BIN2</text>
+<circle cx="590.0" cy="307.0" r="3.2" fill="#bc8cff"/>
+<circle cx="890.0" cy="307.0" r="3.2" fill="#bc8cff"/>
+<text x="599.0" y="311.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="start" font-weight="normal">D34←左A</text>
+<text x="881.0" y="311.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="end" font-weight="normal">D34←左A</text>
+<circle cx="590.0" cy="328.0" r="3.2" fill="#bc8cff"/>
+<circle cx="890.0" cy="328.0" r="3.2" fill="#bc8cff"/>
+<text x="599.0" y="332.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="start" font-weight="normal">D35←左B</text>
+<text x="881.0" y="332.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="end" font-weight="normal">D35←左B</text>
+<circle cx="590.0" cy="349.0" r="3.2" fill="#bc8cff"/>
+<circle cx="890.0" cy="349.0" r="3.2" fill="#bc8cff"/>
+<text x="599.0" y="353.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="start" font-weight="normal">D32←右A</text>
+<text x="881.0" y="353.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="end" font-weight="normal">D32←右A</text>
+<circle cx="590.0" cy="370.0" r="3.2" fill="#bc8cff"/>
+<circle cx="890.0" cy="370.0" r="3.2" fill="#bc8cff"/>
+<text x="599.0" y="374.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="start" font-weight="normal">D33←右B</text>
+<text x="881.0" y="374.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="end" font-weight="normal">D33←右B</text>
+<circle cx="590.0" cy="391.0" r="3.2" fill="#d29922"/>
+<circle cx="890.0" cy="391.0" r="3.2" fill="#d29922"/>
+<text x="599.0" y="395.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="start" font-weight="normal">D21 SDA</text>
+<text x="881.0" y="395.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="end" font-weight="normal">D21 SDA</text>
+<circle cx="590.0" cy="412.0" r="3.2" fill="#d29922"/>
+<circle cx="890.0" cy="412.0" r="3.2" fill="#d29922"/>
+<text x="599.0" y="416.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="start" font-weight="normal">D22 SCL</text>
+<text x="881.0" y="416.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="end" font-weight="normal">D22 SCL</text>
+<circle cx="590.0" cy="433.0" r="3.2" fill="#f85149"/>
+<circle cx="890.0" cy="433.0" r="3.2" fill="#f85149"/>
+<text x="599.0" y="437.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="start" font-weight="normal">D27 CS</text>
+<text x="881.0" y="437.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="end" font-weight="normal">D27 CS</text>
+<circle cx="590.0" cy="454.0" r="3.2" fill="#f85149"/>
+<circle cx="890.0" cy="454.0" r="3.2" fill="#f85149"/>
+<text x="599.0" y="458.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="start" font-weight="normal">D14 SCK</text>
+<text x="881.0" y="458.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="end" font-weight="normal">D14 SCK</text>
+<circle cx="590.0" cy="475.0" r="3.2" fill="#f85149"/>
+<circle cx="890.0" cy="475.0" r="3.2" fill="#f85149"/>
+<text x="599.0" y="479.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="start" font-weight="normal">D15 MOSI</text>
+<text x="881.0" y="479.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="end" font-weight="normal">D15 MOSI</text>
+<circle cx="590.0" cy="496.0" r="3.2" fill="#f85149"/>
+<circle cx="890.0" cy="496.0" r="3.2" fill="#f85149"/>
+<text x="599.0" y="500.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="start" font-weight="normal">D2 MISO</text>
+<text x="881.0" y="500.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="end" font-weight="normal">D2 MISO</text>
+<rect x="1060.0" y="100.0" width="330.0" height="345.0" rx="8" fill="#161b22" stroke="#2a3441" stroke-width="1.5"/>
+<text x="1225.0" y="124.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="600">DRV8833 (D2-1-2F)</text>
+<text x="1225.0" y="141.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="middle" font-weight="normal">插座 J12 · 模块丝印朝上</text>
+<circle cx="1060.0" cy="160.0" r="3.2" fill="#ff8c42"/>
+<circle cx="1390.0" cy="160.0" r="3.2" fill="#ff8c42"/>
+<text x="1069.0" y="164.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">VM</text>
+<text x="1381.0" y="164.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">VM</text>
+<circle cx="1060.0" cy="181.0" r="3.2" fill="#f8516a"/>
+<circle cx="1390.0" cy="181.0" r="3.2" fill="#f8516a"/>
+<text x="1069.0" y="185.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="start" font-weight="normal">GND</text>
+<text x="1381.0" y="185.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="end" font-weight="normal">GND</text>
+<circle cx="1060.0" cy="202.0" r="3.2" fill="#ff8c42"/>
+<circle cx="1390.0" cy="202.0" r="3.2" fill="#ff8c42"/>
+<text x="1069.0" y="206.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">STBY←3V3</text>
+<text x="1381.0" y="206.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">STBY←3V3</text>
+<circle cx="1060.0" cy="223.0" r="3.2" fill="#3fb950"/>
+<circle cx="1390.0" cy="223.0" r="3.2" fill="#3fb950"/>
+<text x="1069.0" y="227.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="start" font-weight="normal">AIN1</text>
+<text x="1381.0" y="227.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="end" font-weight="normal">AIN1</text>
+<circle cx="1060.0" cy="244.0" r="3.2" fill="#3fb950"/>
+<circle cx="1390.0" cy="244.0" r="3.2" fill="#3fb950"/>
+<text x="1069.0" y="248.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="start" font-weight="normal">AIN2</text>
+<text x="1381.0" y="248.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="end" font-weight="normal">AIN2</text>
+<circle cx="1060.0" cy="265.0" r="3.2" fill="#3fb950"/>
+<circle cx="1390.0" cy="265.0" r="3.2" fill="#3fb950"/>
+<text x="1069.0" y="269.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="start" font-weight="normal">BIN1</text>
+<text x="1381.0" y="269.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="end" font-weight="normal">BIN1</text>
+<circle cx="1060.0" cy="286.0" r="3.2" fill="#3fb950"/>
+<circle cx="1390.0" cy="286.0" r="3.2" fill="#3fb950"/>
+<text x="1069.0" y="290.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="start" font-weight="normal">BIN2</text>
+<text x="1381.0" y="290.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#3fb950" text-anchor="end" font-weight="normal">BIN2</text>
+<circle cx="1060.0" cy="307.0" r="3.2" fill="#58a6ff"/>
+<circle cx="1390.0" cy="307.0" r="3.2" fill="#58a6ff"/>
+<text x="1069.0" y="311.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#58a6ff" text-anchor="start" font-weight="normal">AO1 AO2</text>
+<text x="1381.0" y="311.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#58a6ff" text-anchor="end" font-weight="normal">AO1 AO2</text>
+<circle cx="1060.0" cy="328.0" r="3.2" fill="#58a6ff"/>
+<circle cx="1390.0" cy="328.0" r="3.2" fill="#58a6ff"/>
+<text x="1069.0" y="332.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#58a6ff" text-anchor="start" font-weight="normal">BO1 BO2</text>
+<text x="1381.0" y="332.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#58a6ff" text-anchor="end" font-weight="normal">BO1 BO2</text>
+<rect x="1060.0" y="500.0" width="330.0" height="175.0" rx="8" fill="#161b22" stroke="#2a3441" stroke-width="1.5"/>
+<text x="1225.0" y="524.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="600">GY-521 MPU6050</text>
+<text x="1225.0" y="541.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="middle" font-weight="normal">插座 J11 · I²C 0x68</text>
+<circle cx="1060.0" cy="560.0" r="3.2" fill="#ff8c42"/>
+<circle cx="1390.0" cy="560.0" r="3.2" fill="#ff8c42"/>
+<text x="1069.0" y="564.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">VCC</text>
+<text x="1381.0" y="564.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">VCC</text>
+<circle cx="1060.0" cy="581.0" r="3.2" fill="#f8516a"/>
+<circle cx="1390.0" cy="581.0" r="3.2" fill="#f8516a"/>
+<text x="1069.0" y="585.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="start" font-weight="normal">GND / AD0</text>
+<text x="1381.0" y="585.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="end" font-weight="normal">GND / AD0</text>
+<circle cx="1060.0" cy="602.0" r="3.2" fill="#d29922"/>
+<circle cx="1390.0" cy="602.0" r="3.2" fill="#d29922"/>
+<text x="1069.0" y="606.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="start" font-weight="normal">SCL</text>
+<text x="1381.0" y="606.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="end" font-weight="normal">SCL</text>
+<circle cx="1060.0" cy="623.0" r="3.2" fill="#d29922"/>
+<circle cx="1390.0" cy="623.0" r="3.2" fill="#d29922"/>
+<text x="1069.0" y="627.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="start" font-weight="normal">SDA</text>
+<text x="1381.0" y="627.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="end" font-weight="normal">SDA</text>
+<circle cx="1060.0" cy="644.0" r="3.2" fill="#8b98a9"/>
+<circle cx="1390.0" cy="644.0" r="3.2" fill="#8b98a9"/>
+<text x="1069.0" y="648.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#8b98a9" text-anchor="start" font-weight="normal">XDA XCL INT 悬空</text>
+<text x="1381.0" y="648.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#8b98a9" text-anchor="end" font-weight="normal">XDA XCL INT 悬空</text>
+<rect x="590.0" y="745.0" width="300.0" height="180.0" rx="8" fill="#161b22" stroke="#2a3441" stroke-width="1.5"/>
+<text x="740.0" y="769.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="600">INA226 (CJMCU-226)</text>
+<text x="740.0" y="786.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="middle" font-weight="normal">逻辑插座 J10 + 动力端子 J6</text>
+<circle cx="590.0" cy="805.0" r="3.2" fill="#ff8c42"/>
+<circle cx="890.0" cy="805.0" r="3.2" fill="#ff8c42"/>
+<text x="599.0" y="809.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">VCC</text>
+<text x="881.0" y="809.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">VCC</text>
+<circle cx="590.0" cy="826.0" r="3.2" fill="#f8516a"/>
+<circle cx="890.0" cy="826.0" r="3.2" fill="#f8516a"/>
+<text x="599.0" y="830.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="start" font-weight="normal">GND</text>
+<text x="881.0" y="830.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="end" font-weight="normal">GND</text>
+<circle cx="590.0" cy="847.0" r="3.2" fill="#d29922"/>
+<circle cx="890.0" cy="847.0" r="3.2" fill="#d29922"/>
+<text x="599.0" y="851.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="start" font-weight="normal">SDA</text>
+<text x="881.0" y="851.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="end" font-weight="normal">SDA</text>
+<circle cx="590.0" cy="868.0" r="3.2" fill="#d29922"/>
+<circle cx="890.0" cy="868.0" r="3.2" fill="#d29922"/>
+<text x="599.0" y="872.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="start" font-weight="normal">SCL</text>
+<text x="881.0" y="872.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#d29922" text-anchor="end" font-weight="normal">SCL</text>
+<circle cx="590.0" cy="889.0" r="3.2" fill="#ff8c42"/>
+<circle cx="890.0" cy="889.0" r="3.2" fill="#ff8c42"/>
+<text x="599.0" y="893.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">VIN+ ← 电池+</text>
+<text x="881.0" y="893.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">VIN+ ← 电池+</text>
+<circle cx="590.0" cy="910.0" r="3.2" fill="#ff8c42"/>
+<circle cx="890.0" cy="910.0" r="3.2" fill="#ff8c42"/>
+<text x="599.0" y="914.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">VIN− → VM</text>
+<text x="881.0" y="914.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">VIN− → VM</text>
+<rect x="1060.0" y="725.0" width="330.0" height="205.0" rx="8" fill="#161b22" stroke="#2a3441" stroke-width="1.5"/>
+<text x="1225.0" y="749.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="600">microSD 模块</text>
+<text x="1225.0" y="766.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="middle" font-weight="normal">插座 J5 + 杜邦线(按丝印)</text>
+<circle cx="1060.0" cy="785.0" r="3.2" fill="#ff8c42"/>
+<circle cx="1390.0" cy="785.0" r="3.2" fill="#ff8c42"/>
+<text x="1069.0" y="789.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">VCC (JP1选)</text>
+<text x="1381.0" y="789.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">VCC (JP1选)</text>
+<circle cx="1060.0" cy="806.0" r="3.2" fill="#f8516a"/>
+<circle cx="1390.0" cy="806.0" r="3.2" fill="#f8516a"/>
+<text x="1069.0" y="810.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="start" font-weight="normal">GND</text>
+<text x="1381.0" y="810.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="end" font-weight="normal">GND</text>
+<circle cx="1060.0" cy="827.0" r="3.2" fill="#f85149"/>
+<circle cx="1390.0" cy="827.0" r="3.2" fill="#f85149"/>
+<text x="1069.0" y="831.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="start" font-weight="normal">CS</text>
+<text x="1381.0" y="831.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="end" font-weight="normal">CS</text>
+<circle cx="1060.0" cy="848.0" r="3.2" fill="#f85149"/>
+<circle cx="1390.0" cy="848.0" r="3.2" fill="#f85149"/>
+<text x="1069.0" y="852.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="start" font-weight="normal">SCK</text>
+<text x="1381.0" y="852.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="end" font-weight="normal">SCK</text>
+<circle cx="1060.0" cy="869.0" r="3.2" fill="#f85149"/>
+<circle cx="1390.0" cy="869.0" r="3.2" fill="#f85149"/>
+<text x="1069.0" y="873.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="start" font-weight="normal">MOSI</text>
+<text x="1381.0" y="873.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="end" font-weight="normal">MOSI</text>
+<circle cx="1060.0" cy="890.0" r="3.2" fill="#f85149"/>
+<circle cx="1390.0" cy="890.0" r="3.2" fill="#f85149"/>
+<text x="1069.0" y="894.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="start" font-weight="normal">MISO</text>
+<text x="1381.0" y="894.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f85149" text-anchor="end" font-weight="normal">MISO</text>
+<rect x="110.0" y="100.0" width="340.0" height="250.0" rx="8" fill="#161b22" stroke="#2a3441" stroke-width="1.5"/>
+<text x="280.0" y="124.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="600">电源输入</text>
+<text x="280.0" y="141.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="middle" font-weight="normal">端子 J8 (KF301) + 跳线 J9</text>
+<circle cx="110.0" cy="160.0" r="3.2" fill="#ff8c42"/>
+<circle cx="450.0" cy="160.0" r="3.2" fill="#ff8c42"/>
+<text x="119.0" y="164.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">BAT+ 7.4–8.4V</text>
+<text x="441.0" y="164.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">BAT+ 7.4–8.4V</text>
+<circle cx="110.0" cy="181.0" r="3.2" fill="#f8516a"/>
+<circle cx="450.0" cy="181.0" r="3.2" fill="#f8516a"/>
+<text x="119.0" y="185.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="start" font-weight="normal">GND</text>
+<text x="441.0" y="185.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="end" font-weight="normal">GND</text>
+<circle cx="110.0" cy="202.0" r="3.2" fill="#ff8c42"/>
+<circle cx="450.0" cy="202.0" r="3.2" fill="#ff8c42"/>
+<text x="119.0" y="206.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">逻辑电源跳线</text>
+<text x="441.0" y="206.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">逻辑电源跳线</text>
+<rect x="110.0" y="470.0" width="340.0" height="175.0" rx="8" fill="#161b22" stroke="#2a3441" stroke-width="1.5"/>
+<text x="280.0" y="494.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="600">MP1584 降压 → 5V</text>
+<text x="280.0" y="511.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="middle" font-weight="normal">插座 J4 + 杜邦线</text>
+<circle cx="110.0" cy="530.0" r="3.2" fill="#ff8c42"/>
+<circle cx="450.0" cy="530.0" r="3.2" fill="#ff8c42"/>
+<text x="119.0" y="534.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">IN+</text>
+<text x="441.0" y="534.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">IN+</text>
+<circle cx="110.0" cy="551.0" r="3.2" fill="#f8516a"/>
+<circle cx="450.0" cy="551.0" r="3.2" fill="#f8516a"/>
+<text x="119.0" y="555.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="start" font-weight="normal">IN−</text>
+<text x="441.0" y="555.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="end" font-weight="normal">IN−</text>
+<circle cx="110.0" cy="572.0" r="3.2" fill="#ff8c42"/>
+<circle cx="450.0" cy="572.0" r="3.2" fill="#ff8c42"/>
+<text x="119.0" y="576.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">OUT+ 5V</text>
+<text x="441.0" y="576.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">OUT+ 5V</text>
+<circle cx="110.0" cy="593.0" r="3.2" fill="#f8516a"/>
+<circle cx="450.0" cy="593.0" r="3.2" fill="#f8516a"/>
+<text x="119.0" y="597.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="start" font-weight="normal">OUT−</text>
+<text x="441.0" y="597.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="end" font-weight="normal">OUT−</text>
+<rect x="110.0" y="745.0" width="340.0" height="180.0" rx="8" fill="#161b22" stroke="#2a3441" stroke-width="1.5"/>
+<text x="280.0" y="769.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="15" fill="#e6edf3" text-anchor="middle" font-weight="600">编码器端子 ×2</text>
+<text x="280.0" y="786.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="middle" font-weight="normal">J2 左 / J3 右 (KF3500)</text>
+<circle cx="110.0" cy="805.0" r="3.2" fill="#ff8c42"/>
+<circle cx="450.0" cy="805.0" r="3.2" fill="#ff8c42"/>
+<text x="119.0" y="809.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="start" font-weight="normal">3V3</text>
+<text x="441.0" y="809.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#ff8c42" text-anchor="end" font-weight="normal">3V3</text>
+<circle cx="110.0" cy="826.0" r="3.2" fill="#f8516a"/>
+<circle cx="450.0" cy="826.0" r="3.2" fill="#f8516a"/>
+<text x="119.0" y="830.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="start" font-weight="normal">GND</text>
+<text x="441.0" y="830.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#f8516a" text-anchor="end" font-weight="normal">GND</text>
+<circle cx="110.0" cy="847.0" r="3.2" fill="#bc8cff"/>
+<circle cx="450.0" cy="847.0" r="3.2" fill="#bc8cff"/>
+<text x="119.0" y="851.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="start" font-weight="normal">A 相</text>
+<text x="441.0" y="851.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="end" font-weight="normal">A 相</text>
+<circle cx="110.0" cy="868.0" r="3.2" fill="#bc8cff"/>
+<circle cx="450.0" cy="868.0" r="3.2" fill="#bc8cff"/>
+<text x="119.0" y="872.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="start" font-weight="normal">B 相</text>
+<text x="441.0" y="872.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#bc8cff" text-anchor="end" font-weight="normal">B 相</text>
+<line x1="890.0" y1="223.0" x2="890.0" y2="1015.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="1015.0" x2="1060.0" y2="1015.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="1060.0" y1="1015.0" x2="1060.0" y2="223.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="244.0" x2="890.0" y2="1000.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="1000.0" x2="1060.0" y2="1000.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="1060.0" y1="1000.0" x2="1060.0" y2="244.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="265.0" x2="890.0" y2="985.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="985.0" x2="1060.0" y2="985.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="1060.0" y1="985.0" x2="1060.0" y2="265.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="286.0" x2="890.0" y2="970.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="970.0" x2="1060.0" y2="970.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="1060.0" y1="970.0" x2="1060.0" y2="286.0" stroke="#3fb950" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="391.0" x2="890.0" y2="957.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="957.0" x2="1060.0" y2="957.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="1060.0" y1="957.0" x2="1060.0" y2="623.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="412.0" x2="890.0" y2="949.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="949.0" x2="1060.0" y2="949.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="1060.0" y1="949.0" x2="1060.0" y2="602.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="391.0" x2="890.0" y2="552.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="552.0" x2="590.0" y2="552.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="590.0" y1="552.0" x2="590.0" y2="847.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="412.0" x2="890.0" y2="545.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="545.0" x2="590.0" y2="545.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="590.0" y1="545.0" x2="590.0" y2="868.0" stroke="#d29922" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="433.0" x2="890.0" y2="700.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="700.0" x2="1060.0" y2="700.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="1060.0" y1="700.0" x2="1060.0" y2="827.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="454.0" x2="890.0" y2="690.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="690.0" x2="1060.0" y2="690.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="1060.0" y1="690.0" x2="1060.0" y2="848.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="475.0" x2="890.0" y2="680.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="680.0" x2="1060.0" y2="680.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="1060.0" y1="680.0" x2="1060.0" y2="869.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="496.0" x2="890.0" y2="670.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="890.0" y1="670.0" x2="1060.0" y2="670.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="1060.0" y1="670.0" x2="1060.0" y2="890.0" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+<line x1="450.0" y1="847.0" x2="450.0" y2="935.0" stroke="#bc8cff" stroke-width="2" stroke-linecap="round"/>
+<line x1="450.0" y1="935.0" x2="590.0" y2="935.0" stroke="#bc8cff" stroke-width="2" stroke-linecap="round"/>
+<line x1="590.0" y1="935.0" x2="590.0" y2="307.0" stroke="#bc8cff" stroke-width="2" stroke-linecap="round"/>
+<line x1="450.0" y1="868.0" x2="450.0" y2="928.0" stroke="#bc8cff" stroke-width="2" stroke-linecap="round"/>
+<line x1="450.0" y1="928.0" x2="590.0" y2="928.0" stroke="#bc8cff" stroke-width="2" stroke-linecap="round"/>
+<line x1="590.0" y1="928.0" x2="590.0" y2="328.0" stroke="#bc8cff" stroke-width="2" stroke-linecap="round"/>
+<line x1="80.0" y1="1014.0" x2="1420.0" y2="1014.0" stroke="#f8516a" stroke-width="4" stroke-linecap="round"/>
+<text x="88.0" y="1006.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="12" fill="#f8516a" text-anchor="start" font-weight="normal">GND 公共地 · 底层整板铺铜</text>
+<line x1="110.0" y1="181.0" x2="110.0" y2="1014.0" stroke="#f8516a" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="110.0" cy="1014" r="4" fill="#f8516a"/>
+<line x1="110.0" y1="551.0" x2="110.0" y2="1014.0" stroke="#f8516a" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="110.0" cy="1014" r="4" fill="#f8516a"/>
+<line x1="110.0" y1="826.0" x2="110.0" y2="1014.0" stroke="#f8516a" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="110.0" cy="1014" r="4" fill="#f8516a"/>
+<line x1="590.0" y1="181.0" x2="590.0" y2="1014.0" stroke="#f8516a" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="590.0" cy="1014" r="4" fill="#f8516a"/>
+<line x1="1060.0" y1="181.0" x2="1060.0" y2="1014.0" stroke="#f8516a" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="1060.0" cy="1014" r="4" fill="#f8516a"/>
+<line x1="1060.0" y1="581.0" x2="1060.0" y2="1014.0" stroke="#f8516a" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="1060.0" cy="1014" r="4" fill="#f8516a"/>
+<line x1="590.0" y1="826.0" x2="590.0" y2="1014.0" stroke="#f8516a" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="590.0" cy="1014" r="4" fill="#f8516a"/>
+<line x1="1060.0" y1="806.0" x2="1060.0" y2="1014.0" stroke="#f8516a" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="1060.0" cy="1014" r="4" fill="#f8516a"/>
+<line x1="80.0" y1="66.0" x2="1420.0" y2="66.0" stroke="#ff8c42" stroke-width="4" stroke-linecap="round"/>
+<text x="88.0" y="59.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="12" fill="#ff8c42" text-anchor="start" font-weight="normal">3V3（ESP32 板载稳压输出，经插座分配）</text>
+<line x1="590.0" y1="160.0" x2="590.0" y2="66.0" stroke="#ff8c42" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="590.0" cy="66" r="4" fill="#ff8c42"/>
+<line x1="1060.0" y1="202.0" x2="1060.0" y2="66.0" stroke="#ff8c42" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="1060.0" cy="66" r="4" fill="#ff8c42"/>
+<line x1="1060.0" y1="560.0" x2="1060.0" y2="66.0" stroke="#ff8c42" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="1060.0" cy="66" r="4" fill="#ff8c42"/>
+<line x1="590.0" y1="805.0" x2="590.0" y2="66.0" stroke="#ff8c42" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="590.0" cy="66" r="4" fill="#ff8c42"/>
+<line x1="110.0" y1="805.0" x2="110.0" y2="66.0" stroke="#ff8c42" stroke-width="2" stroke-dasharray="4,5" stroke-linecap="round"/>
+<circle cx="110.0" cy="66" r="4" fill="#ff8c42"/>
+<line x1="450.0" y1="160.0" x2="590.0" y2="166.0" stroke="#ff8c42" stroke-width="4" stroke-linecap="round"/>
+<line x1="590.0" y1="166.0" x2="1060.0" y2="166.0" stroke="#ff8c42" stroke-width="4" stroke-linecap="round"/>
+<circle cx="590" cy="166" r="4" fill="#ff8c42"/>
+<line x1="590.0" y1="166.0" x2="590.0" y2="889.0" stroke="#ff8c42" stroke-width="3" stroke-dasharray="7,4" stroke-linecap="round"/>
+<line x1="590.0" y1="889.0" x2="590.0" y2="889.0" stroke="#ff8c42" stroke-width="3" stroke-dasharray="7,4" stroke-linecap="round"/>
+<line x1="1060.0" y1="166.0" x2="1060.0" y2="160.0" stroke="#ff8c42" stroke-width="4" stroke-linecap="round"/>
+<line x1="1060.0" y1="160.0" x2="1060.0" y2="160.0" stroke="#ff8c42" stroke-width="4" stroke-linecap="round"/>
+<line x1="1063.0" y1="146.0" x2="1063.0" y2="146.0" stroke="#ff8c42" stroke-width="1" stroke-linecap="round"/>
+<text x="596.0" y="180.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="12" fill="#ff8c42" text-anchor="start" font-weight="600">VBAT</text>
+<text x="700.0" y="180.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="12" fill="#ff8c42" text-anchor="start" font-weight="normal">← J9 跳线=逻辑供电 · 主干→INA226 VIN+→(模块)→VIN−→VM</text>
+<text x="1066.0" y="150.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="12" fill="#ff8c42" text-anchor="start" font-weight="600">VM（经 INA226 测量后）</text>
+<line x1="450.0" y1="202.0" x2="450.0" y2="530.0" stroke="#ff8c42" stroke-width="3" stroke-dasharray="6,4" stroke-linecap="round"/>
+<line x1="450.0" y1="530.0" x2="110.0" y2="530.0" stroke="#ff8c42" stroke-width="3" stroke-dasharray="6,4" stroke-linecap="round"/>
+<text x="286.0" y="366.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#8b98a9" text-anchor="middle" font-weight="normal">J9 跳线帽=开机</text>
+<line x1="450.0" y1="572.0" x2="560.0" y2="572.0" stroke="#ff8c42" stroke-width="3" stroke-linecap="round"/>
+<line x1="560.0" y1="572.0" x2="560.0" y2="202.0" stroke="#ff8c42" stroke-width="3" stroke-linecap="round"/>
+<line x1="560.0" y1="202.0" x2="590.0" y2="202.0" stroke="#ff8c42" stroke-width="3" stroke-linecap="round"/>
+<text x="566.0" y="387.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="12" fill="#ff8c42" text-anchor="start" font-weight="600">5V</text>
+<line x1="1390.0" y1="307.0" x2="1420.0" y2="307.0" stroke="#58a6ff" stroke-width="4" stroke-linecap="round"/>
+<text x="1414.0" y="299.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#58a6ff" text-anchor="end" font-weight="normal">→ J13 左电机 M+/M−</text>
+<line x1="1390.0" y1="328.0" x2="1420.0" y2="328.0" stroke="#58a6ff" stroke-width="4" stroke-linecap="round"/>
+<text x="1414.0" y="320.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#58a6ff" text-anchor="end" font-weight="normal">→ J14 右电机 M+/M−</text>
+<rect x="1428.0" y="745.0" width="50.0" height="60.0" rx="4" fill="#1c2330" stroke="#ff8c42" stroke-width="1.5"/>
+<text x="1400.0" y="838.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="11" fill="#8b98a9" text-anchor="end" font-weight="normal">JP1 焊锡桥：SD-VCC = 3V3 或 5V（按 microSD 模块版本）</text>
+<rect x="40" y="90" width="18" height="6" rx="2" fill="#ff8c42"/>
+<text x="64.0" y="96.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="start" font-weight="normal">电源 VBAT/5V/3V3</text>
+<rect x="190" y="90" width="18" height="6" rx="2" fill="#f8516a"/>
+<text x="214.0" y="96.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="start" font-weight="normal">GND</text>
+<rect x="340" y="90" width="18" height="6" rx="2" fill="#3fb950"/>
+<text x="364.0" y="96.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="start" font-weight="normal">电机控制</text>
+<rect x="490" y="90" width="18" height="6" rx="2" fill="#d29922"/>
+<text x="514.0" y="96.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="start" font-weight="normal">I²C</text>
+<rect x="640" y="90" width="18" height="6" rx="2" fill="#f85149"/>
+<text x="664.0" y="96.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="start" font-weight="normal">SPI</text>
+<rect x="790" y="90" width="18" height="6" rx="2" fill="#bc8cff"/>
+<text x="814.0" y="96.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="start" font-weight="normal">编码器</text>
+<rect x="940" y="90" width="18" height="6" rx="2" fill="#58a6ff"/>
+<text x="964.0" y="96.0" font-family="-apple-system,PingFang SC,Helvetica" font-size="10" fill="#8b98a9" text-anchor="start" font-weight="normal">电机动力</text>
+</svg>

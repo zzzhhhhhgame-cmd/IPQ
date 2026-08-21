@@ -16,7 +16,8 @@ IPQ/
 │   ├── i2c_identify/          # I2C 器件识别小工具（确认 IMU 实际芯片型号）
 │   ├── wiring.html            # 接线总图（网页版）
 │   ├── wiring-checklist.html  # 逐线接线检查清单（v3.1，与固件引脚一一对应）
-│   └── bom.html               # 物料清单（BOM）
+│   ├── bom.html               # 物料清单（BOM）
+│   └── pcb/                   # 面包板→PCB 载板工程（Gerber/原理图/装配说明，见 pcb/README.md）
 │
 ├── 答辩/              # 项目申请书（Project Proposal Form）及答案草稿
 │   ├── PPF draft answers.md              # PPF 各栏目的答案草稿（Markdown，便于复制修改）
@@ -59,7 +60,7 @@ IPQ/
 | `ipq_pid_speed` | 双轮独立 PID 速度控制（含抗积分饱和），附实验教程、使用说明和串口日志（`serial_logger.py` 采集） |
 | `i2c_identify` | I2C 总线扫描，识别传感器板上实际焊接的芯片型号 |
 
-接线与物料文档：`wiring*.html` 与 `bom.html`，其中 `wiring-checklist.html` v3.1 与固件引脚定义逐线对应。
+接线与物料文档：`wiring*.html` 与 `bom.html`，其中 `wiring-checklist.html` v3.1 与固件引脚定义逐线对应。`pcb/` 为面包板方案的 PCB 载板工程（Python 生成 Gerber，可直接在嘉立创下单；含原理图、预览与装配说明）。
 
 ### 2. 答辩
 
